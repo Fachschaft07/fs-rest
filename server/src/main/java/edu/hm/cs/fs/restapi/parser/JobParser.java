@@ -1,0 +1,70 @@
+package edu.hm.cs.fs.restapi.parser;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import javax.xml.xpath.XPathConstants;
+
+import com.google.common.base.Strings;
+import edu.hm.cs.fs.common.constant.Study;
+import edu.hm.cs.fs.common.constant.StudyGroup;
+import edu.hm.cs.fs.common.model.Job;
+
+/**
+ * Url: <a href="http://fi.cs.hm.edu/fi/rest/public/job">http://fi.cs.hm.edu/fi/rest/public/job</a>
+ *
+ * @author Fabio
+ */
+public class JobParser extends AbstractXmlParser<Job> {
+	private static final String URL = "http://fi.cs.hm.edu/fi/rest/public/job.xml";
+	private static final String ROOT_NODE = "/joblist/job";
+	private static final DateFormat DATE_PARSER = new SimpleDateFormat("yyyy-MM-dd");
+
+    /**
+     * Create a parser for job entries.
+     */
+	public JobParser() {
+		super(URL, ROOT_NODE);
+	}
+
+	@Override
+    public Job onCreateItem(final String rootPath) throws Exception {
+		// Parse Elements
+		String id = findByXPath(rootPath + "/id/text()",
+				XPathConstants.STRING, String.class);
+		String title = findByXPath(rootPath + "/title/text()",
+				XPathConstants.STRING, String.class);
+		String provider = findByXPath(rootPath + "/provider/text()",
+				XPathConstants.STRING, String.class);
+		String description = findByXPath(rootPath + "/description/text()",
+				XPathConstants.STRING, String.class);
+		String contact = findByXPath(rootPath + "/contact/text()",
+				XPathConstants.STRING, String.class);
+		final String programStr = findByXPath(rootPath + "/program/text()",
+				XPathConstants.STRING, String.class);
+        Study program = null;
+		if (!Strings.isNullOrEmpty(programStr)) {
+			StudyGroup studyGroup = StudyGroup.of(programStr);
+			if(studyGroup != null) {
+				program = studyGroup.getStudy();
+			}
+		}
+		Date expire = DATE_PARSER.parse(findByXPath(rootPath
+				+ "/expire/text()", XPathConstants.STRING, String.class));
+		String url = findByXPath(rootPath + "/url/text()", XPathConstants.STRING, String.class);
+
+        // Create object
+		Job job = new Job();
+		job.setId(id);
+		job.setTitle(title);
+		job.setProvider(provider);
+		job.setDescription(description);
+		job.setProgram(program == null ? null : program);
+		job.setContact(contact);
+		job.setExpire(expire);
+		job.setUrl(url);
+
+		return job;
+	}
+}
