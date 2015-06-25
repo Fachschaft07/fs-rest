@@ -19,7 +19,6 @@ import org.w3c.dom.NodeList;
  * @author Fabio
  */
 public abstract class AbstractXmlParser<T> extends AbstractContentParser<T> {
-    private static final String TAG = AbstractXmlParser.class.getSimpleName();
     private final XPath mXPath = XPathFactory.newInstance().newXPath();
     private final String mRootNode;
     private Document xmlDoc;
@@ -32,7 +31,7 @@ public abstract class AbstractXmlParser<T> extends AbstractContentParser<T> {
      * @param rootNode
      *         of the xml scheme.
      */
-    public AbstractXmlParser(final String url, String rootNode) {
+    public AbstractXmlParser(final String url, final String rootNode) {
         super(url);
         mRootNode = rootNode;
     }
@@ -40,7 +39,7 @@ public abstract class AbstractXmlParser<T> extends AbstractContentParser<T> {
     @SuppressWarnings("unchecked")
     @Override
     public List<T> read(final String url) {
-        List<T> result = new ArrayList<>();
+        final List<T> result = new ArrayList<>();
         xmlDoc = readXml(url);
         if (xmlDoc != null) {
             try {
@@ -51,7 +50,7 @@ public abstract class AbstractXmlParser<T> extends AbstractContentParser<T> {
                 final int countElements = getCountByXPath(mRootNode);
                 for (int index = 1; index <= countElements; index++) {
                     final String path = mRootNode + "[" + index + "]";
-                    T value = onCreateItem(path);
+                    final T value = onCreateItem(path);
                     if (value != null) {
                         if (value instanceof List) {
                             result.addAll((List<T>) value);
@@ -76,7 +75,7 @@ public abstract class AbstractXmlParser<T> extends AbstractContentParser<T> {
      *
      * @return the xml document.
      */
-    private Document readXml(String url) {
+    private Document readXml(final String url) {
         final DocumentBuilderFactory factory = DocumentBuilderFactory
                 .newInstance();
         DocumentBuilder documentBuilder = null;
@@ -87,8 +86,8 @@ public abstract class AbstractXmlParser<T> extends AbstractContentParser<T> {
         } catch (final Exception e) {
             // BugFix: Some URLs removed the ae, ue and oe -> I don't know why?!
             // This is only a little workaround...
-            String baseUrl = urlToParse.substring(0, urlToParse.lastIndexOf("/"));
-            String endPath = urlToParse.substring(urlToParse.lastIndexOf("/"));
+            final String baseUrl = urlToParse.substring(0, urlToParse.lastIndexOf("/"));
+            final String endPath = urlToParse.substring(urlToParse.lastIndexOf("/"));
             if (urlToParse.contains("ae") || urlToParse.contains("ue") || urlToParse.contains("oe")) {
                 urlToParse = baseUrl + endPath.replaceAll("ae", "").replaceAll("ue", "").replaceAll("oe", "");
                 // TODO Log.w(getClass().getSimpleName(), "Failed to connect to side -> Now try: " + urlToParse, e);
@@ -108,9 +107,9 @@ public abstract class AbstractXmlParser<T> extends AbstractContentParser<T> {
      *
      * @return the item.
      *
-     * @throws Exception
+     * @throws XPathExpressionException
      */
-    public abstract T onCreateItem(String rootPath) throws Exception;
+    public abstract T onCreateItem(String rootPath) throws XPathExpressionException;
 
     /**
      * Find a element by using the {@link XPath}.
@@ -127,7 +126,7 @@ public abstract class AbstractXmlParser<T> extends AbstractContentParser<T> {
      * @throws XPathExpressionException
      */
     @SuppressWarnings("unchecked")
-    public <X> X findByXPath(final String xPath, final QName name, Class<X> returnType)
+    public <X> X findByXPath(final String xPath, final QName name, final Class<X> returnType)
             throws XPathExpressionException {
         return returnType.cast(mXPath.evaluate(xPath, xmlDoc, name));
     }

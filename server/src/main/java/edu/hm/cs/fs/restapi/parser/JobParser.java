@@ -1,10 +1,12 @@
 package edu.hm.cs.fs.restapi.parser;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpressionException;
 
 import com.google.common.base.Strings;
 import edu.hm.cs.fs.common.constant.Study;
@@ -15,11 +17,12 @@ import edu.hm.cs.fs.common.model.Job;
  * Url: <a href="http://fi.cs.hm.edu/fi/rest/public/job">http://fi.cs.hm.edu/fi/rest/public/job</a>
  *
  * @author Fabio
+ *
  */
 public class JobParser extends AbstractXmlParser<Job> {
 	private static final String URL = "http://fi.cs.hm.edu/fi/rest/public/job.xml";
 	private static final String ROOT_NODE = "/joblist/job";
-	private static final DateFormat DATE_PARSER = new SimpleDateFormat("yyyy-MM-dd");
+	private final DateFormat dateParser = new SimpleDateFormat("yyyy-MM-dd");
 
     /**
      * Create a parser for job entries.
@@ -29,17 +32,17 @@ public class JobParser extends AbstractXmlParser<Job> {
 	}
 
 	@Override
-    public Job onCreateItem(final String rootPath) throws Exception {
+    public Job onCreateItem(final String rootPath) throws XPathExpressionException {
 		// Parse Elements
-		String id = findByXPath(rootPath + "/id/text()",
+		final String jobId = findByXPath(rootPath + "/id/text()",
 				XPathConstants.STRING, String.class);
-		String title = findByXPath(rootPath + "/title/text()",
+        final String title = findByXPath(rootPath + "/title/text()",
 				XPathConstants.STRING, String.class);
-		String provider = findByXPath(rootPath + "/provider/text()",
+        final String provider = findByXPath(rootPath + "/provider/text()",
 				XPathConstants.STRING, String.class);
-		String description = findByXPath(rootPath + "/description/text()",
+        final String description = findByXPath(rootPath + "/description/text()",
 				XPathConstants.STRING, String.class);
-		String contact = findByXPath(rootPath + "/contact/text()",
+        final String contact = findByXPath(rootPath + "/contact/text()",
 				XPathConstants.STRING, String.class);
 		final String programStr = findByXPath(rootPath + "/program/text()",
 				XPathConstants.STRING, String.class);
@@ -50,13 +53,18 @@ public class JobParser extends AbstractXmlParser<Job> {
 				program = studyGroup.getStudy();
 			}
 		}
-		Date expire = DATE_PARSER.parse(findByXPath(rootPath
-				+ "/expire/text()", XPathConstants.STRING, String.class));
-		String url = findByXPath(rootPath + "/url/text()", XPathConstants.STRING, String.class);
+        Date expire;
+        try {
+            expire = dateParser.parse(findByXPath(rootPath
+                    + "/expire/text()", XPathConstants.STRING, String.class));
+        } catch (ParseException e) {
+            expire = new Date();
+        }
+        final String url = findByXPath(rootPath + "/url/text()", XPathConstants.STRING, String.class);
 
         // Create object
-		Job job = new Job();
-		job.setId(id);
+        final Job job = new Job();
+		job.setId(jobId);
 		job.setTitle(title);
 		job.setProvider(provider);
 		job.setDescription(description);

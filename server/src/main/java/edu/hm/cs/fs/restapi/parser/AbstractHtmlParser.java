@@ -26,7 +26,7 @@ public abstract class AbstractHtmlParser<T> extends AbstractContentParser<T> {
 
     @Override
     public List<T> read(final String url) {
-        List<T> result = new ArrayList<>();
+        final List<T> result = new ArrayList<>();
         try {
             final Document document = Jsoup.parse(
                     new URL(url), // URL to parse

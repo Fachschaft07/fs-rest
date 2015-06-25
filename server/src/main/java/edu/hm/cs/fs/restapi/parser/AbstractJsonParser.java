@@ -28,11 +28,11 @@ public abstract class AbstractJsonParser<T> extends AbstractContentParser<T> {
     }
 
     @Override
-    public List<T> read(String url) {
-        List<T> result = new ArrayList<>();
+    public List<T> read(final String url) {
+        final List<T> result = new ArrayList<>();
         try {
             final URL source = new URL(url);
-            HttpURLConnection conn = (HttpURLConnection) source.openConnection();
+            final HttpURLConnection conn = (HttpURLConnection) source.openConnection();
             conn.setReadTimeout(3000);
             conn.setConnectTimeout(5000);
             conn.setRequestMethod("GET");
@@ -44,7 +44,7 @@ public abstract class AbstractJsonParser<T> extends AbstractContentParser<T> {
                     .collect(Collectors.joining("\n"))
                     .trim();
 
-            if (content.startsWith("[")) {
+            if (content.charAt(0) == '[') {
                 result.addAll(convert(new JSONArray(content)));
             } else {
                 result.addAll(convert(new JSONObject(content)));
@@ -64,7 +64,7 @@ public abstract class AbstractJsonParser<T> extends AbstractContentParser<T> {
      *
      * @return a list with objects.
      */
-    public List<T> convert(JSONArray data) {
+    public List<T> convert(final JSONArray data) {
         return new ArrayList<>();
     }
 
@@ -76,7 +76,7 @@ public abstract class AbstractJsonParser<T> extends AbstractContentParser<T> {
      *
      * @return a list with objects.
      */
-    public List<T> convert(JSONObject data) {
+    public List<T> convert(final JSONObject data) {
         return new ArrayList<>();
     }
 }

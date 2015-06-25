@@ -1,4 +1,9 @@
-# fs-rest
+fs-rest
+======================
+
+[![Build Status](https://travis-ci.org/Fachschaft07/fs-rest.svg)](https://travis-ci.org/Fachschaft07/fs-rest)
+[![Coverage Status](https://coveralls.io/repos/Fachschaft07/fs-rest/badge.svg)](https://coveralls.io/r/Fachschaft07/fs-rest)
+
 REST interface for several services
 
 ## Documentation
