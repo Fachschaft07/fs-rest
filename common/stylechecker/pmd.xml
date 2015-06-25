@@ -1,0 +1,149 @@
+<ruleset xmlns="http://pmd.sf.net/ruleset/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="R. Schiedermeier Lab Classes Ruleset" xsi:schemaLocation="http://pmd.sf.net/ruleset/1.0.0 http://pmd.sf.net/ruleset_xml_schema.xsd" xsi:noNamespaceSchemaLocation="http://pmd.sf.net/ruleset_xml_schema.xsd">
+<description>
+Ruleset pertinent to lab classes of R. Schiedermeier, http://sol.cs.hm.edu/rs.
+</description>
+<!--  reuse most entire rulesets unmodified  -->
+<rule ref="rulesets/java/basic.xml"/>
+<!-- 
+    <rule ref="rulesets/java/braces.xml"/>
+     -->
+<rule ref="rulesets/java/clone.xml"/>
+<rule ref="rulesets/java/codesize.xml"/>
+<!--
+ Wed Apr 30 09:09:59 CEST 2014
+    Verlangt Kommentare bei Methoden mit @Override
+    Erkennt primitive Getter/Setter nicht
+    In dieser Form nicht sinnvoll
+    <rule ref="rulesets/java/comments.xml/CommentSize">
+        <properties>
+            <property name="maxLines" value="64"/>
+            <property name="maxLineLength" value="128"/>
+        </properties>
+    </rule>
+
+    <rule ref="rulesets/java/comments.xml">
+        <exclude name="CommentContent"/>
+    </rule>
+    
+-->
+<rule ref="rulesets/java/controversial.xml">
+<!--  kann sinnvoll sein  -->
+<exclude name="NullAssignment"/>
+<!--  ok um Scope zu minimieren  -->
+<exclude name="AvoidFinalLocalVariable"/>
+<!--  ungeeignet fuer equals  -->
+<exclude name="OnlyOneReturn"/>
+<!--  bleibt an normalem Code haengen  -->
+<exclude name="DataflowAnomalyAnalysis"/>
+<!--  verhindert package-scoping, aber das ist ok  -->
+<!--  exclude name="DefaultPackage"/  -->
+<!--  uebertrieben  -->
+<exclude name="AvoidLiteralsInIfCondition"/>
+<!--  unnoetig fuer nicht-parallele Anwendungen  -->
+<exclude name="UseConcurrentHashMap"/>
+<!--  unnoetiger Code  -->
+<exclude name="CallSuperInConstructor"/>
+<!--  in parallelen Anwendungen ok  -->
+<exclude name="AvoidUsingVolatile"/>
+<!--  keine sinnvolle Optimierung  -->
+<exclude name="BooleanInversion"/>
+</rule>
+<rule ref="rulesets/java/coupling.xml">
+<!--
+
+        Problem in pmd-5.0.0.jar/rulesets/java/coupling.xml:
+        Removed misconfigured rule: LoosePackageCoupling  cause: No packages or classes specified
+        Oct 13, 2012 5:25:06 AM net.sourceforge.pmd.PMD removeBrokenRules
+        WARNING: Removed misconfigured rule: LoosePackageCoupling  cause: No packages or classes specified
+        
+-->
+<exclude name="LoosePackageCoupling"/>
+<!--  nervig  -->
+<exclude name="LawOfDemeter"/>
+</rule>
+<rule ref="rulesets/java/design.xml">
+<!--  nervig  -->
+<exclude name="SimpleDateFormatNeedsLocale"/>
+<exclude name="UseLocaleWithCaseConversions"/>
+<!--  eben nicht!  -->
+<exclude name="PositionLiteralsFirstInComparisons"/>
+<!--  nicht immer sinnvoll  -->
+<exclude name="PreserveStackTrace"/>
+<!--  oft sinnvoll  -->
+<exclude name="AvoidSynchronizedAtMethodLevel"/>
+<exclude name="UseSingleton"/>
+<exclude name="AbstractClassWithoutAbstractMethod"/>
+<!--  Gelegentlich sinnvoll  -->
+<exclude name="AvoidConstantsInterface"/>
+<!--  Gelegentlich sinnvoll  -->
+<exclude name="UseUtilityClass"/>
+</rule>
+<rule ref="rulesets/java/empty.xml/EmptyCatchBlock">
+<properties>
+<property name="allowCommentedBlocks" value="true"/>
+</properties>
+</rule>
+<rule ref="rulesets/java/empty.xml">
+<exclude name="EmptyCatchBlock"/>
+</rule>
+<rule ref="rulesets/java/finalizers.xml"/>
+<rule ref="rulesets/java/imports.xml"/>
+<!--  zu eng  -->
+<!--
+ rule ref="rulesets/java/naming.xml/AbstractNaming"
+        message="Abstract classes should be named 'AbstractXXX', 'BaseXXX', or 'XXXBase'">
+        <properties>
+            <property name="xpath">
+                <value><![CDATA[
+//ClassOrInterfaceDeclaration
+ [@Abstract='true' and @Interface='false']
+ [not (starts-with(@Image,'Abstract')) and not (starts-with(@Image,'Base')) and not (ends-with(@Image,'Base'))]
+                    ]]>
+                </value>
+            </property>
+        </properties>
+    </rule 
+-->
+<!--  Default zu kurz  -->
+<rule ref="rulesets/java/naming.xml/LongVariable">
+<properties>
+<property name="minimum" value="25"/>
+</properties>
+</rule>
+<!--  2013-04-20: Default 5, reduziert auf 3  -->
+<rule ref="rulesets/java/naming.xml/ShortClassName" message="A Classname should have at least 3 characters">
+<properties>
+<property name="xpath">
+<value>
+<![CDATA[
+//ClassOrInterfaceDeclaration[string-length(@Image) < 3]
+]]>
+</value>
+</property>
+</properties>
+</rule>
+<rule ref="rulesets/java/naming.xml">
+<exclude name="LongVariable"/>
+<exclude name="AbstractNaming"/>
+<exclude name="ShortClassName"/>
+</rule>
+<rule ref="rulesets/java/optimizations.xml">
+<!--  kann noetig sein  -->
+<exclude name="AvoidInstantiatingObjectsInLoops"/>
+<exclude name="UseStringBufferForStringAppends"/>
+</rule>
+<rule ref="rulesets/java/strings.xml">
+<exclude name="AvoidDuplicateLiterals"/>
+<!--  PMD 5.1.0 bombt raus mit J8-Quelltext  -->
+<exclude name="UseIndexOfChar"/>
+</rule>
+<!--  das ist ueberdreht  -->
+<rule ref="rulesets/java/strings.xml/AvoidDuplicateLiterals">
+<properties>
+<property name="skipAnnotations" value="true"/>
+</properties>
+</rule>
+<rule ref="rulesets/java/typeresolution.xml"/>
+<rule ref="rulesets/java/unnecessary.xml"/>
+<rule ref="rulesets/java/unusedcode.xml"/>
+</ruleset>
