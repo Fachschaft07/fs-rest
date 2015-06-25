@@ -22,19 +22,19 @@ public enum Day {
 
 	private final String mKey;
 	
-	private final int id;
+	private final int calendarId;
 
-	Day(final String key, int id) {
+	Day(final String key, final int calendarId) {
 		mKey = key;
-		this.id = id;
+		this.calendarId = calendarId;
 	}
 
 	public String getKey() {
 		return mKey;
 	}
 	
-	public int getId() {
-		return id;
+	public int getCalendarId() {
+		return calendarId;
 	}
 
 	/**

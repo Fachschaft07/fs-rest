@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 /**
  * @author Fabio
  */
-public class StudyGroup {
+public final class StudyGroup {
     private static final Pattern PATTERN = Pattern
             .compile("([A-z]{2})([1-7]{0,1})([A-z]{0,1})");
     private final Study mStudy;

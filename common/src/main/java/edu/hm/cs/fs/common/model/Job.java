@@ -8,7 +8,7 @@ import edu.hm.cs.fs.common.constant.Study;
  * @author Fabio
  */
 public class Job {
-    private String id;
+    private String jobId;
     private String title;
     private String provider;
     private String description;
@@ -18,18 +18,18 @@ public class Job {
     private String url;
 
     public String getId() {
-        return id;
+        return jobId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setId(final String jobId) {
+        this.jobId = jobId;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
+    public void setTitle(final String title) {
         this.title = title;
     }
 
@@ -37,7 +37,7 @@ public class Job {
         return provider;
     }
 
-    public void setProvider(String provider) {
+    public void setProvider(final String provider) {
         this.provider = provider;
     }
 
@@ -45,7 +45,7 @@ public class Job {
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(final String description) {
         this.description = description;
     }
 
@@ -53,7 +53,7 @@ public class Job {
         return program;
     }
 
-    public void setProgram(Study program) {
+    public void setProgram(final Study program) {
         this.program = program;
     }
 
@@ -61,7 +61,7 @@ public class Job {
         return contact;
     }
 
-    public void setContact(String contact) {
+    public void setContact(final String contact) {
         this.contact = contact;
     }
 
@@ -69,7 +69,7 @@ public class Job {
         return expire;
     }
 
-    public void setExpire(Date expire) {
+    public void setExpire(final Date expire) {
         this.expire = expire;
     }
 
@@ -77,7 +77,7 @@ public class Job {
         return url;
     }
 
-    public void setUrl(String url) {
+    public void setUrl(final String url) {
         this.url = url;
     }
 }
