@@ -13,6 +13,8 @@ public enum ExamType {
 	ORAL_EXAMINATION("mp"),
 	/** praktische Prüfung */
 	PRACTICAL_EXAMINATION("pl"),
+	/** praktische Prüfung */
+	PROJECT_WORK("pa"),
 	/** Referat */
 	SEMINAR_PAPER("ref"),
 	/** benotete Studienarbeit */

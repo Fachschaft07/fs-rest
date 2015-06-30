@@ -1,13 +1,13 @@
 package edu.hm.cs.fs.restapi.parser;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
 /**
  * An abstract parser for html content.
@@ -21,7 +21,11 @@ public abstract class AbstractHtmlParser<T> extends AbstractContentParser<T> {
      * @param url to parse.
      */
 	public AbstractHtmlParser(final String url) {
-		super(url);
+		this(url, 0);
+	}
+	
+	public AbstractHtmlParser(final String url, final Integer interval) {
+		super(url, interval);
 	}
 
     @Override

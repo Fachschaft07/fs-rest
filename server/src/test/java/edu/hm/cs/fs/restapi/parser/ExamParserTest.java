@@ -7,22 +7,22 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import edu.hm.cs.fs.common.model.Job;
+import edu.hm.cs.fs.common.model.Exam;
 
 /**
  * Created by Fabio on 25.06.2015.
  */
-public class JobParserTest {
-    private Parser<Job> parser;
+public class ExamParserTest {
+    private Parser<Exam> parser;
 
     @Before
     public void setUp() throws Exception {
-        parser = new JobParser();
+        parser = new ExamParser();
     }
 
     @Test
     public void testParsing() {
-        final List<Job> jobs = parser.parse();
+        final List<Exam> jobs = parser.parse();
         Assert.assertThat(true, CoreMatchers.is(CoreMatchers.not(jobs.isEmpty())));
     }
 }

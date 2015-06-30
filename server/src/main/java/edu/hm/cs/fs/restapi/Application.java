@@ -3,6 +3,7 @@ package edu.hm.cs.fs.restapi;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+
 /**
  * This is the entry point class for the application.
  *

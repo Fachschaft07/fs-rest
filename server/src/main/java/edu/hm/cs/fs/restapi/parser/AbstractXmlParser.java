@@ -1,5 +1,8 @@
 package edu.hm.cs.fs.restapi.parser;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -7,8 +10,6 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
@@ -32,10 +33,24 @@ public abstract class AbstractXmlParser<T> extends AbstractContentParser<T> {
      *         of the xml scheme.
      */
     public AbstractXmlParser(final String url, final String rootNode) {
-        super(url);
-        mRootNode = rootNode;
+        this(url, rootNode, 0);
     }
 
+    /**
+     * Creates an abstract parser for xml content.
+     *
+     * @param url
+     *         to parse.
+     * @param rootNode
+     *         of the xml scheme.
+     * @param interval
+     * 			interval to new poll
+     */
+    public AbstractXmlParser(final String url, final String rootNode, final Integer interval) {
+        super(url, interval);
+        mRootNode = rootNode;
+    }
+    
     @SuppressWarnings("unchecked")
     @Override
     public List<T> read(final String url) {
@@ -125,7 +140,6 @@ public abstract class AbstractXmlParser<T> extends AbstractContentParser<T> {
      *
      * @throws XPathExpressionException
      */
-    @SuppressWarnings("unchecked")
     public <X> X findByXPath(final String xPath, final QName name, final Class<X> returnType)
             throws XPathExpressionException {
         return returnType.cast(mXPath.evaluate(xPath, xmlDoc, name));

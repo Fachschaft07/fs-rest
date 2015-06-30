@@ -3,12 +3,13 @@ package edu.hm.cs.fs.restapi.controller;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import edu.hm.cs.fs.common.model.Job;
-import edu.hm.cs.fs.restapi.parser.JobParser;
-import edu.hm.cs.fs.restapi.parser.Parser;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import edu.hm.cs.fs.common.model.Job;
+import edu.hm.cs.fs.restapi.parser.JobParser;
+import edu.hm.cs.fs.restapi.parser.Parser;
 
 /**
  * The JobController represents the interface to the REST-API. It has different methods to access jobs and filter them.

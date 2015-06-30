@@ -1,13 +1,14 @@
 package edu.hm.cs.fs.restapi.controller;
 
-import edu.hm.cs.fs.common.constant.PublicTransportLocation;
-import edu.hm.cs.fs.common.model.PublicTransport;
-import edu.hm.cs.fs.restapi.parser.PublicTransportParser;
+import java.util.List;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import edu.hm.cs.fs.common.constant.PublicTransportLocation;
+import edu.hm.cs.fs.common.model.PublicTransport;
+import edu.hm.cs.fs.restapi.parser.PublicTransportParser;
 
 /**
  * The PublicTransportController represents the interface to the REST-API. It has different methods to access mvv.

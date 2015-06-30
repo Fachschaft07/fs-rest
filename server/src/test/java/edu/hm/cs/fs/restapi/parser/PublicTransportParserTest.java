@@ -1,14 +1,13 @@
 package edu.hm.cs.fs.restapi.parser;
 
-import edu.hm.cs.fs.common.constant.PublicTransportLocation;
-import edu.hm.cs.fs.common.model.PublicTransport;
+import java.util.List;
+
 import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.List;
-
-import static org.junit.Assert.*;
+import edu.hm.cs.fs.common.constant.PublicTransportLocation;
+import edu.hm.cs.fs.common.model.PublicTransport;
 
 /**
  * Created by Fabio on 26.06.2015.
