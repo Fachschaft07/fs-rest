@@ -1,8 +1,10 @@
 package edu.hm.cs.fs.restapi.controller;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+import edu.hm.cs.fs.restapi.parser.CachedParser;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,7 +28,7 @@ public class JobController {
      * Creates a JobController.
      */
     public JobController() {
-        parser = new JobParser();
+        parser = new CachedParser<>(new JobParser(), TimeUnit.MILLISECONDS.convert(1, TimeUnit.DAYS));
     }
 
     /**

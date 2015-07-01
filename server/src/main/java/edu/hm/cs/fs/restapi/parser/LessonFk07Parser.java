@@ -19,7 +19,7 @@ public class LessonFk07Parser extends AbstractXmlParser<List<Lesson>> {
     private static final String ROOT_NODE = "/timetable/day";
 
     public LessonFk07Parser(Group group) {
-        super(URL + group.toString().toLowerCase(Locale.getDefault()) + ".xml", ROOT_NODE, 24 * 60 * 1000);
+        super(URL + group.toString().toLowerCase(Locale.getDefault()) + ".xml", ROOT_NODE);
     }
 
     @Override

@@ -21,11 +21,7 @@ public abstract class AbstractHtmlParser<T> extends AbstractContentParser<T> {
      * @param url to parse.
      */
 	public AbstractHtmlParser(final String url) {
-		this(url, 0);
-	}
-	
-	public AbstractHtmlParser(final String url, final Integer interval) {
-		super(url, interval);
+		super(url);
 	}
 
     @Override

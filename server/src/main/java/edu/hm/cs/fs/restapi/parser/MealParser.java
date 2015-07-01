@@ -4,10 +4,14 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.google.common.base.Strings;
+import edu.hm.cs.fs.common.constant.Additive;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -23,8 +27,9 @@ import edu.hm.cs.fs.common.model.Meal;
  * @version 2
  */
 public class MealParser extends AbstractHtmlParser<Meal> {
-    private static final Pattern PATTERN_MEAL = Pattern.compile(".*<span style=\"float:left\">(.*)</span>.*");
-    
+    private static final Pattern ADDITIVES_PATTERN = Pattern.compile("\\(([0-9,]+)");
+    private static final Pattern FOOD_PART_PATTERN = Pattern.compile("\\(([RS,]+)");
+    private static final Pattern FOOD_TYPE_PATTERN = Pattern.compile("\\(([vf])");
     private static final DateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
 
     public MealParser(StudentWorkMunich studentWorkMunich) {
@@ -84,17 +89,70 @@ public class MealParser extends AbstractHtmlParser<Meal> {
 
                 final Element description = descriptionList.get(indexDesc);
 
-                meal.setDescription(description.getElementsByAttribute("style").get(0).text());
-
                 if(!description.getElementsByClass("fleischlos").isEmpty()) {
-                    meal.setType(MealType.MEATLESS.toString());
+                    meal.setType(MealType.MEATLESS);
                 } else if(!description.getElementsByClass("fleisch").isEmpty()) {
-                    meal.setType(MealType.MEAT.toString());
+                    meal.setType(MealType.MEAT);
                 } else if(!description.getElementsByClass("vegan").isEmpty()) {
-                    meal.setType(MealType.VEGAN.toString());
+                    meal.setType(MealType.VEGAN);
                 }
 
-                meal.setId(dateStr+meal.getDescription());
+                MealType typeRaw = meal.getType();
+                List<Additive> additives = new ArrayList<>();
+                String nameRaw = description.getElementsByAttribute("style").get(0).text();
+
+                Matcher matcher = FOOD_PART_PATTERN.matcher(nameRaw);
+                if(matcher.find()) {
+                    String group = matcher.group(1);
+                    nameRaw = nameRaw.replaceAll("\\([RS,]+\\)", "");
+                    if(!Strings.isNullOrEmpty(group)) {
+                        if(group.contains("R")) {
+                            additives.add(Additive.BEEF);
+                        }
+                        if(group.contains("S")) {
+                            additives.add(Additive.PIG);
+                        }
+                    }
+                }
+
+                matcher = ADDITIVES_PATTERN.matcher(nameRaw);
+                if(matcher.find()) {
+                    final String group = matcher.group(1);
+                    nameRaw = nameRaw.replaceAll("\\([0-9,]+\\)", "");
+                    if(!Strings.isNullOrEmpty(group)) {
+                        final String additiveStr = group.trim();
+                        final List<String> strings = Arrays.asList(additiveStr.split(","));
+                        for (String string : strings) {
+                            Additive additive = Additive.of(string);
+                            if (additive != null) {
+                                additives.add(additive);
+                            }
+                        }
+                    }
+                }
+
+                matcher = FOOD_TYPE_PATTERN.matcher(nameRaw);
+                if(matcher.find()) {
+                    final String group = matcher.group(1);
+                    nameRaw = nameRaw.replaceAll("\\([vf]\\)", "");
+                    if(!Strings.isNullOrEmpty(group)) {
+                        if(group.contains("v")) {
+                            typeRaw = MealType.VEGAN;
+                        }
+                        if(group.contains("f")) {
+                            typeRaw = MealType.MEATLESS;
+                        }
+                    }
+                }
+
+                // TODO: This does not work yet!?!?!?
+                nameRaw = nameRaw.replaceAll("\\s+fleischlos", "");
+                nameRaw = nameRaw.replaceAll("\\s+vegan", "");
+                nameRaw = nameRaw.replaceAll("\\s+mit Fleisch", "");
+
+                meal.setName(nameRaw);
+                meal.setType(typeRaw);
+                meal.setAdditives(additives);
 
                 result.add(meal);
             }

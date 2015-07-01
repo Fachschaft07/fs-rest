@@ -31,7 +31,7 @@ public class JobParser extends AbstractXmlParser<Job> {
 	 * Create a parser for job entries.
 	 */
 	public JobParser() {
-		super(URL, ROOT_NODE, 24 * 60 * 1000);
+		super(URL, ROOT_NODE);
 	}
 
 	@Override

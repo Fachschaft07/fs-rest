@@ -3,11 +3,18 @@ package edu.hm.cs.fs.restapi.parser;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
+import com.google.common.base.Strings;
+import edu.hm.cs.fs.common.model.Room;
 import org.jsoup.helper.StringUtil;
 
 import edu.hm.cs.fs.common.constant.Day;
 import edu.hm.cs.fs.common.constant.Time;
 import edu.hm.cs.fs.common.model.Occupied;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * All the rooms with their occupancy. (Url: <a href="http://fi.cs.hm.edu/fi/rest/public/timetable/room"
@@ -15,40 +22,53 @@ import edu.hm.cs.fs.common.model.Occupied;
  *
  * @author Fabio
  */
-public class OccupiedParser extends AbstractXmlParser<Occupied> {
+public class OccupiedParser extends AbstractXmlParser<Room> {
     private static final String URL = "http://fi.cs.hm.edu/fi/rest/public/timetable/room.xml";
-    private static final String ROOT_NODE = "/list/timetable/day/time/booking";
+    private static final String ROOT_NODE = "/list/timetable";
 
     /**
-     * @param context
+     *
      */
     public OccupiedParser() {
         super(URL, ROOT_NODE);
     }
 
     @Override
-    public Occupied onCreateItem(final String rootPath) throws XPathExpressionException {
-        String room;
-        Day day = null;
-        Time time = null;
-
+    public Room onCreateItem(final String rootPath) throws XPathExpressionException {
         // Parse Elements...
-        room = findByXPath(rootPath + "/value/text()",
+        final String name = findByXPath(rootPath + "/value/text()",
                 XPathConstants.STRING, String.class);
-        final String weekDay = findByXPath(rootPath + "/weekday/text()", XPathConstants.STRING, String.class);
-        if (!StringUtil.isBlank(weekDay)) {
-            day = Day.of(weekDay);
-        }
-        final String timeStr = findByXPath(rootPath + "/starttime/text()", XPathConstants.STRING, String.class);
-        if (!StringUtil.isBlank(timeStr)) {
-            time = Time.of(timeStr);
+        final int capacity = findByXPath(rootPath + "/capacity/text()",
+                XPathConstants.NUMBER, Double.class).intValue();
+
+        Map<Day, List<Time>> map = new HashMap<>();
+
+        final int dayCount = getCountByXPath(rootPath + "/day");
+        for (int dayIndex = 0; dayIndex < dayCount; dayIndex++) {
+            final String dayKey = findByXPath(rootPath + "/day[" + dayIndex + "]/weekday/text()",
+                    XPathConstants.STRING, String.class);
+            if(Strings.isNullOrEmpty(dayKey)) {
+                continue;
+            }
+            try {
+                final Day day = Day.of(dayKey);
+                if (!map.containsKey(day)) {
+                    map.put(day, new ArrayList<>());
+                }
+
+                final Time time = Time.of(findByXPath(rootPath + "/day[" + dayIndex + "]/time/starttime/text()",
+                        XPathConstants.STRING, String.class));
+                map.get(day).add(time);
+            } catch (IllegalArgumentException ignored) {
+                System.err.println("Error: " + ignored.getMessage());
+            }
         }
 
-        Occupied occupied = new Occupied();
-        occupied.setRoom(room);
-        occupied.setDay(day.toString());
-        occupied.setTime(time.toString());
+        Room room = new Room();
+        room.setName(name);
+        room.setCapacity(capacity);
+        room.setOccupied(map);
 
-        return occupied;
+        return room;
     }
 }

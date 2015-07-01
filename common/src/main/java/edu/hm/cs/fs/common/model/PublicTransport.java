@@ -28,7 +28,7 @@ public class PublicTransport {
     }
 
     public long getDepartureIn(TimeUnit timeUnit) {
-        return timeUnit.convert(departure.getTime(), TimeUnit.MILLISECONDS);
+        return timeUnit.convert(departure.getTime() - System.currentTimeMillis(), TimeUnit.MILLISECONDS);
     }
 
     public Date getDeparture() {

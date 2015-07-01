@@ -33,21 +33,7 @@ public abstract class AbstractXmlParser<T> extends AbstractContentParser<T> {
      *         of the xml scheme.
      */
     public AbstractXmlParser(final String url, final String rootNode) {
-        this(url, rootNode, 0);
-    }
-
-    /**
-     * Creates an abstract parser for xml content.
-     *
-     * @param url
-     *         to parse.
-     * @param rootNode
-     *         of the xml scheme.
-     * @param interval
-     * 			interval to new poll
-     */
-    public AbstractXmlParser(final String url, final String rootNode, final Integer interval) {
-        super(url, interval);
+        super(url);
         mRootNode = rootNode;
     }
     

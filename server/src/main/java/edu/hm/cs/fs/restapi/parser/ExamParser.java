@@ -27,7 +27,7 @@ public class ExamParser extends AbstractXmlParser<Exam> {
 	private static final String ROOT_NODE = "/examlist/exam";
 
 	public ExamParser() {
-		super(URL, ROOT_NODE, 24 * 60 * 1000);
+		super(URL, ROOT_NODE);
 	}
 
 	@Override
@@ -57,7 +57,7 @@ public class ExamParser extends AbstractXmlParser<Exam> {
 		for (int indexRef = 1; indexRef <= countRef; indexRef++) {
 			final String ref = findByXPath(rootPath + "/reference[" + indexRef + "]/text()", XPathConstants.STRING, String.class);
 			if (!StringUtil.isBlank(ref)) {
-				references.add(new String(ref));
+				references.add(ref);
 			}
 		}
 
@@ -65,7 +65,7 @@ public class ExamParser extends AbstractXmlParser<Exam> {
 		for (int indexExaminer = 1; indexExaminer <= countExaminer; indexExaminer++) {
 			final String examiner = findByXPath(rootPath + "/examiner[" + indexExaminer + "]/text()", XPathConstants.STRING, String.class);
 			if (!StringUtil.isBlank(examiner)) {
-				examiners.add(new String(examiner));
+				examiners.add(examiner);
 			}
 		}
 

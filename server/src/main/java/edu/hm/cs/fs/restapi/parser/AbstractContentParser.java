@@ -12,19 +12,14 @@ import java.util.List;
 public abstract class AbstractContentParser<T> implements Parser<T> {
 	/** The url to parse. */
 	private final String mUrl;
-	private final Integer interval;
-
-	private Date nextPoll;
-	private List<T> cache;
 
 	/**
 	 * Creates an abstract content parser.
 	 *
 	 * @param url to parse.
 	 */
-	public AbstractContentParser(final String url, final Integer interval) {
+	public AbstractContentParser(final String url) {
 		this.mUrl = url;
-		this.interval = interval;
 	}
 
 	/**
@@ -34,13 +29,7 @@ public abstract class AbstractContentParser<T> implements Parser<T> {
 	 * @return a list with the content.
 	 */
 	public final List<T> parse() {
-		final Calendar now = Calendar.getInstance();
-		if (cache == null || now.after(nextPoll)) {
-			cache = read(mUrl);
-			now.add(Calendar.MILLISECOND, interval);
-			nextPoll = now.getTime();
-		}
-		return cache;
+		return read(mUrl);
 	}
 
 	/**

@@ -24,11 +24,7 @@ public abstract class AbstractJsonParser<T> extends AbstractContentParser<T> {
 	 * @param url to parse.
 	 */
 	public AbstractJsonParser(final String url) {
-		super(url, 0);
-	}
-
-	public AbstractJsonParser(final String url, final Integer interval) {
-		super(url, interval);
+		super(url);
 	}
 
 	@Override
