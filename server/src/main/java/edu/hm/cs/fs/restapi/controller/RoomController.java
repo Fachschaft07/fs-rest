@@ -14,8 +14,17 @@ import edu.hm.cs.fs.common.model.Occupied;
 import edu.hm.cs.fs.restapi.parser.OccupiedParser;
 import edu.hm.cs.fs.restapi.parser.Parser;
 
+/**
+ * @author Fabio
+ */
 @RestController
 public class RoomController {
+	/**
+	 *
+	 * @param day
+	 * @param time
+	 * @return
+	 */
 	@RequestMapping("/rest/api/room")
 	public List<Room> search(@RequestParam(value = "day", defaultValue = "mo") String day, @RequestParam(value = "time", defaultValue = "8:15") String time) {
 		return new OccupiedParser().parse().parallelStream()

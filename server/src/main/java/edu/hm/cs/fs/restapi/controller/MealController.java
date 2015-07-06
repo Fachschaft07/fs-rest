@@ -10,8 +10,16 @@ import edu.hm.cs.fs.common.constant.StudentWorkMunich;
 import edu.hm.cs.fs.common.model.Meal;
 import edu.hm.cs.fs.restapi.parser.MealParser;
 
+/**
+ * @author Fabio
+ */
 @RestController
 public class MealController {
+    /**
+     *
+     * @param location
+     * @return
+     */
     @RequestMapping("/rest/api/meal")
     public List<Meal> meal(@RequestParam(value="location", defaultValue = "") String location) {
         return new MealParser(StudentWorkMunich.valueOf(location.toUpperCase())).parse();

@@ -20,7 +20,7 @@ public interface PublicTransportController extends Controller {
      * @param location to get the departures from.
      * @return a list with public transport possibilities.
      */
-    @GET("/mvv")
+    @GET("/rest/api/mvv")
     List<PublicTransport> listAll(@Query("location") final PublicTransportLocation location);
 
     /**
@@ -29,6 +29,6 @@ public interface PublicTransportController extends Controller {
      * @param location to get the departures from.
      * @param callback to retrieve the results.
      */
-    @GET("/mvv")
+    @GET("/rest/api/mvv")
     void listAll(@Query("location") final PublicTransportLocation location, final Callback<List<PublicTransport>> callback);
 }

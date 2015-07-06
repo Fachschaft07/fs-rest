@@ -57,12 +57,12 @@ public class LessonFk07Parser extends AbstractXmlParser<List<Lesson>> {
                 final String moduleId = findByXPath(secondPath + "/title/text()", XPathConstants.STRING, String.class);
 
                 Lesson lesson = new Lesson();
-                lesson.setDay(day.toString());
-                lesson.setTeacherId(teacherId);
+                lesson.setDay(day);
+                lesson.setTeacher(new PersonParser(teacherId).parse().get(0));
                 lesson.setRoom(room);
                 lesson.setSuffix(suffix);
-                lesson.setTime(time.toString());
-                lesson.setModuleId(moduleId);
+                lesson.setTime(time);
+                lesson.setModule(new ModuleParser(moduleId).parse().get(0));
 
                 result.add(lesson);
             }

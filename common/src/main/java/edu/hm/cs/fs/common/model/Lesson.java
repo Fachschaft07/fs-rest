@@ -1,27 +1,30 @@
 package edu.hm.cs.fs.common.model;
 
 
+import edu.hm.cs.fs.common.constant.Day;
+import edu.hm.cs.fs.common.constant.Time;
+
 public class Lesson  {
-	private String day;
-	private String time;
+	private Day day;
+	private Time time;
 	private String room;
     private String suffix;
-    private String moduleId;
-    private String teacherId;
+    private Module module;
+    private Person teacher;
 
-	public String getDay() {
+	public Day getDay() {
 		return day;
 	}
 
-	public void setDay(String day) {
+	public void setDay(Day day) {
 		this.day = day;
 	}
 
-	public String getTime() {
+	public Time getTime() {
 		return time;
 	}
 
-	public void setTime(String time) {
+	public void setTime(Time time) {
 		this.time = time;
 	}
 
@@ -41,19 +44,19 @@ public class Lesson  {
         this.suffix = suffix;
     }
 
-    public String getModuleId() {
-        return moduleId;
+    public Module getModule() {
+        return module;
     }
 
-    public void setModuleId(String moduleId) {
-        this.moduleId = moduleId;
+    public void setModule(Module module) {
+        this.module = module;
     }
 
-    public String getTeacherId() {
-        return teacherId;
+    public Person getTeacher() {
+        return teacher;
     }
 
-    public void setTeacherId(String teacherId) {
-        this.teacherId = teacherId;
+    public void setTeacher(Person teacher) {
+        this.teacher = teacher;
     }
 }

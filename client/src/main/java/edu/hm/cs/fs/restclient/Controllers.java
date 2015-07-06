@@ -8,7 +8,7 @@ import retrofit.RestAdapter;
  * @author Fabio
  */
 public class Controllers {
-    private static final String ENDPOINT_ULR = "http://fs.cs.hm.edu/rest/api/";
+    private static final String ENDPOINT_ULR = "http://fs.cs.hm.edu/";
 
     private Controllers() {
     }
@@ -24,9 +24,9 @@ public class Controllers {
      * @return the controller.
      */
     public static <T extends Controller> T create(final Class<T> controllerInterface) {
-        RestAdapter restAdapter = new RestAdapter.Builder()
+        return new RestAdapter.Builder()
                 .setEndpoint(ENDPOINT_ULR)
-                .build();
-        return restAdapter.create(controllerInterface);
+                .build()
+                .create(controllerInterface);
     }
 }

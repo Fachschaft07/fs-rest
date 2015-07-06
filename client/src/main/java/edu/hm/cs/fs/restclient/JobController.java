@@ -19,7 +19,7 @@ public interface JobController extends Controller {
      *
      * @return a list with jobs.
      */
-    @GET("/job")
+    @GET("/rest/api/job")
     List<Job> listAll();
 
     /**
@@ -27,7 +27,7 @@ public interface JobController extends Controller {
      *
      * @param callback to retrieve the result.
      */
-    @GET("/job")
+    @GET("/rest/api/job")
     void listAll(final Callback<List<Job>> callback);
 
     /**
@@ -36,7 +36,7 @@ public interface JobController extends Controller {
      * @param searchContent the job title and description for matching.
      * @return a list with jobs.
      */
-    @GET("/job")
+    @GET("/rest/api/job")
     List<Job> search(@Query("search") final String searchContent);
 
     /**
@@ -45,6 +45,6 @@ public interface JobController extends Controller {
      * @param search the job title and description for matching.
      * @param callback to retrieve the result.
      */
-    @GET("/job")
+    @GET("/rest/api/job")
     void search(@Query("search") final String search, final Callback<List<Job>> callback);
 }

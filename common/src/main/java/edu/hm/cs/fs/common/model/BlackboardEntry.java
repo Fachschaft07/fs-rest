@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Created by Fabio on 18.02.2015.
  */
-public class News  {
+public class BlackboardEntry {
     
     private String id;
     private String author;

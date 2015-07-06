@@ -12,7 +12,7 @@ import javax.xml.xpath.XPathExpressionException;
 
 import org.jsoup.helper.StringUtil;
 
-import edu.hm.cs.fs.common.model.News;
+import edu.hm.cs.fs.common.model.BlackboardEntry;
 
 /**
  * The news which are shown at the black board. (Url: <a
@@ -22,19 +22,19 @@ import edu.hm.cs.fs.common.model.News;
  * @author Fabio
  *
  */
-public class NewsParser extends AbstractXmlParser<News> {
+public class BlackboardParser extends AbstractXmlParser<BlackboardEntry> {
 	private static final String URL = "http://fi.cs.hm.edu/fi/rest/public/news.xml";
 	private static final String ROOT_NODE = "/newslist/news";
 	
 	private static final DateFormat DATE_PARSER = new SimpleDateFormat(
 			"yyyy-MM-dd");
 
-	public NewsParser() {
+	public BlackboardParser() {
 		super(URL, ROOT_NODE);
 	}
 
 	@Override
-	public News onCreateItem(final String rootPath) throws XPathExpressionException {
+	public BlackboardEntry onCreateItem(final String rootPath) throws XPathExpressionException {
 		String mId;
 		String mAuthor;
 		String mSubject;
@@ -95,17 +95,17 @@ public class NewsParser extends AbstractXmlParser<News> {
 			}
 		}
 		
-		News news = new News();
-		news.setId(mId);
-		news.setAuthor(mAuthor);
-		news.setSubject(mSubject);
-		news.setText(mText);
-		news.setGroups(mGroupList);
-		news.setTeachers(mTeacherList);
-		news.setPublish(mPublish);
-		news.setExpire(mExpire);
-		news.setUrl(mUrl);
+		BlackboardEntry blackboardEntry = new BlackboardEntry();
+		blackboardEntry.setId(mId);
+		blackboardEntry.setAuthor(mAuthor);
+		blackboardEntry.setSubject(mSubject);
+		blackboardEntry.setText(mText);
+		blackboardEntry.setGroups(mGroupList);
+		blackboardEntry.setTeachers(mTeacherList);
+		blackboardEntry.setPublish(mPublish);
+		blackboardEntry.setExpire(mExpire);
+		blackboardEntry.setUrl(mUrl);
 
-		return news;
+		return blackboardEntry;
 	}
 }

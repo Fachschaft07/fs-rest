@@ -77,9 +77,10 @@ public class LessonFk10Parser extends AbstractHtmlParser<Lesson> {
                 room = row.text();
             } else if (!row.text().equals("")) {
                 Lesson lesson = new Lesson();
-                lesson.setDay(day.toString());
-                lesson.setTime(time.toString());
-                lesson.setModuleId(subject);
+                lesson.setDay(day);
+                lesson.setTime(time);
+                // Does not work with FK10 Modules
+                //TODO lesson.setModule(subject);
                 lesson.setRoom(room);
 
                 result.add(lesson);
