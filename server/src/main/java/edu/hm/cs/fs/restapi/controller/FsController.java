@@ -12,13 +12,13 @@ import java.util.List;
  * @author Fabio
  */
 @RestController
-public class PresenceController {
+public class FsController {
     /**
      * 
      * @return
      */
-    @RequestMapping("/rest/api/presence")
-    public List<Presence> presence() {
+    @RequestMapping("/rest/api/fs/presence")
+    public List<Presence> getPresence() {
         return new PresenceParser().parse();
     }
 }
