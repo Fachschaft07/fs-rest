@@ -1,31 +1,28 @@
 package edu.hm.cs.fs.common.model;
 
+import java.util.Date;
 import java.util.List;
+
+import edu.hm.cs.fs.common.constant.ExamGroup;
+import edu.hm.cs.fs.common.constant.ExamType;
+import edu.hm.cs.fs.common.constant.Study;
 
 
 /**
  * Created by Fabio on 18.02.2015.
  */
 public class Exam  {
-	
-	private String id;
 	private String code;
-	private String group;
-	private String module;
+	private Study study;
+	private Module module;
 	private String subtitle;
-	private List<String> references;
-	private List<String> examiners;
-	private String type;
+	private List<Study> references;
+	private List<Person> examiners;
+    private List<String> rooms;
+	private ExamType type;
 	private String material;
-	private String allocation;
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
+	private ExamGroup allocation;
+	private Date date;
 
 	public String getCode() {
 		return code;
@@ -35,19 +32,19 @@ public class Exam  {
 		this.code = code;
 	}
 
-	public String getGroup() {
-		return group;
+	public Study getStudy() {
+		return study;
 	}
 
-	public void setGroup(String group) {
-		this.group = group;
+	public void setStudy(Study study) {
+		this.study = study;
 	}
 
-	public String getModule() {
+	public Module getModule() {
 		return module;
 	}
 
-	public void setModule(String module) {
+	public void setModule(Module module) {
 		this.module = module;
 	}
 
@@ -59,27 +56,27 @@ public class Exam  {
 		this.subtitle = subtitle;
 	}
 
-	public List<String> getReferences() {
+	public List<Study> getReferences() {
 		return references;
 	}
 
-	public void setReferences(List<String> references) {
+	public void setReferences(List<Study> references) {
 		this.references = references;
 	}
 
-	public List<String> getExaminers() {
+	public List<Person> getExaminers() {
 		return examiners;
 	}
 
-	public void setExaminers(List<String> examiners) {
+	public void setExaminers(List<Person> examiners) {
 		this.examiners = examiners;
 	}
 
-	public String getType() {
+	public ExamType getType() {
 		return type;
 	}
 
-	public void setType(String type) {
+	public void setType(ExamType type) {
 		this.type = type;
 	}
 
@@ -91,11 +88,27 @@ public class Exam  {
 		this.material = material;
 	}
 
-	public String getAllocation() {
+	public ExamGroup getAllocation() {
 		return allocation;
 	}
 
-	public void setAllocation(String allocation) {
+	public void setAllocation(ExamGroup allocation) {
 		this.allocation = allocation;
 	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
+    public List<String> getRooms() {
+        return rooms;
+    }
+
+    public void setRooms(List<String> rooms) {
+        this.rooms = rooms;
+    }
 }

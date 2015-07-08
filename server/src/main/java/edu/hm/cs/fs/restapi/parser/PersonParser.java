@@ -3,6 +3,9 @@ package edu.hm.cs.fs.restapi.parser;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
+import java.util.Collections;
+import java.util.List;
+
 import org.jsoup.helper.StringUtil;
 
 import edu.hm.cs.fs.common.constant.Day;
@@ -36,7 +39,7 @@ public class PersonParser extends AbstractXmlParser<Person> {
     }
 
 	@Override
-	public Person onCreateItem(final String rootPath) throws XPathExpressionException {
+	public List<Person> onCreateItems(final String rootPath) throws XPathExpressionException {
 		String mId;
 		String mLastName;
 		String mFirstName;
@@ -140,10 +143,10 @@ public class PersonParser extends AbstractXmlParser<Person> {
 		person.setId(mId);
 		person.setLastName(mLastName);
 		person.setFirstName(mFirstName);
-		person.setSex(mSex.toString());
+		person.setSex(mSex);
 		person.setTitle(mTitle);
-		person.setFaculty(mFaculty.toString());
-		person.setStatus(mStatus.toString());
+		person.setFaculty(mFaculty);
+		person.setStatus(mStatus);
 		person.setHidden(mHidden);
 		person.setEmail(mEmail);
 		person.setPhone(mPhone);
@@ -154,7 +157,7 @@ public class PersonParser extends AbstractXmlParser<Person> {
 		person.setOffice(mOffice);
 		person.setEmailOptin(mEmailOptin);
 		person.setReferenceOptin(mReferenceOptin);
-		person.setOfficeHourWeekday(mOfficeHourWeekday == null ? null : mOfficeHourWeekday.toString());
+		person.setOfficeHourWeekday(mOfficeHourWeekday);
 		person.setOfficeHourTime(mOfficeHourTime);
 		person.setOfficeHourRoom(mOfficeHourRoom);
 		person.setOfficeHourComment(mOfficeHourComment);
@@ -163,6 +166,6 @@ public class PersonParser extends AbstractXmlParser<Person> {
 		person.setEinsichtRoom(mEinsichtRoom);
 		person.setEinsichtComment(mEinsichtComment);
 		
-		return person;
+		return Collections.singletonList(person);
 	}
 }

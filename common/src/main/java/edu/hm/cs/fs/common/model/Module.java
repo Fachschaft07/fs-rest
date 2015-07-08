@@ -2,36 +2,29 @@ package edu.hm.cs.fs.common.model;
 
 import java.util.List;
 
+import edu.hm.cs.fs.common.constant.Study;
+import edu.hm.cs.fs.common.constant.TeachingForm;
+
 
 /**
  * Created by Fabio on 18.02.2015.
  */
 public class Module  {
-	
-	private String id;
 	private String name;
 	private int credits;
 	private int sws;
-	private String responsible;
-	private List<String> teachers;
+	private Person responsible;
+	private List<Person> teachers;
 	private List<String> languages;
-	private String teachingForm;
+	private TeachingForm teachingForm;
 	private String expenditure;
 	private String requirements;
 	private String goals;
 	private String content;
 	private String media;
 	private String literature;
-	private String program;
+	private Study program;
 	private List<ModuleCode> modulCodes;
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
 
 	public String getName() {
 		return name;
@@ -57,19 +50,19 @@ public class Module  {
 		this.sws = sws;
 	}
 
-	public String getResponsible() {
+	public Person getResponsible() {
 		return responsible;
 	}
 
-	public void setResponsible(String responsible) {
+	public void setResponsible(Person responsible) {
 		this.responsible = responsible;
 	}
 
-	public List<String> getTeachers() {
+	public List<Person> getTeachers() {
 		return teachers;
 	}
 
-	public void setTeachers(List<String> teachers) {
+	public void setTeachers(List<Person> teachers) {
 		this.teachers = teachers;
 	}
 
@@ -81,11 +74,11 @@ public class Module  {
 		this.languages = languages;
 	}
 
-	public String getTeachingForm() {
+	public TeachingForm getTeachingForm() {
 		return teachingForm;
 	}
 
-	public void setTeachingForm(String teachingForm) {
+	public void setTeachingForm(TeachingForm teachingForm) {
 		this.teachingForm = teachingForm;
 	}
 
@@ -137,11 +130,11 @@ public class Module  {
 		this.literature = literature;
 	}
 
-	public String getProgram() {
+	public Study getProgram() {
 		return program;
 	}
 
-	public void setProgram(String program) {
+	public void setProgram(Study program) {
 		this.program = program;
 	}
 

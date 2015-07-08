@@ -14,8 +14,7 @@ import edu.hm.cs.fs.common.model.Presence;
 /**
  * Created by Fabio on 18.02.2015.
  */
-public class PresenceParser extends
-		AbstractJsonParser<Presence> {
+public class PresenceParser extends AbstractJsonParser<Presence> {
 	private final static String URL = "http://fs.cs.hm.edu/presence/?app=true";
 
 	public PresenceParser() {

@@ -1,5 +1,7 @@
 package edu.hm.cs.fs.common.constant;
 
+import java.util.Arrays;
+
 /**
  * @author Fabio
  *
@@ -8,19 +10,19 @@ public enum Sex {
 	/** Männlich */
 	MALE("m"),
 	/** Weiblich */
-	FEMALE("w");
+	FEMALE("w", "f");
 
-	private final String mKey;
+	private final String[] mKeys;
 
-	Sex(final String key) {
-		mKey = key;
+	Sex(final String... keys) {
+		mKeys = keys;
 	}
 
 	/**
 	 * @return the key.
 	 */
-	private String getKey() {
-		return mKey;
+	private String[] getKeys() {
+		return mKeys;
 	}
 
 	/**
@@ -29,7 +31,7 @@ public enum Sex {
 	 */
 	public static Sex of(final String key) {
 		for (final Sex sex : values()) {
-			if (sex.getKey().equalsIgnoreCase(key)) {
+			if (Arrays.asList(sex.getKeys()).contains(key)) {
 				return sex;
 			}
 		}

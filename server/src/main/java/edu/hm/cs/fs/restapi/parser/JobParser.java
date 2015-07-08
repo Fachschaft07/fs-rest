@@ -3,7 +3,10 @@ package edu.hm.cs.fs.restapi.parser;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
@@ -13,6 +16,7 @@ import com.google.common.base.Strings;
 import edu.hm.cs.fs.common.constant.Study;
 import edu.hm.cs.fs.common.constant.StudyGroup;
 import edu.hm.cs.fs.common.model.Job;
+import edu.hm.cs.fs.restapi.parser.cache.CachedPersonParser;
 
 /**
  * Url: <a
@@ -35,7 +39,7 @@ public class JobParser extends AbstractXmlParser<Job> {
 	}
 
 	@Override
-	public Job onCreateItem(final String rootPath) throws XPathExpressionException {
+	public List<Job> onCreateItems(final String rootPath) throws XPathExpressionException {
 		// Parse Elements
 		final String jobId = findByXPath(rootPath + "/id/text()", XPathConstants.STRING, String.class);
 		final String title = findByXPath(rootPath + "/title/text()", XPathConstants.STRING, String.class);
@@ -64,11 +68,11 @@ public class JobParser extends AbstractXmlParser<Job> {
 		job.setTitle(title);
 		job.setProvider(provider);
 		job.setDescription(description);
-		job.setProgram(program == null ? null : program);
-		job.setContact(contact);
+		job.setProgram(program);
+		new CachedPersonParser().findById(contact).ifPresent(job::setContact);
 		job.setExpire(expire);
 		job.setUrl(url);
 
-		return job;
+		return Collections.singletonList(job);
 	}
 }

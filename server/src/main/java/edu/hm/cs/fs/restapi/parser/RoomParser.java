@@ -3,6 +3,9 @@ package edu.hm.cs.fs.restapi.parser;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
+import java.util.Collections;
+import java.util.List;
+
 import edu.hm.cs.fs.common.model.Room;
 
 /**
@@ -17,7 +20,7 @@ public class RoomParser extends AbstractXmlParser<Room> {
     }
 
     @Override
-    public Room onCreateItem(String rootPath) throws XPathExpressionException {
+    public List<Room> onCreateItems(String rootPath) throws XPathExpressionException {
         String name;
 
         // Parse Elements...
@@ -27,6 +30,6 @@ public class RoomParser extends AbstractXmlParser<Room> {
         Room room = new Room();
         room.setName(name);
 
-        return room;
+        return Collections.singletonList(room);
     }
 }

@@ -2,15 +2,17 @@ package edu.hm.cs.fs.common.model;
 
 import java.util.List;
 
+import edu.hm.cs.fs.common.constant.Offer;
+import edu.hm.cs.fs.common.constant.Semester;
+
 
 public class ModuleCode  {
-	
 	private String modul;
 	private String regulation;
-	private String offer;
+	private Offer offer;
 	private String services;
 	private String code;
-	private List<String> semesters;
+	private List<Semester> semesters;
 	private String curriculum;
 
 	public String getModul() {
@@ -29,11 +31,11 @@ public class ModuleCode  {
 		this.regulation = regulation;
 	}
 
-	public String getOffer() {
+	public Offer getOffer() {
 		return offer;
 	}
 
-	public void setOffer(String offer) {
+	public void setOffer(Offer offer) {
 		this.offer = offer;
 	}
 
@@ -53,11 +55,11 @@ public class ModuleCode  {
 		this.code = code;
 	}
 
-	public List<String> getSemesters() {
+	public List<Semester> getSemesters() {
 		return semesters;
 	}
 
-	public void setSemesters(List<String> semesters) {
+	public void setSemesters(List<Semester> semesters) {
 		this.semesters = semesters;
 	}
 

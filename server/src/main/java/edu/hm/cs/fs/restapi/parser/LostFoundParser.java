@@ -1,11 +1,12 @@
 package edu.hm.cs.fs.restapi.parser;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 
 import edu.hm.cs.fs.common.model.LostFound;
 
@@ -15,39 +16,38 @@ import edu.hm.cs.fs.common.model.LostFound;
  * >http://fi.cs.hm.edu/fi/rest/public/lostfound</a>)
  *
  * @author Fabio
- *
  */
 public class LostFoundParser extends AbstractXmlParser<LostFound> {
-	private static final String URL = "http://fi.cs.hm.edu/fi/rest/public/lostfound.xml";
-	private static final String ROOT_NODE = "/lostfoundlist/lostfound";
+    private static final String URL = "http://fi.cs.hm.edu/fi/rest/public/lostfound.xml";
+    private static final String ROOT_NODE = "/lostfoundlist/lostfound";
 
-	private static final DateFormat DATE_FORMATTER = new SimpleDateFormat("yyyy-MM-dd");
+    private static final DateFormat DATE_FORMATTER = new SimpleDateFormat("yyyy-MM-dd");
 
-	public LostFoundParser() {
-		super(URL, ROOT_NODE);
-	}
+    public LostFoundParser() {
+        super(URL, ROOT_NODE);
+    }
 
-	@Override
-	public LostFound onCreateItem(final String rootPath) throws XPathExpressionException {
-		String id;
-		String subject;
-		Date date = null;
+    @Override
+    public List<LostFound> onCreateItems(final String rootPath) throws XPathExpressionException {
+        String id;
+        String subject;
+        Date date = null;
 
-			// Parse Elements...
-			id = findByXPath(rootPath + "/id/text()", XPathConstants.STRING, String.class);
-			subject = findByXPath(rootPath + "/subject/text()", XPathConstants.STRING, String.class);
-			try {
-				date = DATE_FORMATTER.parse((String) findByXPath(rootPath + "/date/text()", XPathConstants.STRING, String.class));
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+        // Parse Elements...
+        id = findByXPath(rootPath + "/id/text()", XPathConstants.STRING, String.class);
+        subject = findByXPath(rootPath + "/subject/text()", XPathConstants.STRING, String.class);
+        try {
+            date = DATE_FORMATTER.parse((String) findByXPath(rootPath + "/date/text()", XPathConstants.STRING, String.class));
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
-		LostFound lostFound = new LostFound();
-		lostFound.setId(id);
-		lostFound.setSubject(subject);
-		lostFound.setDate(date);
+        LostFound lostFound = new LostFound();
+        lostFound.setId(id);
+        lostFound.setSubject(subject);
+        lostFound.setDate(date);
 
-		return lostFound;
-	}
+        return Collections.singletonList(lostFound);
+    }
 }

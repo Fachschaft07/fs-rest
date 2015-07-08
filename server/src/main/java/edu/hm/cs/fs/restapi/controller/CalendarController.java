@@ -1,14 +1,13 @@
 package edu.hm.cs.fs.restapi.controller;
 
-import edu.hm.cs.fs.common.model.Exam;
-import edu.hm.cs.fs.common.model.Holiday;
-import edu.hm.cs.fs.common.model.Termin;
-import edu.hm.cs.fs.common.model.Timetable;
+import com.google.common.base.Strings;
+import edu.hm.cs.fs.common.model.*;
+import edu.hm.cs.fs.restapi.parser.ExamParser;
 import edu.hm.cs.fs.restapi.parser.TerminParser;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -82,8 +81,13 @@ public class CalendarController {
      * @return
      */
     @RequestMapping("/rest/api/calendar/exam")
-    public List<Exam> exam() {
-        return new ArrayList<>();
+    public List<Exam> exam(@RequestParam(value="study", defaultValue = "") String group,
+                           @RequestParam(value="module", defaultValue = "") String module) {
+        return new ExamParser().parse().parallelStream()
+                .filter(exam -> Strings.isNullOrEmpty(group) || exam.getStudy() == Group.of(group).getStudy())
+                .filter(exam -> Strings.isNullOrEmpty(module) || exam.getModule() != null &&
+                        exam.getModule().getName().equalsIgnoreCase(module))
+                .collect(Collectors.toList());
     }
 
     /**

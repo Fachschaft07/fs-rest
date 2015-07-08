@@ -7,6 +7,8 @@ import java.util.Locale;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
+import edu.hm.cs.fs.restapi.parser.cache.CachedModuleParser;
+import edu.hm.cs.fs.restapi.parser.cache.CachedPersonParser;
 import org.jsoup.helper.StringUtil;
 
 import edu.hm.cs.fs.common.constant.Day;
@@ -14,7 +16,7 @@ import edu.hm.cs.fs.common.constant.Time;
 import edu.hm.cs.fs.common.model.Group;
 import edu.hm.cs.fs.common.model.Lesson;
 
-public class LessonFk07Parser extends AbstractXmlParser<List<Lesson>> {
+public class LessonFk07Parser extends AbstractXmlParser<Lesson> {
     private static final String URL = "http://fi.cs.hm.edu/fi/rest/public/timetable/group/";
     private static final String ROOT_NODE = "/timetable/day";
 
@@ -23,7 +25,7 @@ public class LessonFk07Parser extends AbstractXmlParser<List<Lesson>> {
     }
 
     @Override
-    public List<Lesson> onCreateItem(String rootPath) throws XPathExpressionException {
+    public List<Lesson> onCreateItems(String rootPath) throws XPathExpressionException {
         List<Lesson> result = new ArrayList<>();
         Day day = null;
         Time time = null;
@@ -58,11 +60,11 @@ public class LessonFk07Parser extends AbstractXmlParser<List<Lesson>> {
 
                 Lesson lesson = new Lesson();
                 lesson.setDay(day);
-                lesson.setTeacher(new PersonParser(teacherId).parse().get(0));
+                new CachedPersonParser().findById(teacherId).ifPresent(lesson::setTeacher);
                 lesson.setRoom(room);
                 lesson.setSuffix(suffix);
                 lesson.setTime(time);
-                lesson.setModule(new ModuleParser(moduleId).parse().get(0));
+                new CachedModuleParser().findById(moduleId).ifPresent(lesson::setModule);
 
                 result.add(lesson);
             }

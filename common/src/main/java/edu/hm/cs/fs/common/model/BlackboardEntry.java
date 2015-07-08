@@ -12,8 +12,8 @@ public class BlackboardEntry {
     private String author;
     private String subject;
     private String text;
-    private List<String> teachers;
-    private List<String> groups;
+    private List<Person> teachers;
+    private List<Group> groups;
     private Date publish;
     private Date expire;
     private String url;
@@ -50,19 +50,19 @@ public class BlackboardEntry {
         this.text = text;
     }
 
-    public List<String> getTeachers() {
+    public List<Person> getTeachers() {
         return teachers;
     }
 
-    public void setTeachers(final List<String> teachers) {
+    public void setTeachers(final List<Person> teachers) {
         this.teachers = teachers;
     }
 
-    public List<String> getGroups() {
+    public List<Group> getGroups() {
         return groups;
     }
 
-    public void setGroups(final List<String> groups) {
+    public void setGroups(final List<Group> groups) {
         this.groups = groups;
     }
 

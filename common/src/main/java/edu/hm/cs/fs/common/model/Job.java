@@ -13,7 +13,7 @@ public class Job {
     private String provider;
     private String description;
     private Study program;
-    private String contact;
+    private Person contact;
     private Date expire;
     private String url;
 
@@ -57,11 +57,11 @@ public class Job {
         this.program = program;
     }
 
-    public String getContact() {
+    public Person getContact() {
         return contact;
     }
 
-    public void setContact(final String contact) {
+    public void setContact(final Person contact) {
         this.contact = contact;
     }
 

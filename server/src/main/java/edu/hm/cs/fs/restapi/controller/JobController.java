@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-import edu.hm.cs.fs.restapi.parser.CachedParser;
+import edu.hm.cs.fs.restapi.parser.cache.CachedParser;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,15 +22,6 @@ import edu.hm.cs.fs.restapi.parser.Parser;
  */
 @RestController
 public class JobController {
-    private final Parser<Job> parser;
-
-    /**
-     * Creates a JobController.
-     */
-    public JobController() {
-        parser = new CachedParser<>(new JobParser(), TimeUnit.MILLISECONDS.convert(1, TimeUnit.DAYS));
-    }
-
     /**
      * Requests all jobs from
      * <a href="http://fi.cs.hm.edu/fi/rest/public/job">http://fi.cs.hm.edu/fi/rest/public/job</a>.
@@ -40,7 +31,7 @@ public class JobController {
      */
     @RequestMapping("/rest/api/job")
     public List<Job> job(@RequestParam(value="search", defaultValue = "") String search) {
-        return parser.parse().stream()
+        return new JobParser().parse().stream()
                 .filter(job -> (job.getTitle() + job.getDescription()).toLowerCase().contains(search.toLowerCase()))
                 .collect(Collectors.toList());
     }

@@ -1,18 +1,22 @@
 package edu.hm.cs.fs.common.model;
 
 
+import edu.hm.cs.fs.common.constant.Day;
+import edu.hm.cs.fs.common.constant.Faculty;
+import edu.hm.cs.fs.common.constant.PersonStatus;
+import edu.hm.cs.fs.common.constant.Sex;
+
 /**
  * Created by Fabio on 18.02.2015.
  */
 public class Person  {
-    
     private String id;
     private String lastName;
     private String firstName;
-    private String sex;
+    private Sex sex;
     private String title;
-    private String faculty;
-    private String status;
+    private Faculty faculty;
+    private PersonStatus status;
     private boolean hidden;
     private String email;
     private String website;
@@ -23,7 +27,7 @@ public class Person  {
     private String office;
     private boolean emailOptin;
     private boolean referenceOptin;
-    private String officeHourWeekday;
+    private Day officeHourWeekday;
     private String officeHourTime;
     private String officeHourRoom;
     private String officeHourComment;
@@ -56,11 +60,11 @@ public class Person  {
         this.firstName = firstName;
     }
 
-    public String getSex() {
+    public Sex getSex() {
         return sex;
     }
 
-    public void setSex(final String sex) {
+    public void setSex(final Sex sex) {
         this.sex = sex;
     }
 
@@ -72,19 +76,19 @@ public class Person  {
         this.title = title;
     }
 
-    public String getFaculty() {
+    public Faculty getFaculty() {
         return faculty;
     }
 
-    public void setFaculty(final String faculty) {
+    public void setFaculty(final Faculty faculty) {
         this.faculty = faculty;
     }
 
-    public String getStatus() {
+    public PersonStatus getStatus() {
         return status;
     }
 
-    public void setStatus(final String status) {
+    public void setStatus(final PersonStatus status) {
         this.status = status;
     }
 
@@ -168,11 +172,11 @@ public class Person  {
         this.referenceOptin = referenceOptin;
     }
 
-    public String getOfficeHourWeekday() {
+    public Day getOfficeHourWeekday() {
         return officeHourWeekday;
     }
 
-    public void setOfficeHourWeekday(final String officeHourWeekday) {
+    public void setOfficeHourWeekday(final Day officeHourWeekday) {
         this.officeHourWeekday = officeHourWeekday;
     }
 

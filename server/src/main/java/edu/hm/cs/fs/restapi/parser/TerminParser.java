@@ -3,7 +3,9 @@ package edu.hm.cs.fs.restapi.parser;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
@@ -20,8 +22,7 @@ import edu.hm.cs.fs.common.model.Termin;
  * @author Fabio
  *
  */
-public class TerminParser extends
-		AbstractXmlParser<Termin> {
+public class TerminParser extends AbstractXmlParser<Termin> {
 	private static final String URL = "http://fi.cs.hm.edu/fi/rest/public/termin.xml";
 	private static final String ROOT_NODE = "/terminlist/termin";
 	
@@ -33,8 +34,7 @@ public class TerminParser extends
 	}
 
 	@Override
-	public Termin onCreateItem(final String rootPath) throws XPathExpressionException
-			 {
+	public List<Termin> onCreateItems(final String rootPath) throws XPathExpressionException {
 		String id;
 		String subject;
 		String scope;
@@ -62,6 +62,6 @@ public class TerminParser extends
 		termin.setScope(scope);
 		termin.setDate(date);
 
-		return termin;
+		return Collections.singletonList(termin);
 	}
 }

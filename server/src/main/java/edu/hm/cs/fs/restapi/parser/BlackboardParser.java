@@ -3,13 +3,14 @@ package edu.hm.cs.fs.restapi.parser;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
+import edu.hm.cs.fs.common.model.Group;
+import edu.hm.cs.fs.common.model.Person;
+import edu.hm.cs.fs.restapi.parser.cache.CachedPersonParser;
 import org.jsoup.helper.StringUtil;
 
 import edu.hm.cs.fs.common.model.BlackboardEntry;
@@ -34,13 +35,13 @@ public class BlackboardParser extends AbstractXmlParser<BlackboardEntry> {
 	}
 
 	@Override
-	public BlackboardEntry onCreateItem(final String rootPath) throws XPathExpressionException {
+	public List<BlackboardEntry> onCreateItems(final String rootPath) throws XPathExpressionException {
 		String mId;
 		String mAuthor;
 		String mSubject;
 		String mText;
-		List<String> mTeacherList = new ArrayList<>();
-		List<String> mGroupList = new ArrayList<>();
+		List<Person> mTeacherList = new ArrayList<>();
+		List<Group> mGroupList = new ArrayList<>();
 		Date mPublish = null;
 		Date mExpire = null;
 		String mUrl;
@@ -82,7 +83,7 @@ public class BlackboardParser extends AbstractXmlParser<BlackboardEntry> {
 			final String teacherName = findByXPath(rootPath + "/teacher["
 					+ teacherIndex + "]/text()", XPathConstants.STRING, String.class);
 			if (!StringUtil.isBlank(teacherName)) {
-				mTeacherList.add(new String(teacherName));
+				new CachedPersonParser().findById(teacherName).ifPresent(mTeacherList::add);
 			}
 		}
 
@@ -91,7 +92,7 @@ public class BlackboardParser extends AbstractXmlParser<BlackboardEntry> {
 			final String groupName = findByXPath(rootPath + "/group["
 					+ groupIndex + "]/text()", XPathConstants.STRING, String.class);
 			if (!StringUtil.isBlank(groupName)) {
-				mGroupList.add(new String(groupName));
+				mGroupList.add(Group.of(groupName));
 			}
 		}
 		
@@ -106,6 +107,6 @@ public class BlackboardParser extends AbstractXmlParser<BlackboardEntry> {
 		blackboardEntry.setExpire(mExpire);
 		blackboardEntry.setUrl(mUrl);
 
-		return blackboardEntry;
+		return Collections.singletonList(blackboardEntry);
 	}
 }

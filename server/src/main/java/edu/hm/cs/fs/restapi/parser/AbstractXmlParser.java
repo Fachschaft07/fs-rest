@@ -51,13 +51,9 @@ public abstract class AbstractXmlParser<T> extends AbstractContentParser<T> {
                 final int countElements = getCountByXPath(mRootNode);
                 for (int index = 1; index <= countElements; index++) {
                     final String path = mRootNode + "[" + index + "]";
-                    final T value = onCreateItem(path);
+                    final List<T> value = onCreateItems(path);
                     if (value != null) {
-                        if (value instanceof List) {
-                            result.addAll((List<T>) value);
-                        } else {
-                            result.add(value);
-                        }
+                        result.addAll(value);
                     }
                 }
             } catch (Exception e) {
@@ -101,16 +97,16 @@ public abstract class AbstractXmlParser<T> extends AbstractContentParser<T> {
     }
 
     /**
-     * Create the next item at the specified index.
+     * Create the next items at the specified index.
      *
      * @param rootPath
-     *         of the item.
+     *         of the items.
      *
-     * @return the item.
+     * @return the items.
      *
      * @throws XPathExpressionException
      */
-    public abstract T onCreateItem(String rootPath) throws XPathExpressionException;
+    public abstract List<T> onCreateItems(String rootPath) throws XPathExpressionException;
 
     /**
      * Find a element by using the {@link XPath}.

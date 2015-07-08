@@ -11,10 +11,7 @@ import edu.hm.cs.fs.common.constant.Day;
 import edu.hm.cs.fs.common.constant.Time;
 import edu.hm.cs.fs.common.model.Occupied;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * All the rooms with their occupancy. (Url: <a href="http://fi.cs.hm.edu/fi/rest/public/timetable/room"
@@ -34,7 +31,7 @@ public class OccupiedParser extends AbstractXmlParser<Room> {
     }
 
     @Override
-    public Room onCreateItem(final String rootPath) throws XPathExpressionException {
+    public List<Room> onCreateItems(final String rootPath) throws XPathExpressionException {
         // Parse Elements...
         final String name = findByXPath(rootPath + "/value/text()",
                 XPathConstants.STRING, String.class);
@@ -69,6 +66,6 @@ public class OccupiedParser extends AbstractXmlParser<Room> {
         room.setCapacity(capacity);
         room.setOccupied(map);
 
-        return room;
+        return Collections.singletonList(room);
     }
 }

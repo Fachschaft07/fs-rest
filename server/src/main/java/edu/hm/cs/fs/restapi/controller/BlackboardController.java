@@ -20,15 +20,6 @@ import java.util.stream.Collectors;
  */
 @RestController
 public class BlackboardController {
-    private final Parser<BlackboardEntry> parser;
-
-    /**
-     * Creates a BlackboardController.
-     */
-    public BlackboardController() {
-        parser = new BlackboardParser();
-    }
-
     /**
      * Requests all blackboard entries from
      * <a href="http://fi.cs.hm.edu/fi/rest/public/news">http://fi.cs.hm.edu/fi/rest/public/news</a>.
@@ -38,7 +29,7 @@ public class BlackboardController {
      */
     @RequestMapping("/rest/api/blackboard/entry")
     public List<BlackboardEntry> entry(@RequestParam(value = "search", defaultValue = "") String search) {
-        return parser.parse().stream()
+        return new BlackboardParser().parse().stream()
                 .filter(entry -> entry.getSubject().contains(search) || entry.getText().contains(search))
                 .collect(Collectors.toList());
     }
