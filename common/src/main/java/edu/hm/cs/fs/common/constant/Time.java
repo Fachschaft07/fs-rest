@@ -64,6 +64,10 @@ public enum Time {
         return cal;
     }
 
+    public boolean isAfter(Time time){
+        return getStart().after(time.getStart());
+    }
+    
     /**
      * @param timeString
      *
@@ -82,4 +86,5 @@ public enum Time {
         throw new IllegalArgumentException("Not a valid time form: "
                 + timeString);
     }
+    
 }
