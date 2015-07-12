@@ -24,8 +24,24 @@ public class Controllers {
      * @return the controller.
      */
     public static <T> T create(final Class<T> controllerInterface) {
+        return create(ENDPOINT_ULR, controllerInterface);
+    }
+
+    /**
+     * Create an interface to communicate with the rest api.
+     *
+     * @param endpointUrl
+     *         the url to connect to.
+     * @param controllerInterface
+     *         an interface of an controller.
+     * @param <T>
+     *         the type of controller.
+     *
+     * @return the controller.
+     */
+    public static <T> T create(final String endpointUrl, final Class<T> controllerInterface) {
         return new RestAdapter.Builder()
-                .setEndpoint(ENDPOINT_ULR)
+                .setEndpoint(endpointUrl)
                 .build()
                 .create(controllerInterface);
     }
