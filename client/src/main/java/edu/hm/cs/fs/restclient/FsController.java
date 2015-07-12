@@ -11,7 +11,7 @@ import retrofit.http.GET;
  *
  * @author Fabio
  */
-public interface FsController {
+public interface FsController extends Controller {
     /**
      * Requests all presence.
      *
