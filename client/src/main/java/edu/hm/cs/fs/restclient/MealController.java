@@ -12,7 +12,7 @@ import retrofit.http.GET;
  *
  * @author Fabio
  */
-public interface MealController extends Controller {
+public interface MealController {
     /**
      * Requests all meals.
      *

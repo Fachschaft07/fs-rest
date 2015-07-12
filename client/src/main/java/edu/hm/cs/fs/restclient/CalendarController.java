@@ -16,7 +16,7 @@ import retrofit.http.Query;
  *
  * @author Fabio
  */
-public interface CalendarController extends Controller {
+public interface CalendarController {
     /**
      * Requests all termins.
      *

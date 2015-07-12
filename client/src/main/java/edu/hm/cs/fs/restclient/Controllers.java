@@ -23,7 +23,7 @@ public class Controllers {
      *
      * @return the controller.
      */
-    public static <T extends Controller> T create(final Class<T> controllerInterface) {
+    public static <T> T create(final Class<T> controllerInterface) {
         return new RestAdapter.Builder()
                 .setEndpoint(ENDPOINT_ULR)
                 .build()

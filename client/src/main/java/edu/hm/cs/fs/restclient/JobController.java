@@ -13,7 +13,7 @@ import retrofit.http.Query;
  *
  * @author Fabio
  */
-public interface JobController extends Controller {
+public interface JobController {
     /**
      * Requests all jobs.
      *

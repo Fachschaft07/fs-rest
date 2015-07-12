@@ -11,7 +11,7 @@ import retrofit.http.GET;
  *
  * @author Fabio
  */
-public interface BlackboardController extends Controller {
+public interface BlackboardController {
     /**
      * Requests all blackboard entries.
      *

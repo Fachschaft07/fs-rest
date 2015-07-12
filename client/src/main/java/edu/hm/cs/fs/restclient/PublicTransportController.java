@@ -13,7 +13,7 @@ import java.util.List;
  *
  * @author Fabio
  */
-public interface PublicTransportController extends Controller {
+public interface PublicTransportController {
     /**
      * Request all departures from a specified location of the mvv.
      *
