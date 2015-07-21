@@ -1,8 +1,11 @@
 package edu.hm.cs.fs.restapi.controller;
 
 import com.google.common.base.Strings;
+import edu.hm.cs.fs.common.constant.Study;
 import edu.hm.cs.fs.common.model.*;
 import edu.hm.cs.fs.restapi.parser.ExamParser;
+import edu.hm.cs.fs.restapi.parser.LessonFk07Parser;
+import edu.hm.cs.fs.restapi.parser.LessonFk10Parser;
 import edu.hm.cs.fs.restapi.parser.TerminParser;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -78,13 +81,15 @@ public class CalendarController {
 
     /**
      *
+     * @param study
+     * @param module
      * @return
      */
     @RequestMapping("/rest/api/calendar/exam")
-    public List<Exam> exam(@RequestParam(value="study", defaultValue = "") String group,
+    public List<Exam> exam(@RequestParam(value="study", defaultValue = "") String study,
                            @RequestParam(value="module", defaultValue = "") String module) {
         return new ExamParser().parse().parallelStream()
-                .filter(exam -> Strings.isNullOrEmpty(group) || exam.getStudy() == Group.of(group).getStudy())
+                .filter(exam -> Strings.isNullOrEmpty(study) || exam.getStudy() == Group.of(study).getStudy())
                 .filter(exam -> Strings.isNullOrEmpty(module) || exam.getModule() != null &&
                         exam.getModule().getName().equalsIgnoreCase(module))
                 .collect(Collectors.toList());
@@ -92,10 +97,21 @@ public class CalendarController {
 
     /**
      *
+     * @param group
+     * @param module
      * @return
      */
     @RequestMapping("/rest/api/calendar/timetable")
-    public Timetable timetable() {
-        return null;
+    public List<Lesson> timetable(@RequestParam(value = "group") String group,
+                               @RequestParam(value = "module", defaultValue = "") String module) {
+        final Group realGroup = Group.of(group);
+        // Read all available lessons
+        final List<Lesson> lessons = new LessonFk07Parser(realGroup).parse();
+        if(realGroup.getStudy() == Study.IB) {
+            lessons.addAll(new LessonFk10Parser(realGroup).parse());
+        }
+        return lessons.parallelStream()
+                .filter(lesson -> module.isEmpty() || lesson.getModule().getName().equalsIgnoreCase(module))
+                .collect(Collectors.toList());
     }
 }
