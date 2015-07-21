@@ -5,6 +5,7 @@ import java.util.List;
 import edu.hm.cs.fs.common.constant.Study;
 import edu.hm.cs.fs.common.model.Exam;
 import edu.hm.cs.fs.common.model.Holiday;
+import edu.hm.cs.fs.common.model.Lesson;
 import edu.hm.cs.fs.common.model.Termin;
 import retrofit.Callback;
 import retrofit.http.GET;
@@ -28,7 +29,8 @@ public interface CalendarController {
     /**
      * Requests all termins asynchronous.
      *
-     * @param callback to retrieve the result.
+     * @param callback
+     *         to retrieve the result.
      */
     @GET("/rest/api/calendar/termin")
     void getTermins(Callback<List<Termin>> callback);
@@ -44,7 +46,8 @@ public interface CalendarController {
     /**
      * Requests all holidays asynchronous.
      *
-     * @param callback to retrieve the result.
+     * @param callback
+     *         to retrieve the result.
      */
     @GET("/rest/api/calendar/holiday")
     void getHolidays(Callback<List<Holiday>> callback);
@@ -60,7 +63,8 @@ public interface CalendarController {
     /**
      * Requests all exams asynchronous.
      *
-     * @param callback to retrieve the result.
+     * @param callback
+     *         to retrieve the result.
      */
     @GET("/rest/api/calendar/exam")
     void getExams(Callback<List<Exam>> callback);
@@ -68,8 +72,11 @@ public interface CalendarController {
     /**
      * Requests all exams which match the study and the module code.
      *
-     * @param study of the exam (e.g. IF, IC).
-     * @param moduleCodeId of the module (e.g. compiler).
+     * @param study
+     *         of the exam (e.g. IF, IC).
+     * @param moduleCodeId
+     *         of the module (e.g. compiler).
+     *
      * @return a list with exams.
      */
     @GET("/rest/api/calendar/exam")
@@ -78,10 +85,62 @@ public interface CalendarController {
     /**
      * Requests all exams which match the study and the module code asynchronous.
      *
-     * @param study of the exam (e.g. IF, IC).
-     * @param moduleCodeId of the module (e.g. compiler).
-     * @param callback to retrieve the result.
+     * @param study
+     *         of the exam (e.g. IF, IC).
+     * @param moduleCodeId
+     *         of the module (e.g. compiler).
+     * @param callback
+     *         to retrieve the result.
      */
     @GET("/rest/api/calendar/exam")
     void getExams(@Query("study") Study study, @Query("module") String moduleCodeId, Callback<List<Exam>> callback);
+
+    /**
+     * Requests all lessons of the specified study group.
+     *
+     * @param studyGroup
+     *         to search for.
+     *
+     * @return a list with lessons.
+     */
+    @GET("/rest/api/calendar/timetable")
+    List<Lesson> getTimetable(@Query("group") String studyGroup);
+
+    /**
+     * Requests all lessons of the specified study group asynchronous.
+     *
+     * @param studyGroup
+     *         to search for.
+     * @param callback
+     *         to retrieve the result.
+     */
+    @GET("/rest/api/calendar/exam")
+    void getExams(@Query("group") String studyGroup, Callback<List<Exam>> callback);
+
+    /**
+     * Requests all lessons of the specified study group and module.
+     *
+     * @param studyGroup
+     *         to search for.
+     * @param moduleName
+     *         to search for.
+     *
+     * @return a list with lessons.
+     */
+    @GET("/rest/api/calendar/timetable")
+    List<Lesson> getTimetable(@Query("group") String studyGroup, @Query("module") String moduleName);
+
+    /**
+     * Requests all lessons of the specified study group and module asynchronous.
+     *
+     * @param studyGroup
+     *         to search for.
+     * @param moduleName
+     *         to search for.
+     * @param callback
+     *         to retrieve the result.
+     */
+    @GET("/rest/api/calendar/exam")
+    void getExams(@Query("group") String studyGroup, @Query("module") String moduleName,
+                  Callback<List<Exam>> callback);
 }
