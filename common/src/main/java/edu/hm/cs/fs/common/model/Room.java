@@ -12,8 +12,8 @@ import java.util.Map;
  */
 public class Room  {
     private String name;
-    private Map<Day, List<Time>> occupied;
     private Integer capacity;
+    private Time freeUntil;
 
     public String getName() {
         return name;
@@ -23,19 +23,19 @@ public class Room  {
         this.name = name;
     }
 
-    public Map<Day, List<Time>> getOccupied() {
-        return occupied;
-    }
-
-    public void setOccupied(Map<Day, List<Time>> occupied) {
-        this.occupied = occupied;
-    }
-
     public void setCapacity(Integer capacity) {
         this.capacity = capacity;
     }
 
     public Integer getCapacity() {
         return capacity;
+    }
+
+    public Time getFreeUntil() {
+        return freeUntil;
+    }
+
+    public void setFreeUntil(Time freeUntil) {
+        this.freeUntil = freeUntil;
     }
 }

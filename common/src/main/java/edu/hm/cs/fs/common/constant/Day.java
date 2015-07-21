@@ -47,7 +47,6 @@ public enum Day {
 				return day;
 			}
 		}
-		throw new IllegalArgumentException(
-				"Argument can not be converted into a day: " + key);
+		return null;
 	}
 }

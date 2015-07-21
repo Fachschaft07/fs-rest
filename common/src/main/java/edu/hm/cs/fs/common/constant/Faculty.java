@@ -60,7 +60,6 @@ public enum Faculty {
 				return faculty;
 			}
 		}
-		throw new IllegalArgumentException("This is not a valid faculty: "
-				+ key);
+		return null;
 	}
 }

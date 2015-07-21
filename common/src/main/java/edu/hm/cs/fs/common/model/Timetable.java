@@ -1,12 +1,14 @@
 package edu.hm.cs.fs.common.model;
 
 import java.util.List;
+import java.util.Map;
+
+import edu.hm.cs.fs.common.constant.Day;
 
 
 public class Timetable  {
-    
     private String id;
-	private List<Lesson> lessons;
+    private Map<Day, List<Lesson>> lessons;
 
     public String getId() {
         return id;
@@ -16,11 +18,11 @@ public class Timetable  {
         this.id = id;
     }
 
-	public List<Lesson> getLessons() {
-		return lessons;
-	}
+    public Map<Day, List<Lesson>> getLessons() {
+        return lessons;
+    }
 
-	public void setLessons(List<Lesson> lessons) {
-		this.lessons = lessons;
-	}
+    public void setLessons(Map<Day, List<Lesson>> lessons) {
+        this.lessons = lessons;
+    }
 }

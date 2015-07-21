@@ -51,7 +51,6 @@ public enum Semester {
 				return semester;
 			}
 		}
-		throw new IllegalArgumentException("Unable to convert this '"
-				+ semesterNumber + "' to a semester");
+		return null;
 	}
 }

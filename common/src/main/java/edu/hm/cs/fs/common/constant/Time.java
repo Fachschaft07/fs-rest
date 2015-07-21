@@ -19,7 +19,11 @@ public enum Time {
     /** 17:00 - 18:30 */
     LESSON_6(17, 0),
     /** 18:45 - 20:15 */
-    LESSON_7(18, 45);
+    LESSON_7(18, 45),
+    /** 20:30 - 22:00 */
+    LESSON_8(20, 30),
+    /** 22:15 - 23:45 */
+    LESSON_9(22, 15);
 
     private final int hour;
     private final int minute;
@@ -67,7 +71,7 @@ public enum Time {
     public boolean isAfter(Time time){
         return getStart().after(time.getStart());
     }
-    
+
     /**
      * @param timeString
      *
@@ -83,8 +87,6 @@ public enum Time {
                 return time;
             }
         }
-        throw new IllegalArgumentException("Not a valid time form: "
-                + timeString);
+        return null;
     }
-    
 }

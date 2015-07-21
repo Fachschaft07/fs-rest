@@ -35,7 +35,6 @@ public enum Sex {
 				return sex;
 			}
 		}
-		throw new IllegalArgumentException("Unable to convert this '" + key
-				+ "' to a sex");
+		return null;
 	}
 }

@@ -44,7 +44,6 @@ public enum TeachingForm {
 				return teachForm;
 			}
 		}
-		throw new IllegalArgumentException("Not a valid teaching form: "
-				+ teachingForm);
+		return null;
 	}
 }

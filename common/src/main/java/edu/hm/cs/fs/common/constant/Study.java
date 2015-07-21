@@ -32,7 +32,6 @@ public enum Study {
 				return study;
 			}
 		}
-		throw new IllegalArgumentException("Unable to convert this '"
-				+ studyKey + "' to a study");
+		return null;
 	}
 }

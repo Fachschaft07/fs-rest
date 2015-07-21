@@ -43,7 +43,6 @@ public enum PersonStatus {
 				return state;
 			}
 		}
-		throw new IllegalArgumentException("This is not a valid person state: "
-				+ key);
+		return null;
 	}
 }

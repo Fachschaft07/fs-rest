@@ -39,7 +39,6 @@ public enum Offer {
 				return offer;
 			}
 		}
-		throw new IllegalArgumentException(
-				"Can not be translated to an offer: " + key);
+		return null;
 	}
 }

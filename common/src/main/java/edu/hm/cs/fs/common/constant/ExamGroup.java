@@ -47,6 +47,6 @@ public enum ExamGroup {
 				return type;
 			}
 		}
-		throw new IllegalArgumentException("The type is not valid: " + key);
+		return null;
 	}
 }

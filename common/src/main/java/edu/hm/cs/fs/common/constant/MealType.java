@@ -18,20 +18,16 @@ public enum MealType {
     }
 
     public static MealType of(String key) {
-        for (MealType mealType : values()) {
-            if(mealType.toString().equalsIgnoreCase(key)) {
-                return mealType;
-            }
-        }
-        throw new IllegalArgumentException("This is not a valid meal type: "
-                + key);
-    }
-
-    public static MealType find(String sign) {
-        if("f".equalsIgnoreCase(sign)) {
+        if("f".equalsIgnoreCase(key)) {
             return MEATLESS;
-        } else if("v".equalsIgnoreCase(sign)) {
+        } else if("v".equalsIgnoreCase(key)) {
             return VEGAN;
+        } else {
+            for (MealType mealType : values()) {
+                if (mealType.toString().equalsIgnoreCase(key)) {
+                    return mealType;
+                }
+            }
         }
         return null;
     }

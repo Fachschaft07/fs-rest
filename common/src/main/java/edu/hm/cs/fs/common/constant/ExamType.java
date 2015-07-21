@@ -51,6 +51,6 @@ public enum ExamType {
 				return type;
 			}
 		}
-		throw new IllegalArgumentException("The type is not valid: " + key);
+		return null;
 	}
 }
