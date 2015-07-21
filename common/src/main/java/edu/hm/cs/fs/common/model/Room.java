@@ -1,11 +1,7 @@
 package edu.hm.cs.fs.common.model;
 
 
-import edu.hm.cs.fs.common.constant.Day;
 import edu.hm.cs.fs.common.constant.Time;
-
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Fabio on 27.04.2015.
@@ -13,7 +9,7 @@ import java.util.Map;
 public class Room  {
     private String name;
     private Integer capacity;
-    private Time freeUntil;
+    private Time freeUntilEnd;
 
     public String getName() {
         return name;
@@ -31,11 +27,11 @@ public class Room  {
         return capacity;
     }
 
-    public Time getFreeUntil() {
-        return freeUntil;
+    public Time getFreeUntilEnd() {
+        return freeUntilEnd;
     }
 
-    public void setFreeUntil(Time freeUntil) {
-        this.freeUntil = freeUntil;
+    public void setFreeUntilEnd(Time freeUntil) {
+        this.freeUntilEnd = freeUntil;
     }
 }
