@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * The mvv with every information.<br>
+ * The publicTransport with every information.<br>
  * (Url (Lothstr.): <a href="http://www.mvg-live.de/ims/dfiStaticAnzeige.svc?haltestelle=Hochschule+M%fcnchen+%28Lothstra%dfe%29&tram=checked"
  * >http://www.mvg-live.de/ims/dfiStaticAnzeige.svc?haltestelle=Hochschule+M%fcnchen+%28Lothstra%dfe%29&tram=checked</a><br>
  * Url (Pasing): <a href="http://www.mvg-live.de/ims/dfiStaticAnzeige.svc?haltestelle=Avenariusplatz&bus=checked">http://www.mvg-live.de/ims/dfiStaticAnzeige.svc?haltestelle=Avenariusplatz&bus=checked</a>)
@@ -24,7 +24,7 @@ public class PublicTransportParser extends AbstractHtmlParser<PublicTransport> {
     private static final String MVV_PASING = "http://www.mvg-live.de/ims/dfiStaticAnzeige.svc?haltestelle=Avenariusplatz&bus=checked";
 
     /**
-     * Creates a parser for the mvv public transport content.
+     * Creates a parser for the publicTransport public transport content.
      *
      * @param location of the departure.
      */

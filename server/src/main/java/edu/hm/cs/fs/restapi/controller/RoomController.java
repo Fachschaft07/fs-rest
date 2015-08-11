@@ -27,11 +27,9 @@ public class RoomController {
      * @return
      */
     @RequestMapping("/rest/api/room")
-    public List<Room> search(@RequestParam(value = "day", defaultValue = "mo") String day, @RequestParam(value = "time", defaultValue = "8:15") String time) {
-        final Day tmpDay = Day.of(day);
-        final Time tmpTime = Time.of(time);
+    public List<Room> search(@RequestParam(value = "day", defaultValue = "MONDAY") Day day, @RequestParam(value = "time", defaultValue = "LESSON_1") Time time) {
         final List<Time> timesAfter = Stream.of(Time.values())
-                .filter(filterTime -> filterTime == tmpTime || filterTime.isAfter(tmpTime))
+                .filter(filterTime -> filterTime == time || filterTime.getStart().after(time.getStart()))
                 .sorted(Enum::compareTo)
                 .collect(Collectors.toList());
         return new OccupiedParser().parse().parallelStream()
@@ -47,12 +45,12 @@ public class RoomController {
                     tmpRoom.setCapacity(room.getCapacity());
 
                     // Does the room is occupied at any time this day?
-                    if (room.getOccupied().containsKey(tmpDay)) {
+                    if (room.getOccupied().containsKey(day)) {
                         // YES!
                         // Get times when the room is free
                         Optional<Time> freeTime = Optional.empty();
                         for (final Time possibleFreeTime : timesAfter) {
-                            if (room.getOccupied().get(tmpDay).parallelStream()
+                            if (room.getOccupied().get(day).parallelStream()
                                     .noneMatch(occupiedTime -> occupiedTime == possibleFreeTime)) {
                                 freeTime = Optional.of(possibleFreeTime);
                             } else {

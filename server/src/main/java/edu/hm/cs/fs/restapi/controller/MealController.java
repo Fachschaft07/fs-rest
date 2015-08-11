@@ -21,7 +21,7 @@ public class MealController {
      * @return
      */
     @RequestMapping("/rest/api/meal")
-    public List<Meal> meal(@RequestParam(value="location", defaultValue = "") String location) {
-        return new MealParser(StudentWorkMunich.valueOf(location.toUpperCase())).parse();
+    public List<Meal> meal(@RequestParam(value="location") StudentWorkMunich location) {
+        return new MealParser(location).parse();
     }
 }

@@ -20,7 +20,7 @@ public interface RoomController {
      * @param time to search at.
      * @return a list with free rooms.
      */
-    @GET("/rest/api/calendar/holiday")
+    @GET("/rest/api/room")
     List<Room> getHolidays(@Query("day") Day day, @Query("time")Time time);
 
     /**
@@ -30,6 +30,6 @@ public interface RoomController {
      * @param time to search at.
      * @param callback to retrieve the result.
      */
-    @GET("/rest/api/calendar/holiday")
+    @GET("/rest/api/room")
     void getHolidays(@Query("day") Day day, @Query("time")Time time, Callback<List<Room>> callback);
 }

@@ -1,7 +1,7 @@
 package edu.hm.cs.fs.restapi.controller;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
+import edu.hm.cs.fs.common.constant.PublicTransportLocation;
+import edu.hm.cs.fs.restapi.Application;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,7 +13,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import edu.hm.cs.fs.restapi.Application;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * Created by Fabio on 26.06.2015.
@@ -31,13 +31,13 @@ public class PublicTransportControllerTest {
 
     @Test
     public void testMvvPasing() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.get("/rest/api/mvv?location=pasing").accept(MediaType.APPLICATION_JSON))
+        mvc.perform(MockMvcRequestBuilders.get("/rest/api/publicTransport?location=" + PublicTransportLocation.PASING.name()).accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
     @Test
     public void testMvvLothstr() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.get("/rest/api/mvv?location=lothstr").accept(MediaType.APPLICATION_JSON))
+        mvc.perform(MockMvcRequestBuilders.get("/rest/api/publicTransport?location=" + PublicTransportLocation.LOTHSTR.name()).accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 }

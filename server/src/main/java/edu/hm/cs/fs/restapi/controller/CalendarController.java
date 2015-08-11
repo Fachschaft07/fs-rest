@@ -1,6 +1,12 @@
 package edu.hm.cs.fs.restapi.controller;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import com.google.common.base.Strings;
+import edu.hm.cs.fs.common.constant.EventType;
 import edu.hm.cs.fs.common.constant.Study;
 import edu.hm.cs.fs.common.model.*;
 import edu.hm.cs.fs.restapi.parser.ExamParser;
@@ -11,11 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
-
 /**
  * @author Fabio
  */
@@ -23,6 +24,46 @@ import java.util.stream.Collectors;
 public class CalendarController {
     /**
      *
+     * @param year
+     * @param month
+     * @return
+     */
+    @RequestMapping("/rest/api/calendar/event")
+    public List<Event> event(@RequestParam("year") final int year, @RequestParam("month") final int month) {
+        final List<Event> events = termin().parallelStream()
+                .map(termin -> {
+                    Event event = new Event();
+                    event.setId(termin.getId());
+                    event.setName(termin.getSubject());
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTime(termin.getDate());
+                    event.setStart(calendar);
+                    event.setEnd(calendar);
+                    event.setType(EventType.TERMIN);
+                    return event;
+                })
+                .collect(Collectors.toList());
+
+        events.addAll(holiday().parallelStream()
+                .map(holiday -> {
+                    Event event = new Event();
+                    event.setId(holiday.getName());
+                    event.setName(holiday.getName());
+                    Calendar start = Calendar.getInstance();
+                    start.setTime(holiday.getStart());
+                    event.setStart(start);
+                    Calendar end = Calendar.getInstance();
+                    end.setTime(holiday.getEnd());
+                    event.setEnd(end);
+                    event.setType(EventType.HOLIDAY);
+                    return event;
+                })
+                .collect(Collectors.toList()));
+
+        return events;
+    }
+
+    /**
      * @return
      */
     @RequestMapping("/rest/api/calendar/termin")
@@ -35,7 +76,6 @@ public class CalendarController {
     }
 
     /**
-     *
      * @return
      */
     @RequestMapping("/rest/api/calendar/holiday")
@@ -60,9 +100,9 @@ public class CalendarController {
     }
 
     /**
-     *
      * @param subject
      * @param date
+     *
      * @return
      */
     private String extractName(String subject, Date date) {
@@ -80,14 +120,14 @@ public class CalendarController {
     }
 
     /**
-     *
      * @param study
      * @param module
+     *
      * @return
      */
     @RequestMapping("/rest/api/calendar/exam")
-    public List<Exam> exam(@RequestParam(value="study", defaultValue = "") String study,
-                           @RequestParam(value="module", defaultValue = "") String module) {
+    public List<Exam> exam(@RequestParam(value = "study", defaultValue = "") String study,
+                           @RequestParam(value = "module", defaultValue = "") String module) {
         return new ExamParser().parse().parallelStream()
                 .filter(exam -> Strings.isNullOrEmpty(study) || exam.getStudy() == Group.of(study).getStudy())
                 .filter(exam -> Strings.isNullOrEmpty(module) || exam.getModule() != null &&
@@ -96,18 +136,18 @@ public class CalendarController {
     }
 
     /**
-     *
      * @param group
      * @param module
+     *
      * @return
      */
     @RequestMapping("/rest/api/calendar/timetable")
     public List<Lesson> timetable(@RequestParam(value = "group") String group,
-                               @RequestParam(value = "module", defaultValue = "") String module) {
+                                  @RequestParam(value = "module", defaultValue = "") String module) {
         final Group realGroup = Group.of(group);
         // Read all available lessons
         final List<Lesson> lessons = new LessonFk07Parser(realGroup).parse();
-        if(realGroup.getStudy() == Study.IB) {
+        if (realGroup.getStudy() == Study.IB) {
             lessons.addAll(new LessonFk10Parser(realGroup).parse());
         }
         return lessons.parallelStream()

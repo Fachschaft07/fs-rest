@@ -1,6 +1,15 @@
 package edu.hm.cs.fs.restclient;
 
+import java.io.IOException;
+import java.util.Date;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 import retrofit.RestAdapter;
+import retrofit.converter.GsonConverter;
 
 /**
  * A factory to build the controller interfaces.
@@ -40,8 +49,23 @@ public class Controllers {
      * @return the controller.
      */
     public static <T> T create(final String endpointUrl, final Class<T> controllerInterface) {
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(Date.class, new TypeAdapter<Date>() {
+                    @Override
+                    public void write(final JsonWriter out, final Date value) throws IOException {
+                        out.value(value.getTime());
+                    }
+
+                    @Override
+                    public Date read(final JsonReader in) throws IOException {
+                        return new Date(in.nextLong());
+                    }
+                })
+                .create();
+
         return new RestAdapter.Builder()
                 .setEndpoint(endpointUrl)
+                .setConverter(new GsonConverter(gson))
                 .build()
                 .create(controllerInterface);
     }

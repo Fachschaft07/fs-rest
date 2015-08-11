@@ -11,20 +11,20 @@ import edu.hm.cs.fs.common.model.PublicTransport;
 import edu.hm.cs.fs.restapi.parser.PublicTransportParser;
 
 /**
- * The PublicTransportController represents the interface to the REST-API. It has different methods to access mvv.
+ * The PublicTransportController represents the interface to the REST-API. It has different methods to access publicTransport.
  *
  * @author Fabio
  */
 @RestController
 public class PublicTransportController {
     /**
-     * Requests the mvv data for Pasing and Lothstraße.
+     * Requests the publicTransport data for Pasing and Lothstraße.
      *
      * @param location of the departure (see edu.hm.cs.fs.common.constants.PublicTransportLocation in module common).
      * @return the public transport possibilities.
      */
-    @RequestMapping("/rest/api/mvv")
-    public List<PublicTransport> mvv(@RequestParam("location") String location) {
-        return new PublicTransportParser(PublicTransportLocation.valueOf(location.toUpperCase())).parse();
+    @RequestMapping("/rest/api/publicTransport")
+    public List<PublicTransport> publicTransport(@RequestParam("location") PublicTransportLocation location) {
+        return new PublicTransportParser(location).parse();
     }
 }
