@@ -8,6 +8,9 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import edu.hm.cs.fs.common.constant.Letter;
+import edu.hm.cs.fs.common.constant.Semester;
+import edu.hm.cs.fs.common.constant.Study;
 import edu.hm.cs.fs.common.model.Group;
 import retrofit.RestAdapter;
 import retrofit.converter.GsonConverter;
@@ -65,12 +68,37 @@ public final class Controllers {
                 .registerTypeAdapter(Group.class, new TypeAdapter<Group>() {
                     @Override
                     public void write(final JsonWriter out, final Group value) throws IOException {
-                        out.value(value.toString());
+                        out.name("letter").value(value.getLetter() != null ? value.getLetter().name() : null);
+                        out.name("semester").value(value.getSemester() != null ? value.getSemester().name() : null);
+                        out.name("study").value(value.getStudy() != null ? value.getStudy().name() : null);
                     }
 
                     @Override
                     public Group read(final JsonReader in) throws IOException {
-                        return Group.of(in.nextString());
+                        in.beginObject();
+                        in.nextName();
+                        Letter letter = null;
+                        try {
+                            letter = Letter.valueOf(in.nextString());
+                        } catch (Exception ignored) {
+                        }
+
+                        in.nextName();
+                        Semester semester = null;
+                        try {
+                            semester = Semester.valueOf(in.nextString());
+                        } catch (Exception ignored) {
+                        }
+
+                        in.nextName();
+                        Study study = null;
+                        try {
+                            study = Study.valueOf(in.nextString());
+                        } catch (Exception ignored) {
+                        }
+                        in.endObject();
+
+                        return new Group(study, semester, letter);
                     }
                 })
                 .create();
