@@ -8,6 +8,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import edu.hm.cs.fs.common.model.Group;
 import retrofit.RestAdapter;
 import retrofit.converter.GsonConverter;
 
@@ -16,7 +17,7 @@ import retrofit.converter.GsonConverter;
  *
  * @author Fabio
  */
-public class Controllers {
+public final class Controllers {
     private static final String ENDPOINT_ULR = "http://fs.cs.hm.edu/";
 
     private Controllers() {
@@ -59,6 +60,17 @@ public class Controllers {
                     @Override
                     public Date read(final JsonReader in) throws IOException {
                         return new Date(in.nextLong());
+                    }
+                })
+                .registerTypeAdapter(Group.class, new TypeAdapter<Group>() {
+                    @Override
+                    public void write(final JsonWriter out, final Group value) throws IOException {
+                        out.value(value.toString());
+                    }
+
+                    @Override
+                    public Group read(final JsonReader in) throws IOException {
+                        return Group.of(in.nextString());
                     }
                 })
                 .create();
