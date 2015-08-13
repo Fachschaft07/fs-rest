@@ -68,9 +68,7 @@ public final class Controllers {
                 .registerTypeAdapter(Group.class, new TypeAdapter<Group>() {
                     @Override
                     public void write(final JsonWriter out, final Group value) throws IOException {
-                        out.name("letter").value(value.getLetter() != null ? value.getLetter().name() : null);
-                        out.name("semester").value(value.getSemester() != null ? value.getSemester().name() : null);
-                        out.name("study").value(value.getStudy() != null ? value.getStudy().name() : null);
+                        out.value(value.toString());
                     }
 
                     @Override
