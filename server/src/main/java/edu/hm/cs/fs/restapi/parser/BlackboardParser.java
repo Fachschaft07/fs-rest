@@ -98,7 +98,6 @@ public class BlackboardParser extends AbstractXmlParser<BlackboardEntry> {
 		
 		BlackboardEntry blackboardEntry = new BlackboardEntry();
 		blackboardEntry.setId(mId);
-		blackboardEntry.setAuthor(mAuthor);
 		blackboardEntry.setSubject(mSubject);
 		blackboardEntry.setText(mText);
 		blackboardEntry.setGroups(mGroupList);
@@ -107,6 +106,10 @@ public class BlackboardParser extends AbstractXmlParser<BlackboardEntry> {
 		blackboardEntry.setExpire(mExpire);
 		blackboardEntry.setUrl(mUrl);
 
+		if (!StringUtil.isBlank(mAuthor)){
+          new CachedPersonParser().findById(mAuthor).ifPresent(blackboardEntry::setAuthor);
+        }
+		
 		return Collections.singletonList(blackboardEntry);
 	}
 }

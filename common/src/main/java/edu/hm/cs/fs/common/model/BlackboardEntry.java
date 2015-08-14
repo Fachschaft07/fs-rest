@@ -9,7 +9,7 @@ import java.util.List;
 public class BlackboardEntry {
     
     private String id;
-    private String author;
+    private Person author;
     private String subject;
     private String text;
     private List<Person> teachers;
@@ -26,11 +26,11 @@ public class BlackboardEntry {
         this.id = id;
     }
 
-    public String getAuthor() {
+    public Person getAuthor() {
         return author;
     }
 
-    public void setAuthor(final String author) {
+    public void setAuthor(final Person author) {
         this.author = author;
     }
 

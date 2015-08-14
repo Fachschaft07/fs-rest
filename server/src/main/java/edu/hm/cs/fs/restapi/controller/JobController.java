@@ -30,21 +30,13 @@ public class JobController {
      * @param id for the id of the job
      * @return a list with all matched jobs.
      */
+    @RequestMapping("/rest/api/jobs")
+    public List<Job> findJob(@RequestParam(value="search", defaultValue = "") String search, @RequestParam(value="id", defaultValue = "") String id) {
+      return new JobParser().parse().stream().filter(job -> (job.getTitle() + job.getDescription()).toLowerCase().contains(search.toLowerCase())).collect(Collectors.toList());
+    }
+    
     @RequestMapping("/rest/api/job")
-    public List<Job> job(@RequestParam(value="search", defaultValue = "") String search, @RequestParam(value="id", defaultValue = "") String id) {
-      List<Job> jobs = new JobParser().parse();
-      if(!StringUtils.isEmpty(id)){
-        jobs = jobs
-                .stream()
-                .filter(job -> (job.getId().equals(id)))
-                .collect(Collectors.toList());
-      } else {
-        jobs = jobs
-                .stream()
-                .filter(job -> (job.getTitle() + job.getDescription()).toLowerCase().contains(search.toLowerCase()))
-                .collect(Collectors.toList());
-      }
-      
-      return jobs;
+    public Job getJob(@RequestParam(value="id", defaultValue = "") String id){
+      return new JobParser().parse().stream().filter(job -> (job.getId().equals(id))).findFirst().get();
     }
 }
