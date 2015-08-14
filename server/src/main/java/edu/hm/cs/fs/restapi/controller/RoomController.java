@@ -19,7 +19,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class RoomController {
     private static final int MIN_ROOM_CAPACITY = 4;
-
+    
+    /**
+     * 
+     */
+    public RoomController() {
+      // TODO Auto-generated constructor stub
+    }
+    
     /**
      * @param day
      * @param time

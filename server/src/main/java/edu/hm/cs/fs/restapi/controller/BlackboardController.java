@@ -1,14 +1,14 @@
 package edu.hm.cs.fs.restapi.controller;
 
-import edu.hm.cs.fs.common.model.BlackboardEntry;
-import edu.hm.cs.fs.restapi.parser.BlackboardParser;
-import edu.hm.cs.fs.restapi.parser.Parser;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import edu.hm.cs.fs.common.model.BlackboardEntry;
+import edu.hm.cs.fs.restapi.parser.BlackboardParser;
 
 /**
  * The BlackboardController represents the interface to the REST-API. It has different methods to access blackboard
