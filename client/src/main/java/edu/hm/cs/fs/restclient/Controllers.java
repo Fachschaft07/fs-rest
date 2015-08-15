@@ -12,6 +12,8 @@ import edu.hm.cs.fs.common.constant.Letter;
 import edu.hm.cs.fs.common.constant.Semester;
 import edu.hm.cs.fs.common.constant.Study;
 import edu.hm.cs.fs.common.model.Group;
+import edu.hm.cs.fs.restclient.typeadapter.DateTypeAdapter;
+import edu.hm.cs.fs.restclient.typeadapter.GroupTypeAdapter;
 import retrofit.RestAdapter;
 import retrofit.converter.GsonConverter;
 
@@ -54,51 +56,8 @@ public final class Controllers {
      */
     public static <T> T create(final String endpointUrl, final Class<T> controllerInterface) {
         Gson gson = new GsonBuilder()
-                .registerTypeAdapter(Date.class, new TypeAdapter<Date>() {
-                    @Override
-                    public void write(final JsonWriter out, final Date value) throws IOException {
-                        out.value(value.getTime());
-                    }
-
-                    @Override
-                    public Date read(final JsonReader in) throws IOException {
-                        return new Date(in.nextLong());
-                    }
-                })
-                .registerTypeAdapter(Group.class, new TypeAdapter<Group>() {
-                    @Override
-                    public void write(final JsonWriter out, final Group value) throws IOException {
-                        out.value(value.toString());
-                    }
-
-                    @Override
-                    public Group read(final JsonReader in) throws IOException {
-                        in.beginObject();
-                        in.nextName();
-                        Letter letter = null;
-                        try {
-                            letter = Letter.valueOf(in.nextString());
-                        } catch (Exception ignored) {
-                        }
-
-                        in.nextName();
-                        Semester semester = null;
-                        try {
-                            semester = Semester.valueOf(in.nextString());
-                        } catch (Exception ignored) {
-                        }
-
-                        in.nextName();
-                        Study study = null;
-                        try {
-                            study = Study.valueOf(in.nextString());
-                        } catch (Exception ignored) {
-                        }
-                        in.endObject();
-
-                        return new Group(study, semester, letter);
-                    }
-                })
+                .registerTypeAdapter(Date.class, new DateTypeAdapter())
+                .registerTypeAdapter(Group.class, new GroupTypeAdapter())
                 .create();
 
         return new RestAdapter.Builder()
