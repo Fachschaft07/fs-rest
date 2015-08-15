@@ -25,28 +25,26 @@ public class GroupTypeAdapter extends TypeAdapter<Group> {
 
     @Override
     public Group read(final JsonReader in) throws IOException {
-        in.beginObject(); // {
-
-        in.nextName(); // "study"
-        Study study = Study.valueOf(in.nextString()); // "IF"
+        in.beginObject();
+        in.nextName();
+        Study study = Study.valueOf(in.nextString());
 
         Letter letter = null;
-        Semester semester = null;
         try {
-            in.nextName(); // "letter"
-            letter = Letter.valueOf(in.nextString()); // "A" or null -> Exception
-
-            in.nextName(); // "semester"
-            semester = Semester.valueOf(in.nextString()); // "_1" or null -> Exception
+            in.nextName();
+            letter = Letter.valueOf(in.nextString());
         } catch (Exception ignored) {
-            in.nextNull(); // null
-            if(letter == null) {
-                in.nextName(); // "semester"
-                in.nextNull(); // null
-            }
+            in.nextNull();
         }
 
-        in.endObject(); // }
+        Semester semester = null;
+        try {
+            in.nextName();
+            semester = Semester.valueOf(in.nextString());
+        } catch (Exception ignored) {
+            in.nextNull();
+        }
+        in.endObject();
 
         return new Group(study, semester, letter);
     }
