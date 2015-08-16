@@ -5,13 +5,14 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import edu.hm.cs.fs.common.constant.Day;
-import edu.hm.cs.fs.common.constant.Time;
-import edu.hm.cs.fs.common.model.Room;
-import edu.hm.cs.fs.restapi.parser.OccupiedParser;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import edu.hm.cs.fs.common.constant.Day;
+import edu.hm.cs.fs.common.constant.Time;
+import edu.hm.cs.fs.common.model.Room;
+import edu.hm.cs.fs.restapi.parser.cache.CachedOccupiedParser;
 
 /**
  * @author Fabio
@@ -39,7 +40,7 @@ public class RoomController {
                 .filter(filterTime -> filterTime == time || filterTime.getStart().after(time.getStart()))
                 .sorted(Enum::compareTo)
                 .collect(Collectors.toList());
-        return new OccupiedParser().parse().parallelStream()
+        return new CachedOccupiedParser().parse().parallelStream()
                 .filter(room -> room.getCapacity() > MIN_ROOM_CAPACITY)
                 .map(room -> {
                     Room tmpRoom = new Room();
