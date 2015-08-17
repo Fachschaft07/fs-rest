@@ -23,7 +23,7 @@ import retrofit.converter.GsonConverter;
  * @author Fabio
  */
 public final class Controllers {
-    private static final String ENDPOINT_ULR = "http://fs.cs.hm.edu/";
+    private static final String ENDPOINT_ULR = "http://fs.cs.hm.edu";
 
     private Controllers() {
     }
