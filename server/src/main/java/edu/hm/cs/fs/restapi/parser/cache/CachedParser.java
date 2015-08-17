@@ -37,9 +37,6 @@ public abstract class CachedParser<T> implements Parser<T> {
         // Create a cache file in temp directory
         final File tmpDir = new File(System.getProperty("java.io.tmpdir"));
         cacheFile = new File(tmpDir, "fs_rest_" + parser.getClass().getSimpleName() + "_cache.json");
-        if (!cacheFile.exists()) {
-            writeToCache(parser.parse());
-        }
     }
 
     @Override
@@ -60,7 +57,7 @@ public abstract class CachedParser<T> implements Parser<T> {
         lastModified.setTimeInMillis(cacheFile.lastModified());
         lastModified.add(Calendar.MINUTE, (int) intervalInMin);
 
-        return Calendar.getInstance().before(lastModified);
+        return cacheFile.exists() && Calendar.getInstance().before(lastModified);
     }
 
     private List<T> readFromCache() {
@@ -74,8 +71,9 @@ public abstract class CachedParser<T> implements Parser<T> {
     }
 
     private List<T> updateCache() {
-        writeToCache(parserAll.parse());
-        return parser.parse();
+        List<T> result = parserAll.parse();
+        writeToCache(result);
+        return result;
     }
 
     private void writeToCache(List<T> list) {
