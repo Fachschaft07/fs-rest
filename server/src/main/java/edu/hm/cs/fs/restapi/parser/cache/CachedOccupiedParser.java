@@ -39,7 +39,7 @@ public class CachedOccupiedParser extends CachedParser<RoomOccupation> {
 
     @Override
     public Type getType() {
-        return new TypeToken<ArrayList<Person>>() {
+        return new TypeToken<ArrayList<RoomOccupation>>() {
         }.getType();
     }
 }
