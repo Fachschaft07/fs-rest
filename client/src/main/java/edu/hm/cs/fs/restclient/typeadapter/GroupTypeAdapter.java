@@ -27,7 +27,9 @@ public class GroupTypeAdapter extends TypeAdapter<Group> {
     public Group read(final JsonReader in) throws IOException {
         in.beginObject();
         final String[] content = new String[3];
-        extractContent(in, content);
+        for (final String aContent : content) {
+            extractContent(in, content);
+        }
         in.endObject();
 
         StringBuilder builder = new StringBuilder();
@@ -46,13 +48,13 @@ public class GroupTypeAdapter extends TypeAdapter<Group> {
             content[0] = in.nextString();
         } else if("semester".equals(name)) {
             try {
-                content[1] = in.nextString();
+                content[1] = Integer.toString(Semester.valueOf(in.nextString()).getNumber());
             } catch (Exception ignored) {
                 in.nextNull();
             }
         } else {
             try {
-                content[2] = in.nextString();
+                content[2] = Letter.valueOf(in.nextString()).name();
             } catch (Exception ignored) {
                 in.nextNull();
             }
