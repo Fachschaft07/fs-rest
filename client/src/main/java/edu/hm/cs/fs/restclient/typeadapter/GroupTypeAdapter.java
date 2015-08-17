@@ -26,26 +26,36 @@ public class GroupTypeAdapter extends TypeAdapter<Group> {
     @Override
     public Group read(final JsonReader in) throws IOException {
         in.beginObject();
-        in.nextName();
-        Study study = Study.valueOf(in.nextString());
-
-        Letter letter = null;
-        try {
-            in.nextName();
-            letter = Letter.valueOf(in.nextString());
-        } catch (Exception ignored) {
-            in.nextNull();
-        }
-
-        Semester semester = null;
-        try {
-            in.nextName();
-            semester = Semester.valueOf(in.nextString());
-        } catch (Exception ignored) {
-            in.nextNull();
-        }
+        final String[] content = new String[3];
+        extractContent(in, content);
         in.endObject();
 
-        return new Group(study, semester, letter);
+        StringBuilder builder = new StringBuilder();
+        for (final String aContent : content) {
+            if (aContent != null) {
+                builder.append(aContent);
+            }
+        }
+
+        return Group.of(builder.toString());
+    }
+
+    private void extractContent(final JsonReader in, final String[] content) throws IOException {
+        final String name = in.nextName();
+        if("study".equals(name)) {
+            content[0] = in.nextString();
+        } else if("semester".equals(name)) {
+            try {
+                content[1] = in.nextString();
+            } catch (Exception ignored) {
+                in.nextNull();
+            }
+        } else {
+            try {
+                content[2] = in.nextString();
+            } catch (Exception ignored) {
+                in.nextNull();
+            }
+        }
     }
 }
