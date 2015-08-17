@@ -71,7 +71,7 @@ public abstract class CachedParser<T> implements Parser<T> {
     }
 
     private List<T> updateCache() {
-        List<T> result = parserAll.parse();
+        List<T> result = parser.parse();
         writeToCache(result);
         return result;
     }
