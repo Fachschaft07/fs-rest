@@ -100,6 +100,20 @@ public class MealParser extends AbstractHtmlParser<Meal> {
                 MealType typeRaw = meal.getType();
                 List<Additive> additives = new ArrayList<>();
                 String nameRaw = description.getElementsByAttribute("style").get(0).text();
+                // 2015-08-19: BugFix: Fixed the removement of the meal type of the end of the name
+                StringBuilder nameBuilder = new StringBuilder(nameRaw);
+                if(nameRaw.contains("fleischlos")) {
+                    nameBuilder.replace(nameBuilder.lastIndexOf("fleischlos"), nameBuilder.length(), "");
+                } else if(nameRaw.contains("vegan")) {
+                    nameBuilder.replace(nameBuilder.lastIndexOf("vegan"), nameBuilder.length(), "");
+                } else if(nameRaw.contains("mit Fleisch")) {
+                    nameBuilder.replace(nameBuilder.lastIndexOf("mit Fleisch"), nameBuilder.length(), "");
+                }
+                nameBuilder.trimToSize();
+                nameRaw = nameBuilder.toString();
+                //nameRaw = nameRaw.replaceFirst("\\sfleischlos", "");
+                //nameRaw = nameRaw.replaceFirst("\\svegan", "");
+                //nameRaw = nameRaw.replaceFirst("\\smit Fleisch", "");
 
                 Matcher matcher = FOOD_PART_PATTERN.matcher(nameRaw);
                 if(matcher.find()) {
@@ -144,11 +158,6 @@ public class MealParser extends AbstractHtmlParser<Meal> {
                         }
                     }
                 }
-
-                // TODO: This does not work yet!?!?!?
-                nameRaw = nameRaw.replaceAll("\\s+fleischlos", "");
-                nameRaw = nameRaw.replaceAll("\\s+vegan", "");
-                nameRaw = nameRaw.replaceAll("\\s+mit Fleisch", "");
 
                 meal.setName(nameRaw);
                 meal.setType(typeRaw);
