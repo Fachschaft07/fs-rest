@@ -11,6 +11,8 @@ public enum ExamType {
 	WRITTEN_EXAMINATION_90("sp90"),
 	/** mündliche Prüfung */
 	ORAL_EXAMINATION("mp"),
+	/** mündliche Prüfung mit bestandenem Leistungsnachweis */
+	ORAL_EXAMINATION_WITH_ADMISSION_REQIREMENTS("mpln"),
 	/** praktische Prüfung */
 	PRACTICAL_EXAMINATION("pl"),
 	/** praktische Prüfung */
