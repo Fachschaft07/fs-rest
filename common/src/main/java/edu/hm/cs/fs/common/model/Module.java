@@ -9,140 +9,153 @@ import edu.hm.cs.fs.common.constant.TeachingForm;
 /**
  * Created by Fabio on 18.02.2015.
  */
-public class Module  {
-	private String name;
-	private int credits;
-	private int sws;
-	private Person responsible;
-	private List<Person> teachers;
-	private List<String> languages;
-	private TeachingForm teachingForm;
-	private String expenditure;
-	private String requirements;
-	private String goals;
-	private String content;
-	private String media;
-	private String literature;
-	private Study program;
-	private List<ModuleCode> modulCodes;
+public class Module {
+    private String id;
+    private String name;
+    private int credits;
+    private int sws;
+    private SimplePerson responsible;
+    private List<SimplePerson> teachers;
+    private List<String> languages;
+    private TeachingForm teachingForm;
+    private String expenditure;
+    private String requirements;
+    private String goals;
+    private String content;
+    //private String media;
+    private String literature;
+    //private Study program;
+    private List<ModuleCode> modulCodes;
 
-	public String getName() {
-		return name;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public int getCredits() {
-		return credits;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setCredits(int credits) {
-		this.credits = credits;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public int getSws() {
-		return sws;
-	}
+    public int getCredits() {
+        return credits;
+    }
 
-	public void setSws(int sws) {
-		this.sws = sws;
-	}
+    public void setCredits(int credits) {
+        this.credits = credits;
+    }
 
-	public Person getResponsible() {
-		return responsible;
-	}
+    public int getSws() {
+        return sws;
+    }
 
-	public void setResponsible(Person responsible) {
-		this.responsible = responsible;
-	}
+    public void setSws(int sws) {
+        this.sws = sws;
+    }
 
-	public List<Person> getTeachers() {
-		return teachers;
-	}
+    public SimplePerson getResponsible() {
+        return responsible;
+    }
 
-	public void setTeachers(List<Person> teachers) {
-		this.teachers = teachers;
-	}
+    public void setResponsible(SimplePerson responsible) {
+        this.responsible = responsible;
+    }
 
-	public List<String> getLanguages() {
-		return languages;
-	}
+    public List<SimplePerson> getTeachers() {
+        return teachers;
+    }
 
-	public void setLanguages(List<String> languages) {
-		this.languages = languages;
-	}
+    public void setTeachers(List<SimplePerson> teachers) {
+        this.teachers = teachers;
+    }
 
-	public TeachingForm getTeachingForm() {
-		return teachingForm;
-	}
+    public List<String> getLanguages() {
+        return languages;
+    }
 
-	public void setTeachingForm(TeachingForm teachingForm) {
-		this.teachingForm = teachingForm;
-	}
+    public void setLanguages(List<String> languages) {
+        this.languages = languages;
+    }
 
-	public String getExpenditure() {
-		return expenditure;
-	}
+    public TeachingForm getTeachingForm() {
+        return teachingForm;
+    }
 
-	public void setExpenditure(String expenditure) {
-		this.expenditure = expenditure;
-	}
+    public void setTeachingForm(TeachingForm teachingForm) {
+        this.teachingForm = teachingForm;
+    }
 
-	public String getRequirements() {
-		return requirements;
-	}
+    public String getExpenditure() {
+        return expenditure;
+    }
 
-	public void setRequirements(String requirements) {
-		this.requirements = requirements;
-	}
+    public void setExpenditure(String expenditure) {
+        this.expenditure = expenditure;
+    }
 
-	public String getGoals() {
-		return goals;
-	}
+    public String getRequirements() {
+        return requirements;
+    }
 
-	public void setGoals(String goals) {
-		this.goals = goals;
-	}
+    public void setRequirements(String requirements) {
+        this.requirements = requirements;
+    }
 
-	public String getContent() {
-		return content;
-	}
+    public String getGoals() {
+        return goals;
+    }
 
-	public void setContent(String content) {
-		this.content = content;
-	}
+    public void setGoals(String goals) {
+        this.goals = goals;
+    }
 
-	public String getMedia() {
-		return media;
-	}
+    public String getContent() {
+        return content;
+    }
 
-	public void setMedia(String media) {
-		this.media = media;
-	}
+    public void setContent(String content) {
+        this.content = content;
+    }
 
-	public String getLiterature() {
-		return literature;
-	}
+    /*
+    public String getMedia() {
+        return media;
+    }
 
-	public void setLiterature(String literature) {
-		this.literature = literature;
-	}
+    public void setMedia(String media) {
+        this.media = media;
+    }
+    */
 
-	public Study getProgram() {
-		return program;
-	}
+    public String getLiterature() {
+        return literature;
+    }
 
-	public void setProgram(Study program) {
-		this.program = program;
-	}
+    public void setLiterature(String literature) {
+        this.literature = literature;
+    }
 
-	public List<ModuleCode> getModulCodes() {
-		return modulCodes;
-	}
+    /*
+    public Study getProgram() {
+        return program;
+    }
 
-	public void setModulCodes(List<ModuleCode> modulCodes) {
-		this.modulCodes = modulCodes;
-	}
+    public void setProgram(Study program) {
+        this.program = program;
+    }
+    */
+
+    public List<ModuleCode> getModulCodes() {
+        return modulCodes;
+    }
+
+    public void setModulCodes(List<ModuleCode> modulCodes) {
+        this.modulCodes = modulCodes;
+    }
 }

@@ -1,11 +1,11 @@
 package edu.hm.cs.fs.restclient.typeadapter;
 
-import java.io.IOException;
-import java.util.Date;
-
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+
+import java.io.IOException;
+import java.util.Date;
 
 /**
  * Created by Fabio on 15.08.2015.

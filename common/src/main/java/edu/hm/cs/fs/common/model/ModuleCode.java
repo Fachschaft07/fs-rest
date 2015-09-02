@@ -2,72 +2,77 @@ package edu.hm.cs.fs.common.model;
 
 import java.util.List;
 
+import edu.hm.cs.fs.common.constant.ExamType;
 import edu.hm.cs.fs.common.constant.Offer;
 import edu.hm.cs.fs.common.constant.Semester;
 
 
-public class ModuleCode  {
-	private String modul;
-	private String regulation;
-	private Offer offer;
-	private String services;
-	private String code;
-	private List<Semester> semesters;
-	private String curriculum;
+public class ModuleCode {
+    private String modul;
+    //private String regulation;
+    private Offer offer;
+    private ExamType services;
+    //private String code;
+    private List<Semester> semesters;
+    private String curriculum;
 
-	public String getModul() {
-		return modul;
-	}
+    public String getModul() {
+        return modul;
+    }
 
-	public void setModul(String modul) {
-		this.modul = modul;
-	}
+    public void setModul(String modul) {
+        this.modul = modul;
+    }
 
-	public String getRegulation() {
-		return regulation;
-	}
+    /*
+    public String getRegulation() {
+        return regulation;
+    }
 
-	public void setRegulation(String regulation) {
-		this.regulation = regulation;
-	}
+    public void setRegulation(String regulation) {
+        this.regulation = regulation;
+    }
+    */
 
-	public Offer getOffer() {
-		return offer;
-	}
+    public Offer getOffer() {
+        return offer;
+    }
 
-	public void setOffer(Offer offer) {
-		this.offer = offer;
-	}
+    public void setOffer(Offer offer) {
+        this.offer = offer;
+    }
 
-	public String getServices() {
-		return services;
-	}
+    public ExamType getServices() {
+        return services;
+    }
 
-	public void setServices(String services) {
-		this.services = services;
-	}
+    public void setServices(ExamType services) {
+        this.services = services;
+    }
 
-	public String getCode() {
-		return code;
-	}
+    /*
+    public String getCode() {
+        return code;
+    }
 
-	public void setCode(String code) {
-		this.code = code;
-	}
+    public void setCode(String code) {
+        this.code = code;
+    }
+    */
 
-	public List<Semester> getSemesters() {
-		return semesters;
-	}
+    public List<Semester> getSemesters() {
+        return semesters;
+    }
 
-	public void setSemesters(List<Semester> semesters) {
-		this.semesters = semesters;
-	}
+    public void setSemesters(List<Semester> semesters) {
+        this.semesters = semesters;
+    }
 
-	public String getCurriculum() {
-		return curriculum;
-	}
+    public String getCurriculum() {
+        return curriculum;
+    }
 
-	public void setCurriculum(String curriculum) {
-		this.curriculum = curriculum;
-	}
+    public void setCurriculum(String curriculum) {
+        this.curriculum = curriculum;
+    }
 }

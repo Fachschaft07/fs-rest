@@ -1,15 +1,16 @@
 package edu.hm.cs.fs.restclient;
 
+import java.util.List;
+
 import edu.hm.cs.fs.common.constant.PublicTransportLocation;
 import edu.hm.cs.fs.common.model.PublicTransport;
 import retrofit.Callback;
 import retrofit.http.GET;
 import retrofit.http.Query;
 
-import java.util.List;
-
 /**
- * The PublicTransportController is the interface to access the REST-API. It provides calls to the mvv.
+ * The PublicTransportController is the interface to access the REST-API. It provides calls to the
+ * mvv.
  *
  * @author Fabio
  */

@@ -1,29 +1,28 @@
 package edu.hm.cs.fs.restapi.parser;
 
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpressionException;
+import org.jsoup.helper.StringUtil;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
+
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpressionException;
 
 import edu.hm.cs.fs.common.constant.ExamGroup;
 import edu.hm.cs.fs.common.constant.ExamType;
 import edu.hm.cs.fs.common.constant.Study;
 import edu.hm.cs.fs.common.model.Exam;
 import edu.hm.cs.fs.common.model.Group;
-import edu.hm.cs.fs.common.model.Module;
-import edu.hm.cs.fs.common.model.Person;
+import edu.hm.cs.fs.common.model.SimplePerson;
 import edu.hm.cs.fs.restapi.parser.cache.CachedModuleParser;
 import edu.hm.cs.fs.restapi.parser.cache.CachedPersonParser;
-import org.jsoup.helper.StringUtil;
 
 /**
- * The exams with every information. (Url: <a
- * href="http://fi.cs.hm.edu/fi/rest/public/exam"
+ * The exams with every information. (Url: <a href="http://fi.cs.hm.edu/fi/rest/public/exam"
  * >http://fi.cs.hm.edu/fi/rest/public/exam</a>)
  *
  * @author Fabio
@@ -91,12 +90,12 @@ public class ExamParser extends AbstractXmlParser<Exam> {
                         }
 
                         final int countExaminer = getCountByXPath(basePath + "/examiner");
-                        final List<Person> examiners = new ArrayList<>();
+                        final List<SimplePerson> examiners = new ArrayList<>();
                         for (int indexExaminer = 1; indexExaminer <= countExaminer; indexExaminer++) {
                             final String personId = findByXPath(basePath + "/examiner[" + indexExaminer + "]/text()",
                                     XPathConstants.STRING, String.class);
                             if (!StringUtil.isBlank(personId)) {
-                                new CachedPersonParser().findById(personId).ifPresent(examiners::add);
+                                new CachedPersonParser().findByIdSimple(personId).ifPresent(examiners::add);
                             }
                         }
 
@@ -117,7 +116,7 @@ public class ExamParser extends AbstractXmlParser<Exam> {
                         }
 
                         Exam exam = new Exam();
-                        new CachedModuleParser().findById(moduleId).ifPresent(exam::setModule);
+                        new CachedModuleParser().findByIdSimple(moduleId).ifPresent(exam::setModule);
                         exam.setAllocation(allocation);
                         exam.setCode(code);
                         exam.setExaminers(examiners);

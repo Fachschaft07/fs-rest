@@ -42,7 +42,7 @@ public interface JobController {
     /**
      * Requests all searched jobs asynchronous.
      *
-     * @param search the job title and description for matching.
+     * @param search   the job title and description for matching.
      * @param callback to retrieve the result.
      */
     @GET("/rest/api/job")

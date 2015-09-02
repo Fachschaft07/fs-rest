@@ -4,8 +4,8 @@ package edu.hm.cs.fs.common.model;
 /**
  * Created by Fabio on 18.02.2015.
  */
-public class Occupied  {
-	private String room;
+public class Occupied {
+    private String room;
     private String time;
     private String day;
 

@@ -1,25 +1,27 @@
 package edu.hm.cs.fs.restapi.parser;
 
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpressionException;
+import org.jsoup.helper.StringUtil;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpressionException;
+
+import edu.hm.cs.fs.common.constant.ExamType;
 import edu.hm.cs.fs.common.constant.Offer;
 import edu.hm.cs.fs.common.constant.Semester;
 import edu.hm.cs.fs.common.constant.Study;
 import edu.hm.cs.fs.common.constant.TeachingForm;
 import edu.hm.cs.fs.common.model.Module;
 import edu.hm.cs.fs.common.model.ModuleCode;
-import edu.hm.cs.fs.common.model.Person;
+import edu.hm.cs.fs.common.model.SimplePerson;
 import edu.hm.cs.fs.restapi.parser.cache.CachedPersonParser;
-import org.jsoup.helper.StringUtil;
 
 /**
  * A modul can be choosen by a student. Some moduls are mandatory. (Url: <a
- * href="http://fi.cs.hm.edu/fi/rest/public/modul">http://fi.cs.hm.edu/fi/rest/
- * public/modul</a>)
+ * href="http://fi.cs.hm.edu/fi/rest/public/modul">http://fi.cs.hm.edu/fi/rest/ public/modul</a>)
  *
  * @author Fabio
  */
@@ -42,7 +44,7 @@ public class ModuleParser extends AbstractXmlParser<Module> {
         int credits;
         int sws;
         String responsible;
-        List<Person> teachers = new ArrayList<>();
+        List<SimplePerson> teachers = new ArrayList<>();
         List<String> languages = new ArrayList<>();
         TeachingForm teachingForm = null;
         String expenditure;
@@ -69,7 +71,7 @@ public class ModuleParser extends AbstractXmlParser<Module> {
             final String teacher = findByXPath(rootPath + "/teacher["
                     + indexTeacher + "]/text()", XPathConstants.STRING, String.class);
             if (!StringUtil.isBlank(teacher)) {
-                new CachedPersonParser().findById(teacher).ifPresent(teachers::add);
+                new CachedPersonParser().findByIdSimple(teacher).ifPresent(teachers::add);
             }
         }
 
@@ -121,8 +123,12 @@ public class ModuleParser extends AbstractXmlParser<Module> {
             if (!StringUtil.isBlank(stringOffer)) {
                 offer = Offer.of(stringOffer);
             }
-            final String services = findByXPath(modulCodePath
+            ExamType services = null;
+            final String servicesStr = findByXPath(modulCodePath
                     + "/leistungen/text()", XPathConstants.STRING, String.class);
+            if(!StringUtil.isBlank(servicesStr)) {
+                services = ExamType.of(servicesStr);
+            }
             final String code = findByXPath(modulCodePath + "/code/text()",
                     XPathConstants.STRING, String.class);
 
@@ -143,10 +149,10 @@ public class ModuleParser extends AbstractXmlParser<Module> {
 
             ModuleCode moduleCode = new ModuleCode();
             moduleCode.setModul(modul);
-            moduleCode.setRegulation(regulation);
+            //moduleCode.setRegulation(regulation);
             moduleCode.setOffer(offer);
             moduleCode.setServices(services);
-            moduleCode.setCode(code);
+            //moduleCode.setCode(code);
             moduleCode.setSemesters(semesterList);
             moduleCode.setCurriculum(curriculum);
 
@@ -154,22 +160,26 @@ public class ModuleParser extends AbstractXmlParser<Module> {
         }
 
         Module module = new Module();
-        module.setName(name);
-        module.setCredits(credits);
-        module.setSws(sws);
-        new CachedPersonParser().findById(responsible).ifPresent(module::setResponsible);
-        module.setTeachers(teachers);
-        module.setLanguages(languages);
-        module.setTeachingForm(teachingForm);
-        module.setExpenditure(expenditure);
-        module.setRequirements(requirements);
-        module.setGoals(goals);
-        module.setContent(content);
-        module.setMedia(media);
-        module.setLiterature(literature);
-        module.setProgram(program);
-        module.setModulCodes(modulCodes);
+        if(!modulCodes.isEmpty()) {
+            module.setId(modulCodes.get(0).getModul());
+            module.setName(name);
+            module.setCredits(credits);
+            module.setSws(sws);
+            new CachedPersonParser().findByIdSimple(responsible).ifPresent(module::setResponsible);
+            module.setTeachers(teachers);
+            module.setLanguages(languages);
+            module.setTeachingForm(teachingForm);
+            module.setExpenditure(expenditure);
+            module.setRequirements(requirements);
+            module.setGoals(goals);
+            module.setContent(content);
+            //module.setMedia(media);
+            module.setLiterature(literature);
+            //module.setProgram(program);
+            module.setModulCodes(modulCodes);
 
-        return Collections.singletonList(module);
+            return Collections.singletonList(module);
+        }
+        return new ArrayList<>();
     }
 }

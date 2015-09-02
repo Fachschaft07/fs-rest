@@ -1,5 +1,11 @@
 package edu.hm.cs.fs.restapi.parser;
 
+import org.jsoup.Connection;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,12 +15,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.jsoup.Connection;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 import edu.hm.cs.fs.common.constant.Day;
 import edu.hm.cs.fs.common.constant.Study;
@@ -30,6 +30,41 @@ public class LessonFk10Parser extends AbstractHtmlParser<Lesson> {
     public LessonFk10Parser(Group group) {
         super(URL);
         mGroup = group;
+    }
+
+    public static String getGroupId(final Group group) throws IOException {
+        Connection conn = Jsoup.connect(URL);
+        conn = conn.referrer(URL);
+        conn = conn.userAgent(USER_AGENT);
+        final Document doc = conn.get();
+        final Elements scripts = doc.select("script");
+        final Pattern pattern = Pattern.compile("addOption\\([^\\)]*\\)");
+        final Matcher matcher = pattern.matcher(scripts.get(5).toString()); // SS14 = 6; WS1415 = 5
+        final Map<Group, String> groups = new HashMap<>();
+        while (matcher.find()) {
+            final String match = matcher.group();
+            if (match.contains("WIF ")) {
+                String groupName = match.replaceFirst("addOption\\(\\\"schs[0-9]+\", \"", "");
+                groupName = groupName.replaceFirst("", "");
+                String groupId = groupName;
+                groupName = groupName.replaceFirst("\", \"[0-9]*\"\\)", "");
+                groupId = groupId.replaceFirst("WIF [0-9]*[ ]?[A-Za-z]*\", \"", "");
+                groupId = groupId.replaceFirst("\"\\)", "");
+
+                final Group foundGroup;
+                final String[] groupSplitter = groupName.split(" ");
+                if (groupSplitter.length > 2 && "M".equalsIgnoreCase(groupSplitter[2])) {
+                    foundGroup = Group.of(Study.IN.toString() + groupSplitter[1]);
+                } else {
+                    foundGroup = Group.of(Study.IB.toString() + groupSplitter[1] + (groupSplitter.length > 2 ? groupSplitter[2] : ""));
+                }
+
+                if (group.equals(foundGroup)) {
+                    return groupId;
+                }
+            }
+        }
+        return "-1";
     }
 
     @Override
@@ -88,40 +123,5 @@ public class LessonFk10Parser extends AbstractHtmlParser<Lesson> {
         }
 
         return result;
-    }
-
-    public static String getGroupId(final Group group) throws IOException {
-        Connection conn = Jsoup.connect(URL);
-        conn = conn.referrer(URL);
-        conn = conn.userAgent(USER_AGENT);
-        final Document doc = conn.get();
-        final Elements scripts = doc.select("script");
-        final Pattern pattern = Pattern.compile("addOption\\([^\\)]*\\)");
-        final Matcher matcher = pattern.matcher(scripts.get(5).toString()); // SS14 = 6; WS1415 = 5
-        final Map<Group, String> groups = new HashMap<>();
-        while (matcher.find()) {
-            final String match = matcher.group();
-            if (match.contains("WIF ")) {
-                String groupName = match.replaceFirst("addOption\\(\\\"schs[0-9]+\", \"", "");
-                groupName = groupName.replaceFirst("", "");
-                String groupId = groupName;
-                groupName = groupName.replaceFirst("\", \"[0-9]*\"\\)", "");
-                groupId = groupId.replaceFirst("WIF [0-9]*[ ]?[A-Za-z]*\", \"", "");
-                groupId = groupId.replaceFirst("\"\\)", "");
-
-                final Group foundGroup;
-                final String[] groupSplitter = groupName.split(" ");
-                if(groupSplitter.length > 2 && "M".equalsIgnoreCase(groupSplitter[2])) {
-                    foundGroup = Group.of(Study.IN.toString() + groupSplitter[1]);
-                } else {
-                    foundGroup = Group.of(Study.IB.toString() + groupSplitter[1] + (groupSplitter.length > 2 ? groupSplitter[2] : ""));
-                }
-
-                if(group.equals(foundGroup)) {
-                    return groupId;
-                }
-            }
-        }
-        return "-1";
     }
 }

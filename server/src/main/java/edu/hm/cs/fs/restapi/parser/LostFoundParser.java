@@ -1,18 +1,18 @@
 package edu.hm.cs.fs.restapi.parser;
 
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpressionException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpressionException;
+
 import edu.hm.cs.fs.common.model.LostFound;
 
 /**
- * The things which gone lost and found. (Url: <a
- * href="http://fi.cs.hm.edu/fi/rest/public/lostfound"
+ * The things which gone lost and found. (Url: <a href="http://fi.cs.hm.edu/fi/rest/public/lostfound"
  * >http://fi.cs.hm.edu/fi/rest/public/lostfound</a>)
  *
  * @author Fabio

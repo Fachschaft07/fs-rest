@@ -7,7 +7,8 @@ import retrofit.Callback;
 import retrofit.http.GET;
 
 /**
- * The BlackboardController is the interface to access the REST-API. It provides calls to the blackboard.
+ * The BlackboardController is the interface to access the REST-API. It provides calls to the
+ * blackboard.
  *
  * @author Fabio
  */

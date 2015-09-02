@@ -1,18 +1,20 @@
 package edu.hm.cs.fs.restapi.parser;
 
+import com.google.common.base.Strings;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
-import com.google.common.base.Strings;
-import edu.hm.cs.fs.common.model.Room;
-import edu.hm.cs.fs.common.model.RoomOccupation;
-import org.jsoup.helper.StringUtil;
-
 import edu.hm.cs.fs.common.constant.Day;
 import edu.hm.cs.fs.common.constant.Time;
-import edu.hm.cs.fs.common.model.Occupied;
-
-import java.util.*;
+import edu.hm.cs.fs.common.model.RoomOccupation;
 
 /**
  * All the rooms with their occupancy. (Url: <a href="http://fi.cs.hm.edu/fi/rest/public/timetable/room"
@@ -45,7 +47,7 @@ public class OccupiedParser extends AbstractXmlParser<RoomOccupation> {
         for (int dayIndex = 1; dayIndex <= dayCount; dayIndex++) {
             final String dayKey = findByXPath(rootPath + "/day[" + dayIndex + "]/weekday/text()",
                     XPathConstants.STRING, String.class);
-            if(Strings.isNullOrEmpty(dayKey)) {
+            if (Strings.isNullOrEmpty(dayKey)) {
                 continue;
             }
             final Day day = Day.of(dayKey);

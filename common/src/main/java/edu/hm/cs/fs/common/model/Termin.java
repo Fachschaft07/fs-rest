@@ -2,42 +2,42 @@ package edu.hm.cs.fs.common.model;
 
 import java.util.Date;
 
-public class Termin  {
-	
-	private String id;
-	private String subject;
-	private String scope;
-	private Date date;
+public class Termin {
 
-	public String getId() {
-		return id;
-	}
+    private String id;
+    private String subject;
+    private String scope;
+    private Date date;
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public String getSubject() {
-		return subject;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public void setSubject(String subject) {
-		this.subject = subject;
-	}
+    public String getSubject() {
+        return subject;
+    }
 
-	public String getScope() {
-		return scope;
-	}
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
 
-	public void setScope(String scope) {
-		this.scope = scope;
-	}
+    public String getScope() {
+        return scope;
+    }
 
-	public Date getDate() {
-		return date;
-	}
+    public void setScope(String scope) {
+        this.scope = scope;
+    }
 
-	public void setDate(Date date) {
-		this.date = date;
-	}
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
 }

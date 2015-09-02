@@ -9,7 +9,7 @@ import edu.hm.cs.fs.common.constant.Sex;
 /**
  * Created by Fabio on 18.02.2015.
  */
-public class Person  {
+public class Person {
     private String id;
     private String lastName;
     private String firstName;

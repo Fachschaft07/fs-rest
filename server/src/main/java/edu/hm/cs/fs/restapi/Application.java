@@ -13,8 +13,7 @@ public class Application {
     /**
      * The main class is called to start the application.
      *
-     * @param args
-     *         could be filled with parameters for spring.
+     * @param args could be filled with parameters for spring.
      */
     public static void main(final String[] args) {
         SpringApplication.run(Application.class, args);

@@ -6,7 +6,7 @@ import edu.hm.cs.fs.common.constant.Time;
 /**
  * Created by Fabio on 27.04.2015.
  */
-public class Room  {
+public class Room {
     private String name;
     private Integer capacity;
     private Time freeUntilEnd;
@@ -19,12 +19,12 @@ public class Room  {
         this.name = name;
     }
 
-    public void setCapacity(Integer capacity) {
-        this.capacity = capacity;
-    }
-
     public Integer getCapacity() {
         return capacity;
+    }
+
+    public void setCapacity(Integer capacity) {
+        this.capacity = capacity;
     }
 
     public Time getFreeUntilEnd() {

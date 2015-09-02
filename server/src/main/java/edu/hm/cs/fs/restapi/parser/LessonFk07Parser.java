@@ -1,5 +1,7 @@
 package edu.hm.cs.fs.restapi.parser;
 
+import org.jsoup.helper.StringUtil;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -7,14 +9,12 @@ import java.util.Locale;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
-import edu.hm.cs.fs.restapi.parser.cache.CachedModuleParser;
-import edu.hm.cs.fs.restapi.parser.cache.CachedPersonParser;
-import org.jsoup.helper.StringUtil;
-
 import edu.hm.cs.fs.common.constant.Day;
 import edu.hm.cs.fs.common.constant.Time;
 import edu.hm.cs.fs.common.model.Group;
 import edu.hm.cs.fs.common.model.Lesson;
+import edu.hm.cs.fs.restapi.parser.cache.CachedModuleParser;
+import edu.hm.cs.fs.restapi.parser.cache.CachedPersonParser;
 
 public class LessonFk07Parser extends AbstractXmlParser<Lesson> {
     private static final String URL = "http://fi.cs.hm.edu/fi/rest/public/timetable/group/";
@@ -60,11 +60,11 @@ public class LessonFk07Parser extends AbstractXmlParser<Lesson> {
 
                 Lesson lesson = new Lesson();
                 lesson.setDay(day);
-                new CachedPersonParser().findById(teacherId).ifPresent(lesson::setTeacher);
+                new CachedPersonParser().findByIdSimple(teacherId).ifPresent(lesson::setTeacher);
                 lesson.setRoom(room);
                 lesson.setSuffix(suffix);
                 lesson.setTime(time);
-                new CachedModuleParser().findById(moduleId).ifPresent(lesson::setModule);
+                new CachedModuleParser().findByIdSimple(moduleId).ifPresent(lesson::setModule);
 
                 result.add(lesson);
             }

@@ -16,20 +16,20 @@ public interface RoomController {
     /**
      * Requests all free rooms.
      *
-     * @param day to search at.
+     * @param day  to search at.
      * @param time to search at.
      * @return a list with free rooms.
      */
     @GET("/rest/api/room")
-    List<Room> getHolidays(@Query("day") Day day, @Query("time")Time time);
+    List<Room> getHolidays(@Query("day") Day day, @Query("time") Time time);
 
     /**
      * Requests all free rooms asynchronous.
      *
-     * @param day to search at.
-     * @param time to search at.
+     * @param day      to search at.
+     * @param time     to search at.
      * @param callback to retrieve the result.
      */
     @GET("/rest/api/room")
-    void getHolidays(@Query("day") Day day, @Query("time")Time time, Callback<List<Room>> callback);
+    void getHolidays(@Query("day") Day day, @Query("time") Time time, Callback<List<Room>> callback);
 }

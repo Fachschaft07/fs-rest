@@ -1,16 +1,10 @@
 package edu.hm.cs.fs.restclient;
 
-import java.io.IOException;
-import java.util.Date;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.TypeAdapter;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
-import edu.hm.cs.fs.common.constant.Letter;
-import edu.hm.cs.fs.common.constant.Semester;
-import edu.hm.cs.fs.common.constant.Study;
+
+import java.util.Date;
+
 import edu.hm.cs.fs.common.model.Group;
 import edu.hm.cs.fs.restclient.typeadapter.DateTypeAdapter;
 import edu.hm.cs.fs.restclient.typeadapter.GroupTypeAdapter;
@@ -31,11 +25,8 @@ public final class Controllers {
     /**
      * Create an interface to communicate with the rest api.
      *
-     * @param controllerInterface
-     *         an interface of an controller.
-     * @param <T>
-     *         the type of controller.
-     *
+     * @param controllerInterface an interface of an controller.
+     * @param <T>                 the type of controller.
      * @return the controller.
      */
     public static <T> T create(final Class<T> controllerInterface) {
@@ -45,13 +36,9 @@ public final class Controllers {
     /**
      * Create an interface to communicate with the rest api.
      *
-     * @param endpointUrl
-     *         the url to connect to.
-     * @param controllerInterface
-     *         an interface of an controller.
-     * @param <T>
-     *         the type of controller.
-     *
+     * @param endpointUrl         the url to connect to.
+     * @param controllerInterface an interface of an controller.
+     * @param <T>                 the type of controller.
      * @return the controller.
      */
     public static <T> T create(final String endpointUrl, final Class<T> controllerInterface) {

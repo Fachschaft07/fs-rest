@@ -5,33 +5,33 @@ import java.util.Date;
 /**
  * Created by Fabio on 18.02.2015.
  */
-public class LostFound  {
-	
-	private String id;
-	private String subject;
-	private Date date;
+public class LostFound {
 
-	public String getId() {
-		return id;
-	}
+    private String id;
+    private String subject;
+    private Date date;
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public String getSubject() {
-		return subject;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public void setSubject(String subject) {
-		this.subject = subject;
-	}
+    public String getSubject() {
+        return subject;
+    }
 
-	public Date getDate() {
-		return date;
-	}
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
 
-	public void setDate(Date date) {
-		this.date = date;
-	}
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
 }

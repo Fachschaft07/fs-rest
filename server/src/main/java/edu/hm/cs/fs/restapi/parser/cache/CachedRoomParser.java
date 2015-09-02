@@ -1,13 +1,12 @@
 package edu.hm.cs.fs.restapi.parser.cache;
 
+import com.google.gson.reflect.TypeToken;
+
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
-import com.google.gson.reflect.TypeToken;
-
-import edu.hm.cs.fs.common.model.Person;
 import edu.hm.cs.fs.common.model.Room;
 import edu.hm.cs.fs.restapi.parser.RoomParser;
 

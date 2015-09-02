@@ -1,5 +1,8 @@
 package edu.hm.cs.fs.restapi.parser;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,9 +13,6 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
 
 /**
  * An abstract parser for xml content.
@@ -27,16 +27,14 @@ public abstract class AbstractXmlParser<T> extends AbstractContentParser<T> {
     /**
      * Creates an abstract parser for xml content.
      *
-     * @param url
-     *         to parse.
-     * @param rootNode
-     *         of the xml scheme.
+     * @param url      to parse.
+     * @param rootNode of the xml scheme.
      */
     public AbstractXmlParser(final String url, final String rootNode) {
         super(url);
         mRootNode = rootNode;
     }
-    
+
     @SuppressWarnings("unchecked")
     @Override
     public List<T> read(final String url) {
@@ -67,9 +65,7 @@ public abstract class AbstractXmlParser<T> extends AbstractContentParser<T> {
     /**
      * Parses the url and convert the content of it to an document.
      *
-     * @param url
-     *         to parse.
-     *
+     * @param url to parse.
      * @return the xml document.
      */
     private Document readXml(final String url) {
@@ -99,28 +95,18 @@ public abstract class AbstractXmlParser<T> extends AbstractContentParser<T> {
     /**
      * Create the next items at the specified index.
      *
-     * @param rootPath
-     *         of the items.
-     *
+     * @param rootPath of the items.
      * @return the items.
-     *
-     * @throws XPathExpressionException
      */
     public abstract List<T> onCreateItems(String rootPath) throws XPathExpressionException;
 
     /**
      * Find a element by using the {@link XPath}.
      *
-     * @param xPath
-     *         for searching.
-     * @param name
-     *         of the type.
-     * @param returnType
-     *         the type of the object which will be returned.
-     *
+     * @param xPath      for searching.
+     * @param name       of the type.
+     * @param returnType the type of the object which will be returned.
      * @return the found value.
-     *
-     * @throws XPathExpressionException
      */
     public <X> X findByXPath(final String xPath, final QName name, final Class<X> returnType)
             throws XPathExpressionException {
@@ -130,12 +116,8 @@ public abstract class AbstractXmlParser<T> extends AbstractContentParser<T> {
     /**
      * Get the count of elements of a name.
      *
-     * @param xPath
-     *         to the element.
-     *
+     * @param xPath to the element.
      * @return the count.
-     *
-     * @throws XPathExpressionException
      */
     public int getCountByXPath(final String xPath) throws XPathExpressionException {
         return findByXPath(xPath, XPathConstants.NODESET, NodeList.class).getLength();

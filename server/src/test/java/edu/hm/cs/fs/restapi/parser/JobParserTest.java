@@ -1,11 +1,11 @@
 package edu.hm.cs.fs.restapi.parser;
 
-import java.util.List;
-
 import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.List;
 
 import edu.hm.cs.fs.common.model.Job;
 

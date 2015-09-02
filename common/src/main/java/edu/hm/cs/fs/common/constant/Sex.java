@@ -4,37 +4,40 @@ import java.util.Arrays;
 
 /**
  * @author Fabio
- *
  */
 public enum Sex {
-	/** Männlich */
-	MALE("m"),
-	/** Weiblich */
-	FEMALE("w", "f");
+    /**
+     * Männlich
+     */
+    MALE("m"),
+    /**
+     * Weiblich
+     */
+    FEMALE("w", "f");
 
-	private final String[] mKeys;
+    private final String[] mKeys;
 
-	Sex(final String... keys) {
-		mKeys = keys;
-	}
+    Sex(final String... keys) {
+        mKeys = keys;
+    }
 
-	/**
-	 * @return the key.
-	 */
-	private String[] getKeys() {
-		return mKeys;
-	}
+    /**
+     * @param key
+     * @return
+     */
+    public static Sex of(final String key) {
+        for (final Sex sex : values()) {
+            if (Arrays.asList(sex.getKeys()).contains(key)) {
+                return sex;
+            }
+        }
+        return null;
+    }
 
-	/**
-	 * @param key
-	 * @return
-	 */
-	public static Sex of(final String key) {
-		for (final Sex sex : values()) {
-			if (Arrays.asList(sex.getKeys()).contains(key)) {
-				return sex;
-			}
-		}
-		return null;
-	}
+    /**
+     * @return the key.
+     */
+    private String[] getKeys() {
+        return mKeys;
+    }
 }

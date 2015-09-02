@@ -24,6 +24,36 @@ public final class StudyGroup {
     }
 
     /**
+     * @param name of the study group (for example: "IB1A" or "IB" or "IC3").
+     * @return the study group.
+     */
+    public static StudyGroup of(final String name) {
+        final Matcher matcher = PATTERN.matcher(name);
+
+        if (!matcher.find()) // Muss immer vorhanden sein!
+            return null;
+        final Study studyGroup = Study.of(matcher.group(1));
+
+        final Semester semester;
+        final String semesterMatch = matcher.group(2);
+        if (semesterMatch.length() > 0) {
+            semester = Semester.valueOf("_" + semesterMatch);
+        } else {
+            semester = null;
+        }
+
+        final Letter letter;
+        final String letterMatch = matcher.group(3);
+        if (letterMatch.length() > 0) {
+            letter = Letter.valueOf(letterMatch.toUpperCase());
+        } else {
+            letter = null;
+        }
+
+        return new StudyGroup(studyGroup, semester, letter);
+    }
+
+    /**
      * @return the study group.
      */
     public Study getStudy() {
@@ -55,37 +85,5 @@ public final class StudyGroup {
             strBuilder.append(getLetter().toString());
         }
         return strBuilder.toString();
-    }
-
-    /**
-     * @param name
-     *         of the study group (for example: "IB1A" or "IB" or "IC3").
-     *
-     * @return the study group.
-     */
-    public static StudyGroup of(final String name) {
-        final Matcher matcher = PATTERN.matcher(name);
-
-        if (!matcher.find()) // Muss immer vorhanden sein!
-            return null;
-        final Study studyGroup = Study.of(matcher.group(1));
-
-        final Semester semester;
-        final String semesterMatch = matcher.group(2);
-        if (semesterMatch.length() > 0) {
-            semester = Semester.valueOf("_" + semesterMatch);
-        } else {
-            semester = null;
-        }
-
-        final Letter letter;
-        final String letterMatch = matcher.group(3);
-        if (letterMatch.length() > 0) {
-            letter = Letter.valueOf(letterMatch.toUpperCase());
-        } else {
-            letter = null;
-        }
-
-        return new StudyGroup(studyGroup, semester, letter);
     }
 }

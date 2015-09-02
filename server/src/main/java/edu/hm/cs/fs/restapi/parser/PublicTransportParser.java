@@ -1,7 +1,5 @@
 package edu.hm.cs.fs.restapi.parser;
 
-import edu.hm.cs.fs.common.constant.PublicTransportLocation;
-import edu.hm.cs.fs.common.model.PublicTransport;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -11,9 +9,12 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import edu.hm.cs.fs.common.constant.PublicTransportLocation;
+import edu.hm.cs.fs.common.model.PublicTransport;
+
 /**
- * The publicTransport with every information.<br>
- * (Url (Lothstr.): <a href="http://www.mvg-live.de/ims/dfiStaticAnzeige.svc?haltestelle=Hochschule+M%fcnchen+%28Lothstra%dfe%29&tram=checked"
+ * The publicTransport with every information.<br> (Url (Lothstr.): <a
+ * href="http://www.mvg-live.de/ims/dfiStaticAnzeige.svc?haltestelle=Hochschule+M%fcnchen+%28Lothstra%dfe%29&tram=checked"
  * >http://www.mvg-live.de/ims/dfiStaticAnzeige.svc?haltestelle=Hochschule+M%fcnchen+%28Lothstra%dfe%29&tram=checked</a><br>
  * Url (Pasing): <a href="http://www.mvg-live.de/ims/dfiStaticAnzeige.svc?haltestelle=Avenariusplatz&bus=checked">http://www.mvg-live.de/ims/dfiStaticAnzeige.svc?haltestelle=Avenariusplatz&bus=checked</a>)
  *

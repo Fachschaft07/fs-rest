@@ -1,13 +1,13 @@
 package edu.hm.cs.fs.restclient.typeadapter;
 
-import java.io.IOException;
-
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+
+import java.io.IOException;
+
 import edu.hm.cs.fs.common.constant.Letter;
 import edu.hm.cs.fs.common.constant.Semester;
-import edu.hm.cs.fs.common.constant.Study;
 import edu.hm.cs.fs.common.model.Group;
 
 /**
@@ -44,9 +44,9 @@ public class GroupTypeAdapter extends TypeAdapter<Group> {
 
     private void extractContent(final JsonReader in, final String[] content) throws IOException {
         final String name = in.nextName();
-        if("study".equals(name)) {
+        if ("study".equals(name)) {
             content[0] = in.nextString();
-        } else if("semester".equals(name)) {
+        } else if ("semester".equals(name)) {
             try {
                 content[1] = Integer.toString(Semester.valueOf(in.nextString()).getNumber());
             } catch (Exception ignored) {

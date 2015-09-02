@@ -1,21 +1,24 @@
-package edu.hm.cs.fs.restapi.controller;
+package edu.hm.cs.fs.restapi.v1;
+
+import com.google.common.base.Strings;
+
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.google.common.base.Strings;
 import edu.hm.cs.fs.common.constant.EventType;
-import edu.hm.cs.fs.common.constant.Study;
-import edu.hm.cs.fs.common.model.*;
+import edu.hm.cs.fs.common.model.Event;
+import edu.hm.cs.fs.common.model.Exam;
+import edu.hm.cs.fs.common.model.Group;
+import edu.hm.cs.fs.common.model.Holiday;
+import edu.hm.cs.fs.common.model.Termin;
 import edu.hm.cs.fs.restapi.parser.ExamParser;
-import edu.hm.cs.fs.restapi.parser.LessonFk07Parser;
-import edu.hm.cs.fs.restapi.parser.LessonFk10Parser;
 import edu.hm.cs.fs.restapi.parser.TerminParser;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author Fabio
@@ -28,7 +31,7 @@ public class CalendarController {
      * @param month
      * @return
      */
-    @RequestMapping("/rest/api/calendar/event")
+    @RequestMapping("/rest/api/1/calendar/event")
     public List<Event> event(@RequestParam("year") final int year, @RequestParam("month") final int month) {
         final List<Event> events = termin().parallelStream()
                 .map(termin -> {
@@ -66,7 +69,7 @@ public class CalendarController {
     /**
      * @return
      */
-    @RequestMapping("/rest/api/calendar/termin")
+    @RequestMapping("/rest/api/1/calendar/termin")
     public List<Termin> termin() {
         return new TerminParser().parse().parallelStream()
                 .filter(termin -> !termin.getSubject().endsWith("erster Tag") &&
@@ -78,7 +81,7 @@ public class CalendarController {
     /**
      * @return
      */
-    @RequestMapping("/rest/api/calendar/holiday")
+    @RequestMapping("/rest/api/1/calendar/holiday")
     public List<Holiday> holiday() {
         final List<Termin> termins = new TerminParser().parse();
         return termins.parallelStream()
@@ -125,33 +128,13 @@ public class CalendarController {
      *
      * @return
      */
-    @RequestMapping("/rest/api/calendar/exam")
+    @RequestMapping("/rest/api/1/calendar/exam")
     public List<Exam> exam(@RequestParam(value = "study", defaultValue = "") String study,
                            @RequestParam(value = "module", defaultValue = "") String module) {
         return new ExamParser().parse().parallelStream()
                 .filter(exam -> Strings.isNullOrEmpty(study) || exam.getStudy() == Group.of(study).getStudy())
                 .filter(exam -> Strings.isNullOrEmpty(module) || exam.getModule() != null &&
                         exam.getModule().getName().equalsIgnoreCase(module))
-                .collect(Collectors.toList());
-    }
-
-    /**
-     * @param group
-     * @param module
-     *
-     * @return
-     */
-    @RequestMapping("/rest/api/calendar/timetable")
-    public List<Lesson> timetable(@RequestParam(value = "group") String group,
-                                  @RequestParam(value = "module", defaultValue = "") String module) {
-        final Group realGroup = Group.of(group);
-        // Read all available lessons
-        final List<Lesson> lessons = new LessonFk07Parser(realGroup).parse();
-        if (realGroup.getStudy() == Study.IB) {
-            lessons.addAll(new LessonFk10Parser(realGroup).parse());
-        }
-        return lessons.parallelStream()
-                .filter(lesson -> module.isEmpty() || lesson.getModule().getName().equalsIgnoreCase(module))
                 .collect(Collectors.toList());
     }
 }

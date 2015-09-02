@@ -1,10 +1,10 @@
 package edu.hm.cs.fs.restapi.parser;
 
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpressionException;
-
 import java.util.Collections;
 import java.util.List;
+
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpressionException;
 
 import edu.hm.cs.fs.common.model.Room;
 

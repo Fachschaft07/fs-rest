@@ -7,15 +7,15 @@ import java.util.List;
  * Created by Fabio on 18.02.2015.
  */
 public class BlackboardEntry {
-    
+
     private String id;
-    private Person author;
+    private SimplePerson author;
     private String subject;
     private String text;
-    private List<Person> teachers;
+    private List<SimplePerson> teachers;
     private List<Group> groups;
     private Date publish;
-    private Date expire;
+    //private Date expire;
     private String url;
 
     public String getId() {
@@ -26,11 +26,11 @@ public class BlackboardEntry {
         this.id = id;
     }
 
-    public Person getAuthor() {
+    public SimplePerson getAuthor() {
         return author;
     }
 
-    public void setAuthor(final Person author) {
+    public void setAuthor(final SimplePerson author) {
         this.author = author;
     }
 
@@ -50,11 +50,11 @@ public class BlackboardEntry {
         this.text = text;
     }
 
-    public List<Person> getTeachers() {
+    public List<SimplePerson> getTeachers() {
         return teachers;
     }
 
-    public void setTeachers(final List<Person> teachers) {
+    public void setTeachers(final List<SimplePerson> teachers) {
         this.teachers = teachers;
     }
 
@@ -74,6 +74,7 @@ public class BlackboardEntry {
         this.publish = publish;
     }
 
+    /*
     public Date getExpire() {
         return expire;
     }
@@ -81,6 +82,7 @@ public class BlackboardEntry {
     public void setExpire(final Date expire) {
         this.expire = expire;
     }
+    */
 
     public String getUrl() {
         return url;

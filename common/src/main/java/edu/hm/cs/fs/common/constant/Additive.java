@@ -4,37 +4,67 @@ package edu.hm.cs.fs.common.constant;
  * Created by Fabio on 14.03.2015.
  */
 public enum Additive {
-    /** mit Farbstoff */
+    /**
+     * mit Farbstoff
+     */
     DYE(1),
-    /** mit Konservierungsstoff */
+    /**
+     * mit Konservierungsstoff
+     */
     PRESERVATIVE(2),
-    /** mit Antioxidationsmittel */
+    /**
+     * mit Antioxidationsmittel
+     */
     ANTIOXIDANT(3),
-    /** mit Geschmacksverstärker */
+    /**
+     * mit Geschmacksverstärker
+     */
     FLAVOR_ENHANCERS(4),
-    /** geschwefelt */
+    /**
+     * geschwefelt
+     */
     SULPHURED(5),
-    /** geschwärzt (Oliven) */
+    /**
+     * geschwärzt (Oliven)
+     */
     BLACKENED(6),
-    /** mit Phosphat */
+    /**
+     * mit Phosphat
+     */
     PHOSPHATE(8),
-    /** mit Süßungsmitteln */
+    /**
+     * mit Süßungsmitteln
+     */
     SWEETENERS(9),
-    /** enthält eine Phenylalaninquelle */
+    /**
+     * enthält eine Phenylalaninquelle
+     */
     PHENYLALANINQUELLE(10),
-    /** mit einer Zuckerart und Süßungsmitteln */
+    /**
+     * mit einer Zuckerart und Süßungsmitteln
+     */
     SUGAR_AND_SWEETENERS(11),
-    /** mit Alkohol */
+    /**
+     * mit Alkohol
+     */
     ALCOHOL(99),
     // Hier kommen keine Zusatzstoffe, sondern Bestandteile der Mahlzeit!
-    /** mit Schweinefleisch */
+    /**
+     * mit Schweinefleisch
+     */
     PIG("S"),
-    /** mit Rindfleisch */
+    /**
+     * mit Rindfleisch
+     */
     BEEF("R"),
     // Organisationen
-    /** Zertifizierte Nachhaltige Fischerei - MSC*/
+    /**
+     * Zertifizierte Nachhaltige Fischerei - MSC
+     */
     MSC("MSC"),
-    /** Geprüfte Qualität - Bayern*/
+    /**
+     * Geprüfte Qualität - Bayern
+     */
     GQB("GQB");
 
     private final int signInt;
@@ -50,6 +80,15 @@ public enum Additive {
         this.signStr = sign;
     }
 
+    public static Additive of(String label) {
+        for (Additive additive : values()) {
+            if (additive.toString().equalsIgnoreCase(label)) {
+                return additive;
+            }
+        }
+        return null;
+    }
+
     public int getSignInt() {
         return signInt;
     }
@@ -61,14 +100,5 @@ public enum Additive {
     @Override
     public String toString() {
         return signStr == null ? Integer.toString(signInt) : signStr;
-    }
-
-    public static Additive of(String label) {
-        for (Additive additive : values()) {
-            if(additive.toString().equalsIgnoreCase(label)) {
-                return additive;
-            }
-        }
-        return null;
     }
 }

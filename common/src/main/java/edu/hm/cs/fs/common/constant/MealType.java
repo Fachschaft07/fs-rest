@@ -12,15 +12,10 @@ public enum MealType {
         mKey = key;
     }
 
-    @Override
-    public String toString() {
-        return mKey;
-    }
-
     public static MealType of(String key) {
-        if("f".equalsIgnoreCase(key)) {
+        if ("f".equalsIgnoreCase(key)) {
             return MEATLESS;
-        } else if("v".equalsIgnoreCase(key)) {
+        } else if ("v".equalsIgnoreCase(key)) {
             return VEGAN;
         } else {
             for (MealType mealType : values()) {
@@ -30,5 +25,10 @@ public enum MealType {
             }
         }
         return null;
+    }
+
+    @Override
+    public String toString() {
+        return mKey;
     }
 }

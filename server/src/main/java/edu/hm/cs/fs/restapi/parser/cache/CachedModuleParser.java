@@ -1,12 +1,14 @@
 package edu.hm.cs.fs.restapi.parser.cache;
 
+import com.google.gson.reflect.TypeToken;
+
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
-import com.google.gson.reflect.TypeToken;
 import edu.hm.cs.fs.common.model.Module;
+import edu.hm.cs.fs.common.model.SimpleModule;
 import edu.hm.cs.fs.restapi.parser.ModuleParser;
 
 /**
@@ -21,6 +23,20 @@ public class CachedModuleParser extends CachedParser<Module> {
      */
     public CachedModuleParser() {
         super(new ModuleParser(), INTERVAL, TIME_UNIT);
+    }
+
+    /**
+     *
+     * @param moduleId
+     * @return
+     */
+    public Optional<SimpleModule> findByIdSimple(String moduleId) {
+        return findById(moduleId).map(module -> {
+            SimpleModule sModule = new SimpleModule();
+            sModule.setId(module.getId());
+            sModule.setName(module.getName());
+            return sModule;
+        });
     }
 
     /**

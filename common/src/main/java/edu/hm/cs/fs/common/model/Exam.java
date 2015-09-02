@@ -11,98 +11,98 @@ import edu.hm.cs.fs.common.constant.Study;
 /**
  * Created by Fabio on 18.02.2015.
  */
-public class Exam  {
-	private String code;
-	private Study study;
-	private Module module;
-	private String subtitle;
-	private List<Study> references;
-	private List<Person> examiners;
+public class Exam {
+    private String code;
+    private Study study;
+    private SimpleModule module;
+    private String subtitle;
+    private List<Study> references;
+    private List<SimplePerson> examiners;
     private List<String> rooms;
-	private ExamType type;
-	private String material;
-	private ExamGroup allocation;
-	private Date date;
+    private ExamType type;
+    private String material;
+    private ExamGroup allocation;
+    private Date date;
 
-	public String getCode() {
-		return code;
-	}
+    public String getCode() {
+        return code;
+    }
 
-	public void setCode(String code) {
-		this.code = code;
-	}
+    public void setCode(String code) {
+        this.code = code;
+    }
 
-	public Study getStudy() {
-		return study;
-	}
+    public Study getStudy() {
+        return study;
+    }
 
-	public void setStudy(Study study) {
-		this.study = study;
-	}
+    public void setStudy(Study study) {
+        this.study = study;
+    }
 
-	public Module getModule() {
-		return module;
-	}
+    public SimpleModule getModule() {
+        return module;
+    }
 
-	public void setModule(Module module) {
-		this.module = module;
-	}
+    public void setModule(SimpleModule module) {
+        this.module = module;
+    }
 
-	public String getSubtitle() {
-		return subtitle;
-	}
+    public String getSubtitle() {
+        return subtitle;
+    }
 
-	public void setSubtitle(String subtitle) {
-		this.subtitle = subtitle;
-	}
+    public void setSubtitle(String subtitle) {
+        this.subtitle = subtitle;
+    }
 
-	public List<Study> getReferences() {
-		return references;
-	}
+    public List<Study> getReferences() {
+        return references;
+    }
 
-	public void setReferences(List<Study> references) {
-		this.references = references;
-	}
+    public void setReferences(List<Study> references) {
+        this.references = references;
+    }
 
-	public List<Person> getExaminers() {
-		return examiners;
-	}
+    public List<SimplePerson> getExaminers() {
+        return examiners;
+    }
 
-	public void setExaminers(List<Person> examiners) {
-		this.examiners = examiners;
-	}
+    public void setExaminers(List<SimplePerson> examiners) {
+        this.examiners = examiners;
+    }
 
-	public ExamType getType() {
-		return type;
-	}
+    public ExamType getType() {
+        return type;
+    }
 
-	public void setType(ExamType type) {
-		this.type = type;
-	}
+    public void setType(ExamType type) {
+        this.type = type;
+    }
 
-	public String getMaterial() {
-		return material;
-	}
+    public String getMaterial() {
+        return material;
+    }
 
-	public void setMaterial(String material) {
-		this.material = material;
-	}
+    public void setMaterial(String material) {
+        this.material = material;
+    }
 
-	public ExamGroup getAllocation() {
-		return allocation;
-	}
+    public ExamGroup getAllocation() {
+        return allocation;
+    }
 
-	public void setAllocation(ExamGroup allocation) {
-		this.allocation = allocation;
-	}
+    public void setAllocation(ExamGroup allocation) {
+        this.allocation = allocation;
+    }
 
-	public Date getDate() {
-		return date;
-	}
+    public Date getDate() {
+        return date;
+    }
 
-	public void setDate(Date date) {
-		this.date = date;
-	}
+    public void setDate(Date date) {
+        this.date = date;
+    }
 
     public List<String> getRooms() {
         return rooms;

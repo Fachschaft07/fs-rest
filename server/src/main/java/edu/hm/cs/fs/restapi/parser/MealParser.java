@@ -1,5 +1,11 @@
 package edu.hm.cs.fs.restapi.parser;
 
+import com.google.common.base.Strings;
+
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -10,12 +16,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.google.common.base.Strings;
 import edu.hm.cs.fs.common.constant.Additive;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
 import edu.hm.cs.fs.common.constant.MealType;
 import edu.hm.cs.fs.common.constant.StudentWorkMunich;
 import edu.hm.cs.fs.common.model.Meal;
@@ -77,7 +78,7 @@ public class MealParser extends AbstractHtmlParser<Meal> {
             final String dateStr = menu.getElementsByTag("strong").get(0).text();
             Date date;
             try {
-                date = sdf.parse(dateStr.substring(dateStr.indexOf(",")+1));
+                date = sdf.parse(dateStr.substring(dateStr.indexOf(",") + 1));
             } catch (ParseException e) {
                 date = new Date();
             }
@@ -89,11 +90,11 @@ public class MealParser extends AbstractHtmlParser<Meal> {
 
                 final Element description = descriptionList.get(indexDesc);
 
-                if(!description.getElementsByClass("fleischlos").isEmpty()) {
+                if (!description.getElementsByClass("fleischlos").isEmpty()) {
                     meal.setType(MealType.MEATLESS);
-                } else if(!description.getElementsByClass("fleisch").isEmpty()) {
+                } else if (!description.getElementsByClass("fleisch").isEmpty()) {
                     meal.setType(MealType.MEAT);
-                } else if(!description.getElementsByClass("vegan").isEmpty()) {
+                } else if (!description.getElementsByClass("vegan").isEmpty()) {
                     meal.setType(MealType.VEGAN);
                 }
 
@@ -102,11 +103,11 @@ public class MealParser extends AbstractHtmlParser<Meal> {
                 String nameRaw = description.getElementsByAttribute("style").get(0).text();
                 // 2015-08-19: BugFix: Fixed the removement of the meal type of the end of the name
                 StringBuilder nameBuilder = new StringBuilder(nameRaw);
-                if(nameRaw.contains("fleischlos")) {
+                if (nameRaw.contains("fleischlos")) {
                     nameBuilder.replace(nameBuilder.lastIndexOf("fleischlos"), nameBuilder.length(), "");
-                } else if(nameRaw.contains("vegan")) {
+                } else if (nameRaw.contains("vegan")) {
                     nameBuilder.replace(nameBuilder.lastIndexOf("vegan"), nameBuilder.length(), "");
-                } else if(nameRaw.contains("mit Fleisch")) {
+                } else if (nameRaw.contains("mit Fleisch")) {
                     nameBuilder.replace(nameBuilder.lastIndexOf("mit Fleisch"), nameBuilder.length(), "");
                 }
                 nameBuilder.trimToSize();
@@ -116,24 +117,24 @@ public class MealParser extends AbstractHtmlParser<Meal> {
                 //nameRaw = nameRaw.replaceFirst("\\smit Fleisch", "");
 
                 Matcher matcher = FOOD_PART_PATTERN.matcher(nameRaw);
-                if(matcher.find()) {
+                if (matcher.find()) {
                     String group = matcher.group(1);
                     nameRaw = nameRaw.replaceAll("\\([RS,]+\\)", "");
-                    if(!Strings.isNullOrEmpty(group)) {
-                        if(group.contains("R")) {
+                    if (!Strings.isNullOrEmpty(group)) {
+                        if (group.contains("R")) {
                             additives.add(Additive.BEEF);
                         }
-                        if(group.contains("S")) {
+                        if (group.contains("S")) {
                             additives.add(Additive.PIG);
                         }
                     }
                 }
 
                 matcher = ADDITIVES_PATTERN.matcher(nameRaw);
-                if(matcher.find()) {
+                if (matcher.find()) {
                     final String group = matcher.group(1);
                     nameRaw = nameRaw.replaceAll("\\([0-9,]+\\)", "");
-                    if(!Strings.isNullOrEmpty(group)) {
+                    if (!Strings.isNullOrEmpty(group)) {
                         final String additiveStr = group.trim();
                         final List<String> strings = Arrays.asList(additiveStr.split(","));
                         for (String string : strings) {
@@ -146,14 +147,14 @@ public class MealParser extends AbstractHtmlParser<Meal> {
                 }
 
                 matcher = FOOD_TYPE_PATTERN.matcher(nameRaw);
-                if(matcher.find()) {
+                if (matcher.find()) {
                     final String group = matcher.group(1);
                     nameRaw = nameRaw.replaceAll("\\([vf]\\)", "");
-                    if(!Strings.isNullOrEmpty(group)) {
-                        if(group.contains("v")) {
+                    if (!Strings.isNullOrEmpty(group)) {
+                        if (group.contains("v")) {
                             typeRaw = MealType.VEGAN;
                         }
-                        if(group.contains("f")) {
+                        if (group.contains("f")) {
                             typeRaw = MealType.MEATLESS;
                         }
                     }
