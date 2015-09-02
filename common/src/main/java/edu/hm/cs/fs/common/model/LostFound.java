@@ -7,10 +7,11 @@ import java.util.Date;
  */
 public class LostFound {
 
-    private String id;
+    //private String id;
     private String subject;
     private Date date;
 
+    /*
     public String getId() {
         return id;
     }
@@ -18,6 +19,7 @@ public class LostFound {
     public void setId(String id) {
         this.id = id;
     }
+    */
 
     public String getSubject() {
         return subject;

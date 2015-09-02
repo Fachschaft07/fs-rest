@@ -44,7 +44,7 @@ public class LostFoundParser extends AbstractXmlParser<LostFound> {
         }
 
         LostFound lostFound = new LostFound();
-        lostFound.setId(id);
+        //lostFound.setId(id);
         lostFound.setSubject(subject);
         lostFound.setDate(date);
 

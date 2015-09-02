@@ -17,7 +17,7 @@ public class FsController {
      *
      * @return
      */
-    @RequestMapping("/rest/api/fs/1/presence")
+    @RequestMapping("/rest/api/1/fs/presence")
     public List<Presence> getPresence() {
         return new PresenceParser().parse();
     }
