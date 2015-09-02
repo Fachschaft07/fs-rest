@@ -46,8 +46,7 @@ public class CachedModuleParser extends CachedParser<Module> {
      */
     public Optional<Module> findById(String moduleId) {
         return parse().parallelStream()
-                .filter(module -> module.getModulCodes().parallelStream()
-                        .anyMatch(moduleCode -> moduleCode.getModul().equalsIgnoreCase(moduleId)))
+                .filter(module -> moduleId.equals(module.getId()))
                 .findFirst();
     }
 

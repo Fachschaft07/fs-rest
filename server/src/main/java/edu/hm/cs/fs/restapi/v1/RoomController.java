@@ -1,18 +1,20 @@
 package edu.hm.cs.fs.restapi.v1;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
 import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
 import edu.hm.cs.fs.common.constant.Day;
 import edu.hm.cs.fs.common.constant.Time;
 import edu.hm.cs.fs.common.model.Room;
+import edu.hm.cs.fs.common.model.SimpleRoom;
+import edu.hm.cs.fs.common.model.util.ModelUtil;
 import edu.hm.cs.fs.restapi.parser.cache.CachedOccupiedParser;
 
 /**
@@ -30,7 +32,7 @@ public class RoomController {
      * @return
      */
     @RequestMapping("/rest/api/1/room")
-    public List<Room> search(@RequestParam(value = "day", defaultValue = "MONDAY") Day day,
+    public List<SimpleRoom> search(@RequestParam(value = "day", defaultValue = "MONDAY") Day day,
                              @RequestParam(value = "hour", defaultValue = "8") int hour,
                              @RequestParam(value = "minute", defaultValue = "0") int minute) {
         final List<Time> timesAfter = Stream.of(Time.values())
@@ -39,7 +41,7 @@ public class RoomController {
                                 filterTime.getStart().get(Calendar.MINUTE) >= minute)
                 .sorted(Enum::compareTo)
                 .collect(Collectors.toList());
-        return new CachedOccupiedParser().parse().parallelStream()
+        return ModelUtil.convert(new CachedOccupiedParser().parse().parallelStream()
                 .filter(room -> room.getCapacity() > MIN_ROOM_CAPACITY)
                 .map(room -> {
                     Room tmpRoom = new Room();
@@ -77,6 +79,6 @@ public class RoomController {
                     return tmpRoom;
                 })
                 .filter(room -> room != null)
-                .collect(Collectors.toList());
+                .collect(Collectors.toList()), SimpleRoom.class);
     }
 }

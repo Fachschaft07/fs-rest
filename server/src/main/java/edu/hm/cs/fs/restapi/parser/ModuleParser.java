@@ -1,13 +1,13 @@
 package edu.hm.cs.fs.restapi.parser;
 
-import org.jsoup.helper.StringUtil;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
+
+import org.jsoup.helper.StringUtil;
 
 import edu.hm.cs.fs.common.constant.ExamType;
 import edu.hm.cs.fs.common.constant.Offer;
@@ -16,7 +16,9 @@ import edu.hm.cs.fs.common.constant.Study;
 import edu.hm.cs.fs.common.constant.TeachingForm;
 import edu.hm.cs.fs.common.model.Module;
 import edu.hm.cs.fs.common.model.ModuleCode;
+import edu.hm.cs.fs.common.model.SimpleModuleCode;
 import edu.hm.cs.fs.common.model.SimplePerson;
+import edu.hm.cs.fs.common.model.util.ModelUtil;
 import edu.hm.cs.fs.restapi.parser.cache.CachedPersonParser;
 
 /**
@@ -176,7 +178,7 @@ public class ModuleParser extends AbstractXmlParser<Module> {
             //module.setMedia(media);
             module.setLiterature(literature);
             //module.setProgram(program);
-            module.setModulCodes(modulCodes);
+            module.setModulCodes(ModelUtil.convert(modulCodes, SimpleModuleCode.class));
 
             return Collections.singletonList(module);
         }

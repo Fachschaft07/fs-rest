@@ -25,7 +25,7 @@ public class Module {
     //private String media;
     private String literature;
     //private Study program;
-    private List<ModuleCode> modulCodes;
+    private List<SimpleModuleCode> modulCodes;
 
     public String getId() {
         return id;
@@ -151,11 +151,11 @@ public class Module {
     }
     */
 
-    public List<ModuleCode> getModulCodes() {
+    public List<SimpleModuleCode> getModulCodes() {
         return modulCodes;
     }
 
-    public void setModulCodes(List<ModuleCode> modulCodes) {
+    public void setModulCodes(List<SimpleModuleCode> modulCodes) {
         this.modulCodes = modulCodes;
     }
 }

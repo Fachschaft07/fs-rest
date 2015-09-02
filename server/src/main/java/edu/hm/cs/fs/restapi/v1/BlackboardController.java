@@ -1,13 +1,14 @@
 package edu.hm.cs.fs.restapi.v1;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-import edu.hm.cs.fs.common.model.BlackboardEntry;
+import edu.hm.cs.fs.common.model.SimpleBlackboardEntry;
+import edu.hm.cs.fs.common.model.util.ModelUtil;
 import edu.hm.cs.fs.restapi.parser.BlackboardParser;
 
 /**
@@ -25,9 +26,9 @@ public class BlackboardController {
      * @return a list with all matched entries.
      */
     @RequestMapping("/rest/api/1/blackboard")
-    public List<BlackboardEntry> entry(@RequestParam(value = "search", defaultValue = "") String search) {
-        return new BlackboardParser().parse().stream()
+    public List<SimpleBlackboardEntry> entry(@RequestParam(value = "search", defaultValue = "") String search) {
+        return ModelUtil.convert(new BlackboardParser().parse().stream()
                 .filter(entry -> entry.getSubject().contains(search) || entry.getText().contains(search))
-                .collect(Collectors.toList());
+                .collect(Collectors.toList()), SimpleBlackboardEntry.class);
     }
 }

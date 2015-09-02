@@ -1,13 +1,14 @@
 package edu.hm.cs.fs.restapi.v1;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-import edu.hm.cs.fs.common.model.Job;
+import edu.hm.cs.fs.common.model.SimpleJob;
+import edu.hm.cs.fs.common.model.util.ModelUtil;
 import edu.hm.cs.fs.restapi.parser.JobParser;
 
 /**
@@ -28,11 +29,11 @@ public class JobController {
      * @return a list with all matched jobs.
      */
     @RequestMapping("/rest/api/1/job")
-    public List<Job> findJob(@RequestParam(value = "search", defaultValue = "") String search,
+    public List<SimpleJob> findJob(@RequestParam(value = "search", defaultValue = "") String search,
                              @RequestParam(value = "id", defaultValue = "") String id) {
-        return new JobParser().parse().stream()
+        return ModelUtil.convert(new JobParser().parse().stream()
                 .filter(job -> search == null || search.length() == 0 || (job.getTitle() + job.getDescription()).toLowerCase().contains(search.toLowerCase()))
                 .filter(job -> id == null || id.length() == 0 || job.getId().equals(id))
-                .collect(Collectors.toList());
+                .collect(Collectors.toList()), SimpleJob.class);
     }
 }
