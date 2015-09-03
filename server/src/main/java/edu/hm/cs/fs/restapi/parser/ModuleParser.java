@@ -1,5 +1,7 @@
 package edu.hm.cs.fs.restapi.parser;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -41,7 +43,7 @@ public class ModuleParser extends AbstractXmlParser<Module> {
     }
 
     @Override
-    public List<Module> onCreateItems(final String rootPath) throws XPathExpressionException {
+    public List<Module> onCreateItems(final String rootPath) throws XPathExpressionException, MalformedURLException, IOException {
         String name;
         int credits;
         int sws;

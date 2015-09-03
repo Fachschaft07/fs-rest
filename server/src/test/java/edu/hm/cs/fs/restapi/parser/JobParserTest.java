@@ -5,6 +5,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.util.List;
 
 import edu.hm.cs.fs.common.model.Job;
@@ -22,7 +23,12 @@ public class JobParserTest {
 
     @Test
     public void testParsing() {
-        final List<Job> jobs = parser.parse();
-        Assert.assertThat(true, CoreMatchers.is(CoreMatchers.not(jobs.isEmpty())));
+        try {
+          List<Job> jobs = parser.parse();
+          Assert.assertThat(true, CoreMatchers.is(CoreMatchers.not(jobs.isEmpty())));
+        } catch (IOException e) {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
+        }
     }
 }

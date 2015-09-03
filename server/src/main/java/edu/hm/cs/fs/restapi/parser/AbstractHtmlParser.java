@@ -4,6 +4,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,18 +26,18 @@ public abstract class AbstractHtmlParser<T> extends AbstractContentParser<T> {
     }
 
     @Override
-    public List<T> read(final String url) {
+    public List<T> read(final String url) throws MalformedURLException, IOException {
         final List<T> result = new ArrayList<>();
-        try {
+        //try {
             final Document document = Jsoup.parse(
                     new URL(url), // URL to parse
                     (int) TimeUnit.MILLISECONDS.convert(10, TimeUnit.SECONDS) // Timeout
             );
             result.addAll(readDoc(document));
-        } catch (IOException e) {
+        /*} catch (IOException e) {
             e.printStackTrace();
             // TODO Log.e(getClass().getSimpleName(), "", e);
-        }
+        }*/
         return result;
     }
 

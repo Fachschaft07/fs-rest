@@ -1,5 +1,7 @@
 package edu.hm.cs.fs.restapi.v1;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,10 +29,12 @@ public class JobController {
      * @param search for the words in the job title and description.
      * @param id     for the id of the job
      * @return a list with all matched jobs.
+     * @throws IOException 
+     * @throws MalformedURLException 
      */
     @RequestMapping("/rest/api/1/job")
     public List<SimpleJob> findJob(@RequestParam(value = "search", defaultValue = "") String search,
-                             @RequestParam(value = "id", defaultValue = "") String id) {
+                             @RequestParam(value = "id", defaultValue = "") String id) throws MalformedURLException, IOException {
         return ModelUtil.convert(new JobParser().parse().stream()
                 .filter(job -> search == null || search.length() == 0 || (job.getTitle() + job.getDescription()).toLowerCase().contains(search.toLowerCase()))
                 .filter(job -> id == null || id.length() == 0 || job.getId().equals(id))

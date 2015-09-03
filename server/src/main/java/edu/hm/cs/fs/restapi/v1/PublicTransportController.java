@@ -4,6 +4,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.List;
 
 import edu.hm.cs.fs.common.constant.PublicTransportLocation;
@@ -24,9 +26,11 @@ public class PublicTransportController {
      * @param location of the departure (see edu.hm.cs.fs.common.constants.PublicTransportLocation
      *                 in module common).
      * @return the public transport possibilities.
+     * @throws IOException 
+     * @throws MalformedURLException 
      */
     @RequestMapping("/rest/api/1/publicTransport")
-    public List<PublicTransport> publicTransport(@RequestParam("location") PublicTransportLocation location) {
+    public List<PublicTransport> publicTransport(@RequestParam("location") PublicTransportLocation location) throws MalformedURLException, IOException {
         return new PublicTransportParser(location).parse();
     }
 }

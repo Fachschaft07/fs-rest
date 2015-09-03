@@ -2,7 +2,9 @@ package edu.hm.cs.fs.restapi.parser.cache;
 
 import com.google.gson.reflect.TypeToken;
 
+import java.io.IOException;
 import java.lang.reflect.Type;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
@@ -28,8 +30,10 @@ public class CachedOccupiedParser extends CachedParser<RoomOccupation> {
      *
      * @param roomName
      * @return
+     * @throws IOException 
+     * @throws MalformedURLException 
      */
-    public Optional<RoomOccupation> findByName(String roomName) {
+    public Optional<RoomOccupation> findByName(String roomName) throws MalformedURLException, IOException {
         return parse().parallelStream()
                 .filter(room -> room.getName().equalsIgnoreCase(roomName))
                 .findFirst();

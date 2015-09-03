@@ -4,6 +4,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,9 +23,11 @@ public class MealController {
      *
      * @param location
      * @return
+     * @throws IOException 
+     * @throws MalformedURLException 
      */
     @RequestMapping("/rest/api/1/meal")
-    public List<Meal> meal(@RequestParam(value = "location") StudentWorkMunich location) {
+    public List<Meal> meal(@RequestParam(value = "location") StudentWorkMunich location) throws MalformedURLException, IOException {
         return new MealParser(location).parse()
                 .stream()
                 .filter(meal -> new Date().after(meal.getDate()))

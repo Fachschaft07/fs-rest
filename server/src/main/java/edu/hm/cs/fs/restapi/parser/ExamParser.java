@@ -2,6 +2,8 @@ package edu.hm.cs.fs.restapi.parser;
 
 import org.jsoup.helper.StringUtil;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -37,7 +39,7 @@ public class ExamParser extends AbstractXmlParser<Exam> {
     }
 
     @Override
-    public List<Exam> onCreateItems(final String rootPath) throws XPathExpressionException {
+    public List<Exam> onCreateItems(final String rootPath) throws XPathExpressionException, MalformedURLException, IOException {
         final List<Exam> result = new ArrayList<>();
 
         final String date = findByXPath(rootPath + "/date/text()", XPathConstants.STRING, String.class);

@@ -4,6 +4,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.Optional;
 
 import edu.hm.cs.fs.common.model.Module;
@@ -18,9 +20,11 @@ public class ModuleController {
      *
      * @param moduleId
      * @return
+     * @throws IOException 
+     * @throws MalformedURLException 
      */
     @RequestMapping("/rest/api/1/module")
-    public Module getModules(@RequestParam(value = "id") String moduleId) {
+    public Module getModules(@RequestParam(value = "id") String moduleId) throws MalformedURLException, IOException {
         final Optional<Module> module = new CachedModuleParser().findById(moduleId);
         if(module.isPresent()) {
             return module.get();

@@ -1,5 +1,7 @@
 package edu.hm.cs.fs.restapi.v1;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
@@ -30,11 +32,13 @@ public class RoomController {
      * @param hour
      * @param minute
      * @return
+     * @throws IOException 
+     * @throws MalformedURLException 
      */
     @RequestMapping("/rest/api/1/room")
     public List<SimpleRoom> search(@RequestParam(value = "day", defaultValue = "MONDAY") Day day,
                              @RequestParam(value = "hour", defaultValue = "8") int hour,
-                             @RequestParam(value = "minute", defaultValue = "0") int minute) {
+                             @RequestParam(value = "minute", defaultValue = "0") int minute) throws MalformedURLException, IOException {
         final List<Time> timesAfter = Stream.of(Time.values())
                 .filter(filterTime -> filterTime.getStart().get(Calendar.HOUR_OF_DAY) >= hour ||
                         filterTime.getStart().get(Calendar.HOUR_OF_DAY) == hour &&

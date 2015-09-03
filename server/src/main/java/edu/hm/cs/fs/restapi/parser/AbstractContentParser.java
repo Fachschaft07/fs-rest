@@ -1,5 +1,7 @@
 package edu.hm.cs.fs.restapi.parser;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.List;
 
 /**
@@ -27,8 +29,10 @@ public abstract class AbstractContentParser<T> implements Parser<T> {
      * offline file will be read.
      *
      * @return a list with the content.
+     * @throws IOException 
+     * @throws MalformedURLException 
      */
-    public final List<T> parse() {
+    public final List<T> parse() throws MalformedURLException, IOException {
         return read(mUrl);
     }
 
@@ -37,6 +41,8 @@ public abstract class AbstractContentParser<T> implements Parser<T> {
      *
      * @param url to parse.
      * @return the objects in a list.
+     * @throws IOException 
+     * @throws MalformedURLException 
      */
-    public abstract List<T> read(String url);
+    public abstract List<T> read(String url) throws MalformedURLException, IOException;
 }

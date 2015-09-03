@@ -2,6 +2,8 @@ package edu.hm.cs.fs.restapi.parser;
 
 import org.jsoup.helper.StringUtil;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -36,7 +38,7 @@ public class BlackboardParser extends AbstractXmlParser<BlackboardEntry> {
     }
 
     @Override
-    public List<BlackboardEntry> onCreateItems(final String rootPath) throws XPathExpressionException {
+    public List<BlackboardEntry> onCreateItems(final String rootPath) throws XPathExpressionException, MalformedURLException, IOException {
         String mId;
         String mAuthor;
         String mSubject;

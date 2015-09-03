@@ -2,6 +2,8 @@ package edu.hm.cs.fs.restapi.parser;
 
 import com.google.common.base.Strings;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -36,7 +38,7 @@ public class JobParser extends AbstractXmlParser<Job> {
     }
 
     @Override
-    public List<Job> onCreateItems(final String rootPath) throws XPathExpressionException {
+    public List<Job> onCreateItems(final String rootPath) throws XPathExpressionException, MalformedURLException, IOException {
         // Parse Elements
         final String jobId = findByXPath(rootPath + "/id/text()", XPathConstants.STRING, String.class);
         final String title = findByXPath(rootPath + "/title/text()", XPathConstants.STRING, String.class);

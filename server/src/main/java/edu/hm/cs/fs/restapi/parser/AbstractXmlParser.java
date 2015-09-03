@@ -3,6 +3,8 @@ package edu.hm.cs.fs.restapi.parser;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -97,8 +99,10 @@ public abstract class AbstractXmlParser<T> extends AbstractContentParser<T> {
      *
      * @param rootPath of the items.
      * @return the items.
+     * @throws IOException 
+     * @throws MalformedURLException 
      */
-    public abstract List<T> onCreateItems(String rootPath) throws XPathExpressionException;
+    public abstract List<T> onCreateItems(String rootPath) throws XPathExpressionException, MalformedURLException, IOException;
 
     /**
      * Find a element by using the {@link XPath}.

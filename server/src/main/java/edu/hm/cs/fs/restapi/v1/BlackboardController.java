@@ -1,5 +1,7 @@
 package edu.hm.cs.fs.restapi.v1;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,9 +26,11 @@ public class BlackboardController {
      *
      * @param search for the words in the entry title and description.
      * @return a list with all matched entries.
+     * @throws IOException 
+     * @throws MalformedURLException 
      */
     @RequestMapping("/rest/api/1/blackboard")
-    public List<SimpleBlackboardEntry> entry(@RequestParam(value = "search", defaultValue = "") String search) {
+    public List<SimpleBlackboardEntry> entry(@RequestParam(value = "search", defaultValue = "") String search) throws MalformedURLException, IOException {
         return ModelUtil.convert(new BlackboardParser().parse().stream()
                 .filter(entry -> entry.getSubject().contains(search) || entry.getText().contains(search))
                 .collect(Collectors.toList()), SimpleBlackboardEntry.class);

@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -30,9 +32,11 @@ public class CalendarController {
      * @param year
      * @param month
      * @return
+     * @throws IOException 
+     * @throws MalformedURLException 
      */
     @RequestMapping("/rest/api/1/calendar/event")
-    public List<Event> event(@RequestParam("year") final int year, @RequestParam("month") final int month) {
+    public List<Event> event(@RequestParam("year") final int year, @RequestParam("month") final int month) throws MalformedURLException, IOException {
         final List<Event> events = termin().parallelStream()
                 .map(termin -> {
                     Event event = new Event();
@@ -68,9 +72,11 @@ public class CalendarController {
 
     /**
      * @return
+     * @throws IOException 
+     * @throws MalformedURLException 
      */
     @RequestMapping("/rest/api/1/calendar/termin")
-    public List<Termin> termin() {
+    public List<Termin> termin() throws MalformedURLException, IOException {
         return new TerminParser().parse().parallelStream()
                 .filter(termin -> !termin.getSubject().endsWith("erster Tag") &&
                         !termin.getSubject().endsWith("letzter Tag"))
@@ -80,9 +86,11 @@ public class CalendarController {
 
     /**
      * @return
+     * @throws IOException 
+     * @throws MalformedURLException 
      */
     @RequestMapping("/rest/api/1/calendar/holiday")
-    public List<Holiday> holiday() {
+    public List<Holiday> holiday() throws MalformedURLException, IOException {
         final List<Termin> termins = new TerminParser().parse();
         return termins.parallelStream()
                 .filter(termin -> termin.getSubject().endsWith("erster Tag"))
@@ -127,10 +135,12 @@ public class CalendarController {
      * @param module
      *
      * @return
+     * @throws IOException 
+     * @throws MalformedURLException 
      */
     @RequestMapping("/rest/api/1/calendar/exam")
     public List<Exam> exam(@RequestParam(value = "study", defaultValue = "") String study,
-                           @RequestParam(value = "module", defaultValue = "") String module) {
+                           @RequestParam(value = "module", defaultValue = "") String module) throws MalformedURLException, IOException {
         return new ExamParser().parse().parallelStream()
                 .filter(exam -> Strings.isNullOrEmpty(study) || exam.getStudy() == Group.of(study).getStudy())
                 .filter(exam -> Strings.isNullOrEmpty(module) || exam.getModule() != null &&

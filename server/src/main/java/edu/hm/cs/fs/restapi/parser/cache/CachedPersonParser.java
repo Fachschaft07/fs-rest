@@ -2,7 +2,9 @@ package edu.hm.cs.fs.restapi.parser.cache;
 
 import com.google.gson.reflect.TypeToken;
 
+import java.io.IOException;
 import java.lang.reflect.Type;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
@@ -29,8 +31,10 @@ public class CachedPersonParser extends CachedParser<Person> {
      *
      * @param personId
      * @return
+     * @throws IOException 
+     * @throws MalformedURLException 
      */
-    public Optional<SimplePerson> findByIdSimple(String personId) {
+    public Optional<SimplePerson> findByIdSimple(String personId) throws MalformedURLException, IOException {
         return findById(personId).map(person -> {
             SimplePerson sPerson = new SimplePerson();
             sPerson.setId(person.getId());
@@ -45,8 +49,10 @@ public class CachedPersonParser extends CachedParser<Person> {
      *
      * @param personId
      * @return
+     * @throws IOException 
+     * @throws MalformedURLException 
      */
-    public Optional<Person> findById(String personId) {
+    public Optional<Person> findById(String personId) throws MalformedURLException, IOException {
         return parse().parallelStream()
                 .filter(person -> person.getId().equalsIgnoreCase(personId))
                 .findFirst();

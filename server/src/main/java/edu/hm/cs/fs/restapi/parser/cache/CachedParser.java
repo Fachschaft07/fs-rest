@@ -8,6 +8,7 @@ import com.google.gson.GsonBuilder;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.net.MalformedURLException;
 import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -39,7 +40,7 @@ public abstract class CachedParser<T> implements Parser<T> {
     }
 
     @Override
-    public List<T> parse() {
+    public List<T> parse() throws MalformedURLException, IOException {
         final List<T> cache;
         if (isUpToDate()) {
             cache = readFromCache();
@@ -59,7 +60,7 @@ public abstract class CachedParser<T> implements Parser<T> {
         return cacheFile.exists() && Calendar.getInstance().before(lastModified);
     }
 
-    private List<T> readFromCache() {
+    private List<T> readFromCache() throws MalformedURLException, IOException {
         try {
             // Read the cache file and reproduce the output
             return gson.fromJson(Files.toString(cacheFile, Charsets.UTF_8), getType());
@@ -69,7 +70,7 @@ public abstract class CachedParser<T> implements Parser<T> {
         }
     }
 
-    private List<T> updateCache() {
+    private List<T> updateCache() throws MalformedURLException, IOException {
         List<T> result = parser.parse();
         writeToCache(result);
         return result;

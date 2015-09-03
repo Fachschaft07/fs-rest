@@ -2,6 +2,8 @@ package edu.hm.cs.fs.restapi.parser;
 
 import org.jsoup.helper.StringUtil;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -25,7 +27,7 @@ public class LessonFk07Parser extends AbstractXmlParser<Lesson> {
     }
 
     @Override
-    public List<Lesson> onCreateItems(String rootPath) throws XPathExpressionException {
+    public List<Lesson> onCreateItems(String rootPath) throws XPathExpressionException, MalformedURLException, IOException {
         List<Lesson> result = new ArrayList<>();
         Day day = null;
         Time time = null;

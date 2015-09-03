@@ -4,6 +4,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,9 +29,11 @@ public class LostFoundController {
      *
      * @param search for the words in the Lost and Found Subject.
      * @return a list with all matched items.
+     * @throws IOException 
+     * @throws MalformedURLException 
      */
     @RequestMapping("/rest/api/1/lostandfound")
-    public List<LostFound> lostFound(@RequestParam(value = "search", defaultValue = "") String search) {
+    public List<LostFound> lostFound(@RequestParam(value = "search", defaultValue = "") String search) throws MalformedURLException, IOException {
         return new LostFoundParser().parse().stream()
                 .filter(lostFound -> lostFound.getSubject().contains(search))
                 .collect(Collectors.toList());
