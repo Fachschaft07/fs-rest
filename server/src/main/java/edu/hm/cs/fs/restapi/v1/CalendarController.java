@@ -13,6 +13,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.xml.xpath.XPathExpressionException;
+
 import edu.hm.cs.fs.common.constant.EventType;
 import edu.hm.cs.fs.common.model.Event;
 import edu.hm.cs.fs.common.model.Exam;
@@ -34,9 +36,10 @@ public class CalendarController {
      * @return
      * @throws IOException 
      * @throws MalformedURLException 
+     * @throws XPathExpressionException 
      */
     @RequestMapping("/rest/api/1/calendar/event")
-    public List<Event> event(@RequestParam("year") final int year, @RequestParam("month") final int month) throws MalformedURLException, IOException {
+    public List<Event> event(@RequestParam("year") final int year, @RequestParam("month") final int month) throws MalformedURLException, IOException, XPathExpressionException {
         final List<Event> events = termin().parallelStream()
                 .map(termin -> {
                     Event event = new Event();
@@ -74,9 +77,10 @@ public class CalendarController {
      * @return
      * @throws IOException 
      * @throws MalformedURLException 
+     * @throws XPathExpressionException 
      */
     @RequestMapping("/rest/api/1/calendar/termin")
-    public List<Termin> termin() throws MalformedURLException, IOException {
+    public List<Termin> termin() throws MalformedURLException, IOException, XPathExpressionException {
         return new TerminParser().parse().parallelStream()
                 .filter(termin -> !termin.getSubject().endsWith("erster Tag") &&
                         !termin.getSubject().endsWith("letzter Tag"))
@@ -88,9 +92,10 @@ public class CalendarController {
      * @return
      * @throws IOException 
      * @throws MalformedURLException 
+     * @throws XPathExpressionException 
      */
     @RequestMapping("/rest/api/1/calendar/holiday")
-    public List<Holiday> holiday() throws MalformedURLException, IOException {
+    public List<Holiday> holiday() throws MalformedURLException, IOException, XPathExpressionException {
         final List<Termin> termins = new TerminParser().parse();
         return termins.parallelStream()
                 .filter(termin -> termin.getSubject().endsWith("erster Tag"))
@@ -137,10 +142,11 @@ public class CalendarController {
      * @return
      * @throws IOException 
      * @throws MalformedURLException 
+     * @throws XPathExpressionException 
      */
     @RequestMapping("/rest/api/1/calendar/exam")
     public List<Exam> exam(@RequestParam(value = "study", defaultValue = "") String study,
-                           @RequestParam(value = "module", defaultValue = "") String module) throws MalformedURLException, IOException {
+                           @RequestParam(value = "module", defaultValue = "") String module) throws MalformedURLException, IOException, XPathExpressionException {
         return new ExamParser().parse().parallelStream()
                 .filter(exam -> Strings.isNullOrEmpty(study) || exam.getStudy() == Group.of(study).getStudy())
                 .filter(exam -> Strings.isNullOrEmpty(module) || exam.getModule() != null &&

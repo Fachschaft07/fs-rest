@@ -8,6 +8,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import javax.xml.xpath.XPathExpressionException;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,11 +36,12 @@ public class RoomController {
      * @return
      * @throws IOException 
      * @throws MalformedURLException 
+     * @throws XPathExpressionException 
      */
     @RequestMapping("/rest/api/1/room")
     public List<SimpleRoom> search(@RequestParam(value = "day", defaultValue = "MONDAY") Day day,
                              @RequestParam(value = "hour", defaultValue = "8") int hour,
-                             @RequestParam(value = "minute", defaultValue = "0") int minute) throws MalformedURLException, IOException {
+                             @RequestParam(value = "minute", defaultValue = "0") int minute) throws MalformedURLException, IOException, XPathExpressionException {
         final List<Time> timesAfter = Stream.of(Time.values())
                 .filter(filterTime -> filterTime.getStart().get(Calendar.HOUR_OF_DAY) >= hour ||
                         filterTime.getStart().get(Calendar.HOUR_OF_DAY) == hour &&

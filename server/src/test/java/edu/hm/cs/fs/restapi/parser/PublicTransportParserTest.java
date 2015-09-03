@@ -1,8 +1,9 @@
 package edu.hm.cs.fs.restapi.parser;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.List;
+
+import javax.xml.xpath.XPathExpressionException;
 
 import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
@@ -21,7 +22,7 @@ public class PublicTransportParserTest {
       List<PublicTransport> parser =
           new PublicTransportParser(PublicTransportLocation.PASING).parse();
       Assert.assertThat(true, CoreMatchers.is(CoreMatchers.not(parser.isEmpty())));
-    } catch (IOException e) {
+    } catch (IOException | XPathExpressionException e) {
       e.printStackTrace();
     }
   }
@@ -32,7 +33,7 @@ public class PublicTransportParserTest {
       List<PublicTransport> parser =
           new PublicTransportParser(PublicTransportLocation.LOTHSTR).parse();
       Assert.assertThat(true, CoreMatchers.is(CoreMatchers.not(parser.isEmpty())));
-    } catch (IOException e) {
+    } catch (IOException | XPathExpressionException e) {
       e.printStackTrace();
     }
   }

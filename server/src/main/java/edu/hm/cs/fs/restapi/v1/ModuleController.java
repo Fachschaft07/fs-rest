@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.Optional;
 
+import javax.xml.xpath.XPathExpressionException;
+
 import edu.hm.cs.fs.common.model.Module;
 import edu.hm.cs.fs.restapi.parser.cache.CachedModuleParser;
 
@@ -22,9 +24,10 @@ public class ModuleController {
      * @return
      * @throws IOException 
      * @throws MalformedURLException 
+     * @throws XPathExpressionException 
      */
     @RequestMapping("/rest/api/1/module")
-    public Module getModules(@RequestParam(value = "id") String moduleId) throws MalformedURLException, IOException {
+    public Module getModules(@RequestParam(value = "id") String moduleId) throws MalformedURLException, IOException, XPathExpressionException {
         final Optional<Module> module = new CachedModuleParser().findById(moduleId);
         if(module.isPresent()) {
             return module.get();

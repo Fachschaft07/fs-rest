@@ -1,16 +1,17 @@
 package edu.hm.cs.fs.restapi.parser;
 
-import com.google.common.io.CharStreams;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import com.google.common.io.CharStreams;
 
 /**
  * An abstract parser for json content.
@@ -28,9 +29,9 @@ public abstract class AbstractJsonParser<T> extends AbstractContentParser<T> {
     }
 
     @Override
-    public List<T> read(final String url) {
+    public List<T> read(final String url) throws IOException {
         final List<T> result = new ArrayList<>();
-        try {
+        //try {
             final URL source = new URL(url);
             final HttpURLConnection conn = (HttpURLConnection) source.openConnection();
             conn.setReadTimeout(3000);
@@ -46,10 +47,10 @@ public abstract class AbstractJsonParser<T> extends AbstractContentParser<T> {
             } else {
                 result.addAll(convert(new JSONObject(content)));
             }
-        } catch (final Exception e) {
+       /* } catch (final Exception e) {
             e.printStackTrace();
             // TODO Log.e(getClass().getSimpleName(), "", e);
-        }
+        }*/
         return result;
     }
 

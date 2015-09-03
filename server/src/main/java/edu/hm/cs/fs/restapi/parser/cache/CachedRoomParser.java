@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
+import javax.xml.xpath.XPathExpressionException;
+
 import edu.hm.cs.fs.common.model.Room;
 import edu.hm.cs.fs.restapi.parser.RoomParser;
 
@@ -32,8 +34,9 @@ public class CachedRoomParser extends CachedParser<Room> {
      * @return
      * @throws IOException 
      * @throws MalformedURLException 
+     * @throws XPathExpressionException 
      */
-    public Optional<Room> findByName(String roomName) throws MalformedURLException, IOException {
+    public Optional<Room> findByName(String roomName) throws MalformedURLException, IOException, XPathExpressionException {
         return parse().parallelStream()
                 .filter(room -> room.getName().equalsIgnoreCase(roomName))
                 .findFirst();

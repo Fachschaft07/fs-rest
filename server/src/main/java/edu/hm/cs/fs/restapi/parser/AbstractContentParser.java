@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.List;
 
+import javax.xml.xpath.XPathExpressionException;
+
 /**
  * An very abstract parser for every type of web content parsing.
  *
@@ -31,8 +33,9 @@ public abstract class AbstractContentParser<T> implements Parser<T> {
      * @return a list with the content.
      * @throws IOException 
      * @throws MalformedURLException 
+     * @throws XPathExpressionException 
      */
-    public final List<T> parse() throws MalformedURLException, IOException {
+    public final List<T> parse() throws MalformedURLException, IOException, XPathExpressionException {
         return read(mUrl);
     }
 
@@ -43,6 +46,7 @@ public abstract class AbstractContentParser<T> implements Parser<T> {
      * @return the objects in a list.
      * @throws IOException 
      * @throws MalformedURLException 
+     * @throws XPathExpressionException 
      */
-    public abstract List<T> read(String url) throws MalformedURLException, IOException;
+    public abstract List<T> read(String url) throws MalformedURLException, IOException, XPathExpressionException;
 }

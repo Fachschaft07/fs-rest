@@ -5,6 +5,8 @@ import java.net.MalformedURLException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.xml.xpath.XPathExpressionException;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,10 +33,11 @@ public class JobController {
      * @return a list with all matched jobs.
      * @throws IOException 
      * @throws MalformedURLException 
+     * @throws XPathExpressionException 
      */
     @RequestMapping("/rest/api/1/job")
     public List<SimpleJob> findJob(@RequestParam(value = "search", defaultValue = "") String search,
-                             @RequestParam(value = "id", defaultValue = "") String id) throws MalformedURLException, IOException {
+                             @RequestParam(value = "id", defaultValue = "") String id) throws MalformedURLException, IOException, XPathExpressionException {
         return ModelUtil.convert(new JobParser().parse().stream()
                 .filter(job -> search == null || search.length() == 0 || (job.getTitle() + job.getDescription()).toLowerCase().contains(search.toLowerCase()))
                 .filter(job -> id == null || id.length() == 0 || job.getId().equals(id))

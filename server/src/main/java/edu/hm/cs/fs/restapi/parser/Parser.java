@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.List;
 
+import javax.xml.xpath.XPathExpressionException;
+
 /**
  * A parser for everything.
  *
@@ -16,6 +18,7 @@ public interface Parser<T> {
      * @return a list with objects.
      * @throws IOException 
      * @throws MalformedURLException 
+     * @throws XPathExpressionException 
      */
-    List<T> parse() throws MalformedURLException, IOException;
+    List<T> parse() throws MalformedURLException, IOException, XPathExpressionException;
 }

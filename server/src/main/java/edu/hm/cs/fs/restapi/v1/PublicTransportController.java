@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.List;
 
+import javax.xml.xpath.XPathExpressionException;
+
 import edu.hm.cs.fs.common.constant.PublicTransportLocation;
 import edu.hm.cs.fs.common.model.PublicTransport;
 import edu.hm.cs.fs.restapi.parser.PublicTransportParser;
@@ -28,9 +30,10 @@ public class PublicTransportController {
      * @return the public transport possibilities.
      * @throws IOException 
      * @throws MalformedURLException 
+     * @throws XPathExpressionException 
      */
     @RequestMapping("/rest/api/1/publicTransport")
-    public List<PublicTransport> publicTransport(@RequestParam("location") PublicTransportLocation location) throws MalformedURLException, IOException {
+    public List<PublicTransport> publicTransport(@RequestParam("location") PublicTransportLocation location) throws MalformedURLException, IOException, XPathExpressionException {
         return new PublicTransportParser(location).parse();
     }
 }

@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
+import javax.xml.xpath.XPathExpressionException;
+
 import edu.hm.cs.fs.common.model.Person;
 import edu.hm.cs.fs.common.model.SimplePerson;
 import edu.hm.cs.fs.restapi.parser.PersonParser;
@@ -33,8 +35,9 @@ public class CachedPersonParser extends CachedParser<Person> {
      * @return
      * @throws IOException 
      * @throws MalformedURLException 
+     * @throws XPathExpressionException 
      */
-    public Optional<SimplePerson> findByIdSimple(String personId) throws MalformedURLException, IOException {
+    public Optional<SimplePerson> findByIdSimple(String personId) throws MalformedURLException, IOException, XPathExpressionException {
         return findById(personId).map(person -> {
             SimplePerson sPerson = new SimplePerson();
             sPerson.setId(person.getId());
@@ -51,8 +54,9 @@ public class CachedPersonParser extends CachedParser<Person> {
      * @return
      * @throws IOException 
      * @throws MalformedURLException 
+     * @throws XPathExpressionException 
      */
-    public Optional<Person> findById(String personId) throws MalformedURLException, IOException {
+    public Optional<Person> findById(String personId) throws MalformedURLException, IOException, XPathExpressionException {
         return parse().parallelStream()
                 .filter(person -> person.getId().equalsIgnoreCase(personId))
                 .findFirst();

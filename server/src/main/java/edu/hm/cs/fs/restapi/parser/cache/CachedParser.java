@@ -1,10 +1,5 @@
 package edu.hm.cs.fs.restapi.parser.cache;
 
-import com.google.common.base.Charsets;
-import com.google.common.io.Files;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -12,6 +7,13 @@ import java.net.MalformedURLException;
 import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+
+import javax.xml.xpath.XPathExpressionException;
+
+import com.google.common.base.Charsets;
+import com.google.common.io.Files;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import edu.hm.cs.fs.restapi.parser.Parser;
 
@@ -40,7 +42,7 @@ public abstract class CachedParser<T> implements Parser<T> {
     }
 
     @Override
-    public List<T> parse() throws MalformedURLException, IOException {
+    public List<T> parse() throws MalformedURLException, IOException, XPathExpressionException {
         final List<T> cache;
         if (isUpToDate()) {
             cache = readFromCache();
@@ -60,7 +62,7 @@ public abstract class CachedParser<T> implements Parser<T> {
         return cacheFile.exists() && Calendar.getInstance().before(lastModified);
     }
 
-    private List<T> readFromCache() throws MalformedURLException, IOException {
+    private List<T> readFromCache() throws MalformedURLException, IOException, XPathExpressionException {
         try {
             // Read the cache file and reproduce the output
             return gson.fromJson(Files.toString(cacheFile, Charsets.UTF_8), getType());
@@ -70,7 +72,7 @@ public abstract class CachedParser<T> implements Parser<T> {
         }
     }
 
-    private List<T> updateCache() throws MalformedURLException, IOException {
+    private List<T> updateCache() throws MalformedURLException, IOException, XPathExpressionException {
         List<T> result = parser.parse();
         writeToCache(result);
         return result;

@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.List;
 
+import javax.xml.xpath.XPathExpressionException;
+
 import edu.hm.cs.fs.common.model.Presence;
 import edu.hm.cs.fs.restapi.parser.PresenceParser;
 
@@ -20,9 +22,10 @@ public class FsController {
      * @return
      * @throws IOException 
      * @throws MalformedURLException 
+     * @throws XPathExpressionException 
      */
     @RequestMapping("/rest/api/1/fs/presence")
-    public List<Presence> getPresence() throws MalformedURLException, IOException {
+    public List<Presence> getPresence() throws MalformedURLException, IOException, XPathExpressionException {
         return new PresenceParser().parse();
     }
 }

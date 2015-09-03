@@ -8,6 +8,8 @@ import org.junit.Test;
 import java.io.IOException;
 import java.util.List;
 
+import javax.xml.xpath.XPathExpressionException;
+
 import edu.hm.cs.fs.common.model.Job;
 
 /**
@@ -26,7 +28,7 @@ public class JobParserTest {
         try {
           List<Job> jobs = parser.parse();
           Assert.assertThat(true, CoreMatchers.is(CoreMatchers.not(jobs.isEmpty())));
-        } catch (IOException e) {
+        } catch (IOException | XPathExpressionException e) {
           // TODO Auto-generated catch block
           e.printStackTrace();
         }

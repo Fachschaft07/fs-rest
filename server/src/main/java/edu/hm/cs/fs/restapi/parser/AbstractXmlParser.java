@@ -39,11 +39,11 @@ public abstract class AbstractXmlParser<T> extends AbstractContentParser<T> {
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<T> read(final String url) {
+    public List<T> read(final String url) throws XPathExpressionException, MalformedURLException, IOException {
         final List<T> result = new ArrayList<>();
         xmlDoc = readXml(url);
         if (xmlDoc != null) {
-            try {
+            //try {
                 // 2014-09-18: BugFix: Wrong count with
                 // xmlDoc.getElementByTagName(...)
                 // 2014-09-19: Put the getCountByXPah method outside the for-loop to
@@ -56,10 +56,10 @@ public abstract class AbstractXmlParser<T> extends AbstractContentParser<T> {
                         result.addAll(value);
                     }
                 }
-            } catch (Exception e) {
+           /* } catch (Exception e) {
                 e.printStackTrace();
                 // TODO Log.e(TAG, "", e);
-            }
+            }*/
         }
         return result;
     }

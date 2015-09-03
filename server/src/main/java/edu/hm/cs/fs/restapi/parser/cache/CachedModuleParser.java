@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
+import javax.xml.xpath.XPathExpressionException;
+
 import edu.hm.cs.fs.common.model.Module;
 import edu.hm.cs.fs.common.model.SimpleModule;
 import edu.hm.cs.fs.restapi.parser.ModuleParser;
@@ -33,8 +35,9 @@ public class CachedModuleParser extends CachedParser<Module> {
      * @return
      * @throws IOException 
      * @throws MalformedURLException 
+     * @throws XPathExpressionException 
      */
-    public Optional<SimpleModule> findByIdSimple(String moduleId) throws MalformedURLException, IOException {
+    public Optional<SimpleModule> findByIdSimple(String moduleId) throws MalformedURLException, IOException, XPathExpressionException {
         return findById(moduleId).map(module -> {
             SimpleModule sModule = new SimpleModule();
             sModule.setId(module.getId());
@@ -49,8 +52,9 @@ public class CachedModuleParser extends CachedParser<Module> {
      * @return
      * @throws IOException 
      * @throws MalformedURLException 
+     * @throws XPathExpressionException 
      */
-    public Optional<Module> findById(String moduleId) throws MalformedURLException, IOException {
+    public Optional<Module> findById(String moduleId) throws MalformedURLException, IOException, XPathExpressionException {
         return parse().parallelStream()
                 .filter(module -> moduleId.equals(module.getId()))
                 .findFirst();

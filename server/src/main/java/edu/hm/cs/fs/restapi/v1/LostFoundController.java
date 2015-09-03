@@ -9,6 +9,8 @@ import java.net.MalformedURLException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.xml.xpath.XPathExpressionException;
+
 import edu.hm.cs.fs.common.model.LostFound;
 import edu.hm.cs.fs.restapi.parser.LostFoundParser;
 
@@ -31,9 +33,10 @@ public class LostFoundController {
      * @return a list with all matched items.
      * @throws IOException 
      * @throws MalformedURLException 
+     * @throws XPathExpressionException 
      */
     @RequestMapping("/rest/api/1/lostandfound")
-    public List<LostFound> lostFound(@RequestParam(value = "search", defaultValue = "") String search) throws MalformedURLException, IOException {
+    public List<LostFound> lostFound(@RequestParam(value = "search", defaultValue = "") String search) throws MalformedURLException, IOException, XPathExpressionException {
         return new LostFoundParser().parse().stream()
                 .filter(lostFound -> lostFound.getSubject().contains(search))
                 .collect(Collectors.toList());

@@ -5,6 +5,8 @@ import java.net.MalformedURLException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.xml.xpath.XPathExpressionException;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,9 +30,10 @@ public class BlackboardController {
      * @return a list with all matched entries.
      * @throws IOException 
      * @throws MalformedURLException 
+     * @throws XPathExpressionException 
      */
     @RequestMapping("/rest/api/1/blackboard")
-    public List<SimpleBlackboardEntry> entry(@RequestParam(value = "search", defaultValue = "") String search) throws MalformedURLException, IOException {
+    public List<SimpleBlackboardEntry> entry(@RequestParam(value = "search", defaultValue = "") String search) throws MalformedURLException, IOException, XPathExpressionException {
         return ModelUtil.convert(new BlackboardParser().parse().stream()
                 .filter(entry -> entry.getSubject().contains(search) || entry.getText().contains(search))
                 .collect(Collectors.toList()), SimpleBlackboardEntry.class);
