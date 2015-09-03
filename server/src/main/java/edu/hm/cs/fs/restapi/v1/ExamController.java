@@ -22,11 +22,11 @@ public class ExamController {
      * @param moduleId
      * @return
      */
-    @RequestMapping("/rest/api/1/calendar/exam")
+    @RequestMapping("/rest/api/1/exam")
     public List<Exam> getExams(@RequestParam(value = "group", defaultValue = "") Group group,
                                @RequestParam(value = "moduleId", defaultValue = "") String moduleId) {
         return new ExamParser().parse().parallelStream()
-                .filter(exam -> exam.getStudy() == group.getStudy())
+                .filter(exam -> group == null || exam.getStudy() == group.getStudy())
                 .filter(exam -> Strings.isNullOrEmpty(moduleId) || exam.getModule() != null &&
                         exam.getModule().getId().equalsIgnoreCase(moduleId))
                 .collect(Collectors.toList());
