@@ -3,6 +3,7 @@ package edu.hm.cs.fs.common.model;
 import java.util.Date;
 
 import edu.hm.cs.fs.common.constant.Study;
+import edu.hm.cs.fs.common.model.simple.SimplePerson;
 
 /**
  * @author Fabio

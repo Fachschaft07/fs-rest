@@ -9,10 +9,10 @@ import edu.hm.cs.fs.common.constant.Semester;
 
 public class ModuleCode {
     private String modul;
-    //private String regulation;
+    private String regulation;
     private Offer offer;
     private ExamType services;
-    //private String code;
+    private String code;
     private List<Semester> semesters;
     private String curriculum;
 
@@ -24,7 +24,6 @@ public class ModuleCode {
         this.modul = modul;
     }
 
-    /*
     public String getRegulation() {
         return regulation;
     }
@@ -32,7 +31,6 @@ public class ModuleCode {
     public void setRegulation(String regulation) {
         this.regulation = regulation;
     }
-    */
 
     public Offer getOffer() {
         return offer;
@@ -50,7 +48,6 @@ public class ModuleCode {
         this.services = services;
     }
 
-    /*
     public String getCode() {
         return code;
     }
@@ -58,7 +55,6 @@ public class ModuleCode {
     public void setCode(String code) {
         this.code = code;
     }
-    */
 
     public List<Semester> getSemesters() {
         return semesters;

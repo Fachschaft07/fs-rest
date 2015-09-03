@@ -26,7 +26,7 @@ public class PublicTransportController {
      * @return the public transport possibilities.
      */
     @RequestMapping("/rest/api/1/publicTransport")
-    public List<PublicTransport> publicTransport(@RequestParam("location") PublicTransportLocation location) {
+    public List<PublicTransport> getPublicTransports(@RequestParam("location") PublicTransportLocation location) {
         return new PublicTransportParser(location).parse();
     }
 }

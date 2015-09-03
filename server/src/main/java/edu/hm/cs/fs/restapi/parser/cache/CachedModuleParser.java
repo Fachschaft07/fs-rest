@@ -8,7 +8,7 @@ import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 import edu.hm.cs.fs.common.model.Module;
-import edu.hm.cs.fs.common.model.SimpleModule;
+import edu.hm.cs.fs.common.model.simple.SimpleModule;
 import edu.hm.cs.fs.restapi.parser.ModuleParser;
 
 /**

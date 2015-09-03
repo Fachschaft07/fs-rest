@@ -1,10 +1,11 @@
-package edu.hm.cs.fs.common.model;
+package edu.hm.cs.fs.common.model.simple;
 
 import java.util.List;
 
 import edu.hm.cs.fs.common.constant.ExamType;
 import edu.hm.cs.fs.common.constant.Offer;
 import edu.hm.cs.fs.common.constant.Semester;
+import edu.hm.cs.fs.common.model.ModuleCode;
 
 
 public class SimpleModuleCode {

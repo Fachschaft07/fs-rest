@@ -4,6 +4,8 @@ import java.util.List;
 
 import edu.hm.cs.fs.common.constant.Study;
 import edu.hm.cs.fs.common.constant.TeachingForm;
+import edu.hm.cs.fs.common.model.simple.SimpleModuleCode;
+import edu.hm.cs.fs.common.model.simple.SimplePerson;
 
 
 /**
@@ -22,9 +24,9 @@ public class Module {
     private String requirements;
     private String goals;
     private String content;
-    //private String media;
+    private String media;
     private String literature;
-    //private Study program;
+    private Study program;
     private List<SimpleModuleCode> modulCodes;
 
     public String getId() {
@@ -123,7 +125,6 @@ public class Module {
         this.content = content;
     }
 
-    /*
     public String getMedia() {
         return media;
     }
@@ -131,7 +132,6 @@ public class Module {
     public void setMedia(String media) {
         this.media = media;
     }
-    */
 
     public String getLiterature() {
         return literature;
@@ -141,7 +141,6 @@ public class Module {
         this.literature = literature;
     }
 
-    /*
     public Study getProgram() {
         return program;
     }
@@ -149,7 +148,6 @@ public class Module {
     public void setProgram(Study program) {
         this.program = program;
     }
-    */
 
     public List<SimpleModuleCode> getModulCodes() {
         return modulCodes;

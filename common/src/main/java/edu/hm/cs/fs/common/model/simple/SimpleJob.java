@@ -1,4 +1,6 @@
-package edu.hm.cs.fs.common.model;
+package edu.hm.cs.fs.common.model.simple;
+
+import edu.hm.cs.fs.common.model.Job;
 
 /**
  * @author Luca
@@ -8,17 +10,18 @@ public class SimpleJob {
   private String provider;
   private String description;
   private SimplePerson contact;
+  private String url;
 
   public SimpleJob() {
   }
-  
+
   public SimpleJob(final Job job) {
     title = job.getTitle();
     provider = job.getProvider();
     description = job.getDescription();
     contact = job.getContact();
   }
-  
+
   public String getTitle() {
     return title;
   }
@@ -49,6 +52,14 @@ public class SimpleJob {
 
   public void setContact(final SimplePerson contact) {
     this.contact = contact;
+  }
+
+  public String getUrl() {
+    return url;
+  }
+
+  public void setUrl(final String url) {
+    this.url = url;
   }
 
 }

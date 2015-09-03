@@ -17,7 +17,7 @@ import edu.hm.cs.fs.common.constant.ExamType;
 import edu.hm.cs.fs.common.constant.Study;
 import edu.hm.cs.fs.common.model.Exam;
 import edu.hm.cs.fs.common.model.Group;
-import edu.hm.cs.fs.common.model.SimplePerson;
+import edu.hm.cs.fs.common.model.simple.SimplePerson;
 import edu.hm.cs.fs.restapi.parser.cache.CachedModuleParser;
 import edu.hm.cs.fs.restapi.parser.cache.CachedPersonParser;
 

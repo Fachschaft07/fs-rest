@@ -8,7 +8,7 @@ import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 import edu.hm.cs.fs.common.model.Person;
-import edu.hm.cs.fs.common.model.SimplePerson;
+import edu.hm.cs.fs.common.model.simple.SimplePerson;
 import edu.hm.cs.fs.restapi.parser.PersonParser;
 
 /**

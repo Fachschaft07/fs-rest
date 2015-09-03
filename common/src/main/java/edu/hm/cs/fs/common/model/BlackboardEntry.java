@@ -1,5 +1,7 @@
 package edu.hm.cs.fs.common.model;
 
+import edu.hm.cs.fs.common.model.simple.SimplePerson;
+
 import java.util.Date;
 import java.util.List;
 
@@ -7,7 +9,6 @@ import java.util.List;
  * Created by Fabio on 18.02.2015.
  */
 public class BlackboardEntry {
-
     private String id;
     private SimplePerson author;
     private String subject;
@@ -15,7 +16,6 @@ public class BlackboardEntry {
     private List<SimplePerson> teachers;
     private List<Group> groups;
     private Date publish;
-    //private Date expire;
     private String url;
 
     public String getId() {
@@ -73,16 +73,6 @@ public class BlackboardEntry {
     public void setPublish(final Date publish) {
         this.publish = publish;
     }
-
-    /*
-    public Date getExpire() {
-        return expire;
-    }
-
-    public void setExpire(final Date expire) {
-        this.expire = expire;
-    }
-    */
 
     public String getUrl() {
         return url;

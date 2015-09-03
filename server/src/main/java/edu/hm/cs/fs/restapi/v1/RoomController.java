@@ -13,8 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import edu.hm.cs.fs.common.constant.Day;
 import edu.hm.cs.fs.common.constant.Time;
 import edu.hm.cs.fs.common.model.Room;
-import edu.hm.cs.fs.common.model.SimpleRoom;
-import edu.hm.cs.fs.common.model.util.ModelUtil;
+import edu.hm.cs.fs.common.model.simple.SimpleRoom;
 import edu.hm.cs.fs.restapi.parser.cache.CachedOccupiedParser;
 
 /**
@@ -32,16 +31,16 @@ public class RoomController {
      * @return
      */
     @RequestMapping("/rest/api/1/room")
-    public List<SimpleRoom> search(@RequestParam(value = "day", defaultValue = "MONDAY") Day day,
-                             @RequestParam(value = "hour", defaultValue = "8") int hour,
-                             @RequestParam(value = "minute", defaultValue = "0") int minute) {
+    public List<SimpleRoom> getRoomByDateTime(@RequestParam(value = "day", defaultValue = "MONDAY") Day day,
+                                              @RequestParam(value = "hour", defaultValue = "8") int hour,
+                                              @RequestParam(value = "minute", defaultValue = "0") int minute) {
         final List<Time> timesAfter = Stream.of(Time.values())
                 .filter(filterTime -> filterTime.getStart().get(Calendar.HOUR_OF_DAY) >= hour ||
                         filterTime.getStart().get(Calendar.HOUR_OF_DAY) == hour &&
                                 filterTime.getStart().get(Calendar.MINUTE) >= minute)
                 .sorted(Enum::compareTo)
                 .collect(Collectors.toList());
-        return ModelUtil.convert(new CachedOccupiedParser().parse().parallelStream()
+        return new CachedOccupiedParser().parse().parallelStream()
                 .filter(room -> room.getCapacity() > MIN_ROOM_CAPACITY)
                 .map(room -> {
                     Room tmpRoom = new Room();
@@ -79,6 +78,7 @@ public class RoomController {
                     return tmpRoom;
                 })
                 .filter(room -> room != null)
-                .collect(Collectors.toList()), SimpleRoom.class);
+                .map(SimpleRoom::new)
+                .collect(Collectors.toList());
     }
 }

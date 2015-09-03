@@ -15,7 +15,7 @@ import javax.xml.xpath.XPathExpressionException;
 
 import edu.hm.cs.fs.common.model.BlackboardEntry;
 import edu.hm.cs.fs.common.model.Group;
-import edu.hm.cs.fs.common.model.SimplePerson;
+import edu.hm.cs.fs.common.model.simple.SimplePerson;
 import edu.hm.cs.fs.restapi.parser.cache.CachedPersonParser;
 
 /**
@@ -104,7 +104,7 @@ public class BlackboardParser extends AbstractXmlParser<BlackboardEntry> {
         blackboardEntry.setGroups(mGroupList);
         blackboardEntry.setTeachers(mTeacherList);
         blackboardEntry.setPublish(mPublish);
-        //blackboardEntry.setExpire(mExpire);
+        blackboardEntry.setExpire(mExpire);
         blackboardEntry.setUrl(mUrl);
 
         if (!StringUtil.isBlank(mAuthor)) {

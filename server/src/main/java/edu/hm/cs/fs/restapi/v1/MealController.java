@@ -23,7 +23,7 @@ public class MealController {
      * @return
      */
     @RequestMapping("/rest/api/1/meal")
-    public List<Meal> meal(@RequestParam(value = "location") StudentWorkMunich location) {
+    public List<Meal> getMeals(@RequestParam(value = "location") StudentWorkMunich location) {
         return new MealParser(location).parse()
                 .stream()
                 .filter(meal -> new Date().after(meal.getDate()))

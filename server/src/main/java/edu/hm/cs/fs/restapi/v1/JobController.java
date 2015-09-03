@@ -7,8 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import edu.hm.cs.fs.common.model.SimpleJob;
-import edu.hm.cs.fs.common.model.util.ModelUtil;
+import edu.hm.cs.fs.common.model.simple.SimpleJob;
 import edu.hm.cs.fs.restapi.parser.JobParser;
 
 /**
@@ -29,11 +28,12 @@ public class JobController {
      * @return a list with all matched jobs.
      */
     @RequestMapping("/rest/api/1/job")
-    public List<SimpleJob> findJob(@RequestParam(value = "search", defaultValue = "") String search,
-                             @RequestParam(value = "id", defaultValue = "") String id) {
-        return ModelUtil.convert(new JobParser().parse().stream()
+    public List<SimpleJob> getJobs(@RequestParam(value = "search", defaultValue = "") String search,
+                                   @RequestParam(value = "id", defaultValue = "") String id) {
+        return new JobParser().parse().stream()
                 .filter(job -> search == null || search.length() == 0 || (job.getTitle() + job.getDescription()).toLowerCase().contains(search.toLowerCase()))
                 .filter(job -> id == null || id.length() == 0 || job.getId().equals(id))
-                .collect(Collectors.toList()), SimpleJob.class);
+                .map(SimpleJob::new)
+                .collect(Collectors.toList());
     }
 }
