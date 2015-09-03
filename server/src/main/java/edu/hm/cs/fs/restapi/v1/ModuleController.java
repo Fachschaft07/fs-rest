@@ -21,7 +21,7 @@ public class ModuleController {
      *
      * @return
      */
-    @RequestMapping("/rest/api/1/module")
+    @RequestMapping("/rest/api/1/modules")
     public List<SimpleModule> getModules() {
         return new CachedModuleParser().parse()
                 .parallelStream()
@@ -36,7 +36,8 @@ public class ModuleController {
      */
     @RequestMapping("/rest/api/1/module")
     public Module getModuleById(@RequestParam(value = "id") String moduleId) {
-        final Optional<Module> module = new CachedModuleParser().findById(moduleId);
-        return module.isPresent() ? module.get() : null;
+        return new CachedModuleParser()
+                .findById(moduleId)
+                .orElseThrow(() -> new IllegalStateException("No module found with id '" + moduleId + "'."));
     }
 }

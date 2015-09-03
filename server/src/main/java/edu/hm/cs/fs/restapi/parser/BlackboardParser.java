@@ -44,7 +44,6 @@ public class BlackboardParser extends AbstractXmlParser<BlackboardEntry> {
         List<SimplePerson> mTeacherList = new ArrayList<>();
         List<Group> mGroupList = new ArrayList<>();
         Date mPublish = null;
-        Date mExpire = null;
         String mUrl;
 
         // Parse Elements...
@@ -62,16 +61,6 @@ public class BlackboardParser extends AbstractXmlParser<BlackboardEntry> {
         if (!StringUtil.isBlank(publishDate)) {
             try {
                 mPublish = DATE_PARSER.parse(publishDate);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        }
-
-        final String expireDate = findByXPath(rootPath + "/expire/text()",
-                XPathConstants.STRING, String.class);
-        if (!StringUtil.isBlank(expireDate)) {
-            try {
-                mExpire = DATE_PARSER.parse(expireDate);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -104,7 +93,6 @@ public class BlackboardParser extends AbstractXmlParser<BlackboardEntry> {
         blackboardEntry.setGroups(mGroupList);
         blackboardEntry.setTeachers(mTeacherList);
         blackboardEntry.setPublish(mPublish);
-        blackboardEntry.setExpire(mExpire);
         blackboardEntry.setUrl(mUrl);
 
         if (!StringUtil.isBlank(mAuthor)) {
