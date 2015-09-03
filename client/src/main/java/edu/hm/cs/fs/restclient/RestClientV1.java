@@ -178,7 +178,7 @@ public interface RestClientV1 {
      *
      * @return a list with modules.
      */
-    @GET(ROOT_PATH + "module")
+    @GET(ROOT_PATH + "modules")
     List<SimpleModule> getModules();
 
     /**
@@ -186,7 +186,7 @@ public interface RestClientV1 {
      *
      * @param callback to retrieve the result.
      */
-    @GET(ROOT_PATH + "module")
+    @GET(ROOT_PATH + "modules")
     void getModules(Callback<List<SimpleModule>> callback);
 
     /**
