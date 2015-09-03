@@ -31,12 +31,7 @@ public class CachedModuleParser extends CachedParser<Module> {
      * @return
      */
     public Optional<SimpleModule> findByIdSimple(String moduleId) {
-        return findById(moduleId).map(module -> {
-            SimpleModule sModule = new SimpleModule();
-            sModule.setId(module.getId());
-            sModule.setName(module.getName());
-            return sModule;
-        });
+        return findById(moduleId).map(SimpleModule::new);
     }
 
     /**

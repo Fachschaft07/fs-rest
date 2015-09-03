@@ -31,14 +31,7 @@ public class CachedPersonParser extends CachedParser<Person> {
      * @return
      */
     public Optional<SimplePerson> findByIdSimple(String personId) {
-        return findById(personId).map(person -> {
-            SimplePerson sPerson = new SimplePerson();
-            sPerson.setId(person.getId());
-            sPerson.setLastName(person.getLastName());
-            sPerson.setFirstName(person.getFirstName());
-            sPerson.setTitle(person.getTitle());
-            return sPerson;
-        });
+        return findById(personId).map(SimplePerson::new);
     }
 
     /**
