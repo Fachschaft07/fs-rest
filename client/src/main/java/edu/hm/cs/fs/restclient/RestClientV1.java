@@ -252,6 +252,31 @@ public interface RestClientV1 {
 
     ////////////////////////////////////////////////////////////////////
     //
+    //          Person
+    //
+    ///////////////////////////////////////////////////////////////////
+
+    /**
+     * Request the person by id.
+     *
+     * @param personId to get the person from.
+     * @return a person.
+     */
+    @GET(ROOT_PATH + "person")
+    Person getPersonById(@Query("id") final String personId);
+
+    /**
+     * Request the person by id asynchronous.
+     *
+     * @param personId to get the person from.
+     * @param callback to retrieve the results.
+     */
+    @GET(ROOT_PATH + "person")
+    void getPersonById(@Query("id") final String personId,
+                             final Callback<List<PublicTransport>> callback);
+
+    ////////////////////////////////////////////////////////////////////
+    //
     //          Mensa
     //
     ///////////////////////////////////////////////////////////////////
@@ -283,7 +308,7 @@ public interface RestClientV1 {
     /**
      * Request all departures from a specified location of the mvv.
      *
-     * @param location to getV1 the departures from.
+     * @param location to get the departures from.
      * @return a list with public transport possibilities.
      */
     @GET(ROOT_PATH + "publicTransport")
@@ -292,7 +317,7 @@ public interface RestClientV1 {
     /**
      * Request all departures from a specified location of the mvv asynchronous.
      *
-     * @param location to getV1 the departures from.
+     * @param location to get the departures from.
      * @param callback to retrieve the results.
      */
     @GET(ROOT_PATH + "publicTransport")
