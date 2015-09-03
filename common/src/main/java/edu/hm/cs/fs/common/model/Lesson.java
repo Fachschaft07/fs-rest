@@ -3,6 +3,8 @@ package edu.hm.cs.fs.common.model;
 
 import edu.hm.cs.fs.common.constant.Day;
 import edu.hm.cs.fs.common.constant.Time;
+import edu.hm.cs.fs.common.model.simple.SimpleModule;
+import edu.hm.cs.fs.common.model.simple.SimplePerson;
 
 public class Lesson {
     private Day day;

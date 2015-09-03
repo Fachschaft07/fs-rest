@@ -1,4 +1,6 @@
-package edu.hm.cs.fs.common.model;
+package edu.hm.cs.fs.common.model.simple;
+
+import edu.hm.cs.fs.common.model.Person;
 
 /**
  * @author Fabio

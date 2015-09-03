@@ -33,7 +33,7 @@ public class PublicTransportController {
      * @throws XPathExpressionException 
      */
     @RequestMapping("/rest/api/1/publicTransport")
-    public List<PublicTransport> publicTransport(@RequestParam("location") PublicTransportLocation location) throws MalformedURLException, IOException, XPathExpressionException {
+    public List<PublicTransport> getPublicTransports(@RequestParam("location") PublicTransportLocation location) throws MalformedURLException, XPathExpressionException, IOException {
         return new PublicTransportParser(location).parse();
     }
 }

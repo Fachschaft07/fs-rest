@@ -30,7 +30,7 @@ public class MealController {
      * @throws XPathExpressionException 
      */
     @RequestMapping("/rest/api/1/meal")
-    public List<Meal> meal(@RequestParam(value = "location") StudentWorkMunich location) throws MalformedURLException, IOException, XPathExpressionException {
+    public List<Meal> getMeals(@RequestParam(value = "location") StudentWorkMunich location) throws MalformedURLException, XPathExpressionException, IOException {
         return new MealParser(location).parse()
                 .stream()
                 .filter(meal -> new Date().after(meal.getDate()))

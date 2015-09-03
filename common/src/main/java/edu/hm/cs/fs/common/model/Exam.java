@@ -6,6 +6,8 @@ import java.util.List;
 import edu.hm.cs.fs.common.constant.ExamGroup;
 import edu.hm.cs.fs.common.constant.ExamType;
 import edu.hm.cs.fs.common.constant.Study;
+import edu.hm.cs.fs.common.model.simple.SimpleModule;
+import edu.hm.cs.fs.common.model.simple.SimplePerson;
 
 
 /**

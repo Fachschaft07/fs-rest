@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
 import javax.xml.xpath.XPathExpressionException;
 
 import edu.hm.cs.fs.common.model.Person;
-import edu.hm.cs.fs.common.model.SimplePerson;
+import edu.hm.cs.fs.common.model.simple.SimplePerson;
 import edu.hm.cs.fs.restapi.parser.PersonParser;
 
 /**
@@ -37,15 +37,8 @@ public class CachedPersonParser extends CachedParser<Person> {
      * @throws MalformedURLException 
      * @throws XPathExpressionException 
      */
-    public Optional<SimplePerson> findByIdSimple(String personId) throws MalformedURLException, IOException, XPathExpressionException {
-        return findById(personId).map(person -> {
-            SimplePerson sPerson = new SimplePerson();
-            sPerson.setId(person.getId());
-            sPerson.setLastName(person.getLastName());
-            sPerson.setFirstName(person.getFirstName());
-            sPerson.setTitle(person.getTitle());
-            return sPerson;
-        });
+    public Optional<SimplePerson> findByIdSimple(String personId) throws MalformedURLException, XPathExpressionException, IOException {
+        return findById(personId).map(SimplePerson::new);
     }
 
     /**

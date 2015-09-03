@@ -5,6 +5,7 @@ import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
@@ -18,9 +19,8 @@ import edu.hm.cs.fs.common.constant.Study;
 import edu.hm.cs.fs.common.constant.TeachingForm;
 import edu.hm.cs.fs.common.model.Module;
 import edu.hm.cs.fs.common.model.ModuleCode;
-import edu.hm.cs.fs.common.model.SimpleModuleCode;
-import edu.hm.cs.fs.common.model.SimplePerson;
-import edu.hm.cs.fs.common.model.util.ModelUtil;
+import edu.hm.cs.fs.common.model.simple.SimpleModuleCode;
+import edu.hm.cs.fs.common.model.simple.SimplePerson;
 import edu.hm.cs.fs.restapi.parser.cache.CachedPersonParser;
 
 /**
@@ -153,10 +153,10 @@ public class ModuleParser extends AbstractXmlParser<Module> {
 
             ModuleCode moduleCode = new ModuleCode();
             moduleCode.setModul(modul);
-            //moduleCode.setRegulation(regulation);
+            moduleCode.setRegulation(regulation);
             moduleCode.setOffer(offer);
             moduleCode.setServices(services);
-            //moduleCode.setCode(code);
+            moduleCode.setCode(code);
             moduleCode.setSemesters(semesterList);
             moduleCode.setCurriculum(curriculum);
 
@@ -177,10 +177,10 @@ public class ModuleParser extends AbstractXmlParser<Module> {
             module.setRequirements(requirements);
             module.setGoals(goals);
             module.setContent(content);
-            //module.setMedia(media);
+            module.setMedia(media);
             module.setLiterature(literature);
-            //module.setProgram(program);
-            module.setModulCodes(ModelUtil.convert(modulCodes, SimpleModuleCode.class));
+            module.setProgram(program);
+            module.setModulCodes(modulCodes.stream().map(SimpleModuleCode::new).collect(Collectors.toList()));
 
             return Collections.singletonList(module);
         }

@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
 import javax.xml.xpath.XPathExpressionException;
 
 import edu.hm.cs.fs.common.model.Module;
-import edu.hm.cs.fs.common.model.SimpleModule;
+import edu.hm.cs.fs.common.model.simple.SimpleModule;
 import edu.hm.cs.fs.restapi.parser.ModuleParser;
 
 /**
@@ -38,12 +38,7 @@ public class CachedModuleParser extends CachedParser<Module> {
      * @throws XPathExpressionException 
      */
     public Optional<SimpleModule> findByIdSimple(String moduleId) throws MalformedURLException, IOException, XPathExpressionException {
-        return findById(moduleId).map(module -> {
-            SimpleModule sModule = new SimpleModule();
-            sModule.setId(module.getId());
-            sModule.setName(module.getName());
-            return sModule;
-        });
+        return findById(moduleId).map(SimpleModule::new);
     }
 
     /**

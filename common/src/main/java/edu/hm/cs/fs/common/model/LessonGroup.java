@@ -1,5 +1,8 @@
 package edu.hm.cs.fs.common.model;
 
+import edu.hm.cs.fs.common.model.simple.SimpleModule;
+import edu.hm.cs.fs.common.model.simple.SimplePerson;
+
 import java.util.List;
 
 /**
