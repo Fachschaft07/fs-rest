@@ -101,6 +101,22 @@ public interface RestClientV1 {
   @GET(ROOT_PATH + "fs/presence")
   void getPresence(Callback<List<Presence>> callback);
 
+  /**
+   * Request all News from the FS Website.
+   *
+   * @return a list with all News.
+   */
+  @GET(ROOT_PATH + "fs/news")
+  List<News> getNews();
+
+  /**
+   * Request all News from the FS Website.
+   *
+   * @param callback to retrieve the results.
+   */
+  @GET(ROOT_PATH + "fs/news")
+  void getNews(final Callback<List<News>> callback);
+  
   ////////////////////////////////////////////////////////////////////
   //
   // Job
@@ -327,25 +343,4 @@ public interface RestClientV1 {
   void getPublicTransports(@Query("location") final PublicTransportLocation location,
       final Callback<List<PublicTransport>> callback);
 
-  ////////////////////////////////////////////////////////////////////
-  //
-  // News
-  //
-  ///////////////////////////////////////////////////////////////////
-
-  /**
-   * Request all News from the FS Website.
-   *
-   * @return a list with all News.
-   */
-  @GET(ROOT_PATH + "news")
-  List<News> getNews();
-
-  /**
-   * Request all News from the FS Website.
-   *
-   * @param callback to retrieve the results.
-   */
-  @GET(ROOT_PATH + "news")
-  void getPublicTransports(final Callback<List<News>> callback);
 }
