@@ -4,6 +4,7 @@ import edu.hm.cs.fs.common.constant.*;
 import edu.hm.cs.fs.common.model.*;
 import edu.hm.cs.fs.common.model.simple.SimpleJob;
 import edu.hm.cs.fs.common.model.simple.SimpleModule;
+import edu.hm.cs.fs.common.model.simple.SimplePerson;
 import edu.hm.cs.fs.common.model.simple.SimpleRoom;
 import retrofit.Callback;
 import retrofit.http.GET;
@@ -168,22 +169,25 @@ public interface RestClientV1 {
    * Requests all free rooms.
    *
    * @param day to search at.
-   * @param time to search at.
+   * @param hour to search at.
+   * @param minute to search at.
    * @return a list with free rooms.
    */
   @GET(ROOT_PATH + "room")
-  List<SimpleRoom> getRoomByDateTime(@Query("day") Day day, @Query("time") Time time);
+  List<SimpleRoom> getRoomByDateTime(@Query("day") Day day, @Query("hour") int hour,
+                                     @Query("minute") int minute);
 
-  /**
-   * Requests all free rooms asynchronous.
-   *
-   * @param day to search at.
-   * @param time to search at.
-   * @param callback to retrieve the result.
-   */
+    /**
+     * Requests all free rooms asynchronous.
+     *
+     * @param day to search at.
+     * @param hour to search at.
+     * @param minute to search at.
+     * @param callback to retrieve the result.
+     */
   @GET(ROOT_PATH + "room")
-  void getRoomByDateTime(@Query("day") Day day, @Query("time") Time time,
-      Callback<List<SimpleRoom>> callback);
+  void getRoomByDateTime(@Query("day") Day day, @Query("hour") int hour,
+                         @Query("minute") int minute, Callback<List<SimpleRoom>> callback);
 
   ////////////////////////////////////////////////////////////////////
   //
@@ -251,21 +255,21 @@ public interface RestClientV1 {
    * Requests all lessons of the specified study group and module.
    *
    * @param studyGroup to search for.
-   * @param moduleName to search for.
+   * @param moduleId to search for.
    * @return a list with exams.
    */
   @GET(ROOT_PATH + "exam")
-  List<Exam> getExams(@Query("group") String studyGroup, @Query("module") String moduleName);
+  List<Exam> getExams(@Query("group") String studyGroup, @Query("module") String moduleId);
 
   /**
    * Requests all lessons of the specified study group and module asynchronous.
    *
    * @param studyGroup to search for.
-   * @param moduleName to search for.
+   * @param moduleId to search for.
    * @param callback to retrieve the result.
    */
   @GET(ROOT_PATH + "exam")
-  void getExams(@Query("group") String studyGroup, @Query("module") String moduleName,
+  void getExams(@Query("group") String studyGroup, @Query("module") String moduleId,
       Callback<List<Exam>> callback);
 
   ////////////////////////////////////////////////////////////////////
@@ -273,6 +277,22 @@ public interface RestClientV1 {
   // Person
   //
   ///////////////////////////////////////////////////////////////////
+
+  /**
+   * Request all the persons.
+   *
+   * @return a list with persons.
+   */
+  @GET(ROOT_PATH + "persons")
+  List<SimplePerson> getPersons();
+
+  /**
+   * Request all the persons asynchronous.
+   *
+   * @param callback to retrieve the results.
+   */
+  @GET(ROOT_PATH + "persons")
+  void getPersons(final Callback<List<SimplePerson>> callback);
 
   /**
    * Request the person by id.
@@ -291,7 +311,48 @@ public interface RestClientV1 {
    */
   @GET(ROOT_PATH + "person")
   void getPersonById(@Query("id") final String personId,
-      final Callback<List<PublicTransport>> callback);
+      final Callback<Person> callback);
+
+  ////////////////////////////////////////////////////////////////////
+  //
+  // Lost & Found
+  //
+  ///////////////////////////////////////////////////////////////////
+
+  /**
+   * Request the lost and founds.
+   *
+   * @return a person.
+   */
+  @GET(ROOT_PATH + "lostandfound")
+  List<LostFound> getLostAndFound();
+
+  /**
+   * Request the lost and founds asynchronous.
+   *
+   * @param callback to retrieve the results.
+   */
+  @GET(ROOT_PATH + "lostandfound")
+  void getLostAndFound(final Callback<List<LostFound>> callback);
+
+  /**
+   * Request the lost and founds.
+   *
+   * @param content to search for.
+   * @return a person.
+   */
+  @GET(ROOT_PATH + "lostandfound")
+  List<LostFound> getLostAndFound(@Query("search") final String content);
+
+  /**
+   * Request the lost and founds asynchronous.
+   *
+   * @param content to search for.
+   * @param callback to retrieve the results.
+   */
+  @GET(ROOT_PATH + "lostandfound")
+  void getLostAndFound(@Query("serach") final String content,
+                     final Callback<List<LostFound>> callback);
 
   ////////////////////////////////////////////////////////////////////
   //

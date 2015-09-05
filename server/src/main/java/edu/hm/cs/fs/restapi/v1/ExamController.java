@@ -31,7 +31,7 @@ public class ExamController {
      */
     @RequestMapping("/rest/api/1/exam")
     public List<Exam> getExams(@RequestParam(value = "group", defaultValue = "") Group group,
-                               @RequestParam(value = "moduleId", defaultValue = "") String moduleId) throws MalformedURLException, XPathExpressionException, IOException {
+                               @RequestParam(value = "module", defaultValue = "") String moduleId) throws MalformedURLException, XPathExpressionException, IOException {
         return new ExamParser().parse().parallelStream()
                 .filter(exam -> group == null || exam.getStudy() == group.getStudy())
                 .filter(exam -> Strings.isNullOrEmpty(moduleId) || exam.getModule() != null &&
