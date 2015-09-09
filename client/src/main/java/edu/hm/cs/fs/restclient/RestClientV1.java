@@ -31,7 +31,7 @@ public interface RestClientV1 {
    *
    * @return a list with blackboard entries.
    */
-  @GET(ROOT_PATH + "blackboard/entry")
+  @GET(ROOT_PATH + "blackboard")
   List<BlackboardEntry> getEntries();
 
   /**
@@ -39,7 +39,7 @@ public interface RestClientV1 {
    *
    * @param callback to retrieve the result.
    */
-  @GET(ROOT_PATH + "blackboard/entry")
+  @GET(ROOT_PATH + "blackboard")
   void getEntries(Callback<List<BlackboardEntry>> callback);
 
   ////////////////////////////////////////////////////////////////////
