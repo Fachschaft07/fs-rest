@@ -1,12 +1,13 @@
-package edu.hm.cs.fs.restapi.v1;
+package edu.hm.cs.fs.restapi.controller.v1;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.xml.xpath.XPathExpressionException;
 
+import edu.hm.cs.fs.restapi.parser.ModuleParser;
+import edu.hm.cs.fs.restapi.parser.PersonParser;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,13 +24,11 @@ public class ModuleController {
     /**
      *
      * @return
-     * @throws IOException 
-     * @throws XPathExpressionException 
-     * @throws MalformedURLException 
+     * @throws Exception
      */
     @RequestMapping("/rest/api/1/modules")
-    public List<SimpleModule> getModules() throws MalformedURLException, XPathExpressionException, IOException {
-        return new CachedModuleParser().parse()
+    public List<SimpleModule> getModules() throws Exception {
+        return new CachedModuleParser().getAll()
                 .parallelStream()
                 .map(SimpleModule::new)
                 .collect(Collectors.toList());
@@ -39,15 +38,12 @@ public class ModuleController {
      *
      * @param moduleId
      * @return
-     * @throws IllegalStateException 
-     * @throws IOException 
-     * @throws MalformedURLException 
-     * @throws XPathExpressionException 
+     * @throws Exception
      */
     @RequestMapping("/rest/api/1/module")
-    public Module getModuleById(@RequestParam(value = "id") String moduleId) throws IllegalStateException, MalformedURLException, XPathExpressionException, IOException {
-        return new CachedModuleParser()
-                .findById(moduleId)
+    public Module getModuleById(@RequestParam(value = "id") String moduleId) throws Exception {
+        return new ModuleParser(new PersonParser())
+                .getById(moduleId)
                 .orElseThrow(() -> new IllegalStateException("No module found with id '" + moduleId + "'."));
     }
 }

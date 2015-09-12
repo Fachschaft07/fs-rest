@@ -2,8 +2,11 @@ package edu.hm.cs.fs.restapi.parser;
 
 import org.jsoup.helper.StringUtil;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
@@ -20,7 +23,7 @@ import edu.hm.cs.fs.common.model.Person;
  *
  * @author Fabio
  */
-public class PersonParser extends AbstractXmlParser<Person> {
+public class PersonParser extends AbstractXmlParser<Person> implements ByIdParser<Person> {
     private static final String BASE_URL = "http://fi.cs.hm.edu/fi/rest/public/";
     private static final String URL = BASE_URL + "person.xml";
     private static final String ROOT_NODE = "/persons/person";
@@ -31,13 +34,13 @@ public class PersonParser extends AbstractXmlParser<Person> {
         mPersonId = null;
     }
 
-    public PersonParser(final String personId) {
+    private PersonParser(final String personId) {
         super(BASE_URL + "person/name/" + personId + ".xml", "person");
         mPersonId = personId;
     }
 
     @Override
-    public List<Person> onCreateItems(final String rootPath) throws XPathExpressionException {
+    public List<Person> onCreateItems(final String rootPath) throws Exception {
         String mId;
         String mLastName;
         String mFirstName;
@@ -165,5 +168,16 @@ public class PersonParser extends AbstractXmlParser<Person> {
         person.setEinsichtComment(mEinsichtComment);
 
         return Collections.singletonList(person);
+    }
+
+    @Override
+    public Optional<Person> getById(String itemId) throws Exception {
+        try {
+            return new PersonParser(itemId).getAll().parallelStream()
+                    .filter(item -> itemId.equalsIgnoreCase(item.getId()))
+                    .findAny();
+        } catch (IOException e) {
+            return Optional.empty();
+        }
     }
 }

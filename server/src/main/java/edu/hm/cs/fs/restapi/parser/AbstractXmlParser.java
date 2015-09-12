@@ -6,7 +6,12 @@ import org.w3c.dom.NodeList;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilder;
@@ -22,14 +27,13 @@ import javax.xml.xpath.XPathFactory;
  * @author Fabio
  */
 public abstract class AbstractXmlParser<T> extends AbstractContentParser<T> {
-    private final XPath mXPath = XPathFactory.newInstance().newXPath();
     private final String mRootNode;
     private Document xmlDoc;
 
     /**
      * Creates an abstract parser for xml content.
      *
-     * @param url      to parse.
+     * @param url      to getAll.
      * @param rootNode of the xml scheme.
      */
     public AbstractXmlParser(final String url, final String rootNode) {
@@ -39,27 +43,23 @@ public abstract class AbstractXmlParser<T> extends AbstractContentParser<T> {
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<T> read(final String url) throws XPathExpressionException, MalformedURLException, IOException {
-        final List<T> result = new ArrayList<>();
-        xmlDoc = readXml(url);
+    public List<T> getAll() throws Exception {
+        final List<T> result;
+        xmlDoc = readXml(getUrl());
         if (xmlDoc != null) {
-            //try {
-                // 2014-09-18: BugFix: Wrong count with
-                // xmlDoc.getElementByTagName(...)
-                // 2014-09-19: Put the getCountByXPah method outside the for-loop to
-                // increase speed
-                final int countElements = getCountByXPath(mRootNode);
-                for (int index = 1; index <= countElements; index++) {
-                    final String path = mRootNode + "[" + index + "]";
-                    final List<T> value = onCreateItems(path);
-                    if (value != null) {
-                        result.addAll(value);
-                    }
-                }
-           /* } catch (Exception e) {
-                e.printStackTrace();
-                // TODO Log.e(TAG, "", e);
-            }*/
+            // Performance increased by >150% with streams!!!
+            result = getXPathStream(getRootNode())
+                    .map(path -> {
+                        try {
+                            return onCreateItems(path);
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                    })
+                    .flatMap(Collection::parallelStream)
+                    .collect(Collectors.toList());
+        } else {
+            result = new ArrayList<>();
         }
         return result;
     }
@@ -67,16 +67,15 @@ public abstract class AbstractXmlParser<T> extends AbstractContentParser<T> {
     /**
      * Parses the url and convert the content of it to an document.
      *
-     * @param url to parse.
+     * @param url to getAll.
      * @return the xml document.
      */
-    private Document readXml(final String url) {
+    private Document readXml(final String url) throws IOException {
         final DocumentBuilderFactory factory = DocumentBuilderFactory
                 .newInstance();
-        DocumentBuilder documentBuilder = null;
         String urlToParse = url;
         try {
-            documentBuilder = factory.newDocumentBuilder();
+            final DocumentBuilder documentBuilder = factory.newDocumentBuilder();
             return documentBuilder.parse(urlToParse);
         } catch (final Exception e) {
             // BugFix: Some URLs removed the ae, ue and oe -> I don't know why?!
@@ -85,10 +84,9 @@ public abstract class AbstractXmlParser<T> extends AbstractContentParser<T> {
             final String endPath = urlToParse.substring(urlToParse.lastIndexOf("/"));
             if (urlToParse.contains("ae") || urlToParse.contains("ue") || urlToParse.contains("oe")) {
                 urlToParse = baseUrl + endPath.replaceAll("ae", "").replaceAll("ue", "").replaceAll("oe", "");
-                // TODO Log.w(getClass().getSimpleName(), "Failed to connect to side -> Now try: " + urlToParse, e);
                 readXml(urlToParse);
             } else {
-                // TODO Log.w(getClass().getSimpleName(), "Failed to connect to side: " + url, e);
+                throw new IOException(e);
             }
         }
         return null;
@@ -99,10 +97,9 @@ public abstract class AbstractXmlParser<T> extends AbstractContentParser<T> {
      *
      * @param rootPath of the items.
      * @return the items.
-     * @throws IOException 
-     * @throws MalformedURLException 
+     * @throws Exception
      */
-    public abstract List<T> onCreateItems(String rootPath) throws XPathExpressionException, MalformedURLException, IOException;
+    public abstract List<T> onCreateItems(String rootPath) throws Exception;
 
     /**
      * Find a element by using the {@link XPath}.
@@ -114,16 +111,28 @@ public abstract class AbstractXmlParser<T> extends AbstractContentParser<T> {
      */
     public <X> X findByXPath(final String xPath, final QName name, final Class<X> returnType)
             throws XPathExpressionException {
-        return returnType.cast(mXPath.evaluate(xPath, xmlDoc, name));
+        return returnType.cast(XPathFactory.newInstance().newXPath().evaluate(xPath, xmlDoc, name));
     }
 
     /**
-     * Get the count of elements of a name.
+     * Streams all the elements from the specified xpath. The elements are the indexed path.
      *
-     * @param xPath to the element.
-     * @return the count.
+     * @param path to the xpath elements.
+     * @return the stream.
+     * @throws XPathExpressionException
      */
-    public int getCountByXPath(final String xPath) throws XPathExpressionException {
-        return findByXPath(xPath, XPathConstants.NODESET, NodeList.class).getLength();
+    public Stream<String> getXPathStream(final String path) throws XPathExpressionException {
+        return IntStream.rangeClosed(1, findByXPath(path, XPathConstants.NODESET, NodeList.class).getLength())
+                .parallel()
+                .mapToObj(index -> path + "[" + index + "]");
+    }
+
+    /**
+     * Get the root node of the xml content.
+     *
+     * @return the root node.
+     */
+    public String getRootNode() {
+        return mRootNode;
     }
 }

@@ -2,10 +2,13 @@ package edu.hm.cs.fs.common.model;
 
 import java.util.Date;
 
+/**
+ * @author Fabio
+ */
 public class Termin {
 
     private String id;
-    private String subject;
+    private String title;
     private String scope;
     private Date date;
 
@@ -17,12 +20,12 @@ public class Termin {
         this.id = id;
     }
 
-    public String getSubject() {
-        return subject;
+    public String getTitle() {
+        return title;
     }
 
-    public void setSubject(String subject) {
-        this.subject = subject;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getScope() {

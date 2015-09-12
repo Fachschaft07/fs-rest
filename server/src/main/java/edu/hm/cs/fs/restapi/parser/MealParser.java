@@ -9,12 +9,11 @@ import org.jsoup.select.Elements;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import edu.hm.cs.fs.common.constant.Additive;
 import edu.hm.cs.fs.common.constant.MealType;
@@ -31,7 +30,6 @@ public class MealParser extends AbstractHtmlParser<Meal> {
     private static final Pattern ADDITIVES_PATTERN = Pattern.compile("\\(([0-9,]+)");
     private static final Pattern FOOD_PART_PATTERN = Pattern.compile("\\(([RS,]+)");
     private static final Pattern FOOD_TYPE_PATTERN = Pattern.compile("\\(([vf])");
-    private static final DateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
 
     public MealParser(StudentWorkMunich studentWorkMunich) {
         super(studentWorkMunich.getUrl());
@@ -69,105 +67,89 @@ public class MealParser extends AbstractHtmlParser<Meal> {
             ...
          */
 
-        List<Meal> result = new ArrayList<>();
-
-        final Elements menuList = document.getElementsByClass("menu");
-        for (int index = 0; index < menuList.size(); index++) {
-            final Element menu = menuList.get(index);
-
-            final String dateStr = menu.getElementsByTag("strong").get(0).text();
-            Date date;
-            try {
-                date = sdf.parse(dateStr.substring(dateStr.indexOf(",") + 1));
-            } catch (ParseException e) {
-                date = new Date();
-            }
-
-            final Elements descriptionList = menu.getElementsByClass("beschreibung");
-            for (int indexDesc = 0; indexDesc < descriptionList.size(); indexDesc++) {
-                Meal meal = new Meal();
-                meal.setDate(date);
-
-                final Element description = descriptionList.get(indexDesc);
-
-                if (!description.getElementsByClass("fleischlos").isEmpty()) {
-                    meal.setType(MealType.MEATLESS);
-                } else if (!description.getElementsByClass("fleisch").isEmpty()) {
-                    meal.setType(MealType.MEAT);
-                } else if (!description.getElementsByClass("vegan").isEmpty()) {
-                    meal.setType(MealType.VEGAN);
-                }
-
-                MealType typeRaw = meal.getType();
-                List<Additive> additives = new ArrayList<>();
-                String nameRaw = description.getElementsByAttribute("style").get(0).text();
-                // 2015-08-19: BugFix: Fixed the removement of the meal type of the end of the name
-                StringBuilder nameBuilder = new StringBuilder(nameRaw);
-                if (nameRaw.contains("fleischlos")) {
-                    nameBuilder.replace(nameBuilder.lastIndexOf("fleischlos"), nameBuilder.length(), "");
-                } else if (nameRaw.contains("vegan")) {
-                    nameBuilder.replace(nameBuilder.lastIndexOf("vegan"), nameBuilder.length(), "");
-                } else if (nameRaw.contains("mit Fleisch")) {
-                    nameBuilder.replace(nameBuilder.lastIndexOf("mit Fleisch"), nameBuilder.length(), "");
-                }
-                nameBuilder.trimToSize();
-                nameRaw = nameBuilder.toString();
-                //nameRaw = nameRaw.replaceFirst("\\sfleischlos", "");
-                //nameRaw = nameRaw.replaceFirst("\\svegan", "");
-                //nameRaw = nameRaw.replaceFirst("\\smit Fleisch", "");
-
-                Matcher matcher = FOOD_PART_PATTERN.matcher(nameRaw);
-                if (matcher.find()) {
-                    String group = matcher.group(1);
-                    nameRaw = nameRaw.replaceAll("\\([RS,]+\\)", "");
-                    if (!Strings.isNullOrEmpty(group)) {
-                        if (group.contains("R")) {
-                            additives.add(Additive.BEEF);
-                        }
-                        if (group.contains("S")) {
-                            additives.add(Additive.PIG);
-                        }
+        return document.getElementsByClass("menu").parallelStream()
+                .map(menu -> {
+                    final String dateStr = menu.getElementsByTag("strong").get(0).text();
+                    Date date;
+                    try {
+                        date = new SimpleDateFormat("dd.MM.yyyy").parse(dateStr.substring(dateStr.indexOf(",") + 1));
+                    } catch (ParseException e) {
+                        date = new Date();
                     }
-                }
+                    final Date finalDate = date;
 
-                matcher = ADDITIVES_PATTERN.matcher(nameRaw);
-                if (matcher.find()) {
-                    final String group = matcher.group(1);
-                    nameRaw = nameRaw.replaceAll("\\([0-9,]+\\)", "");
-                    if (!Strings.isNullOrEmpty(group)) {
-                        final String additiveStr = group.trim();
-                        final List<String> strings = Arrays.asList(additiveStr.split(","));
-                        for (String string : strings) {
-                            Additive additive = Additive.of(string);
-                            if (additive != null) {
-                                additives.add(additive);
-                            }
-                        }
-                    }
-                }
+                    return menu.getElementsByClass("beschreibung").parallelStream()
+                            .map(description -> {
+                                Meal meal = new Meal();
+                                meal.setDate(finalDate);
 
-                matcher = FOOD_TYPE_PATTERN.matcher(nameRaw);
-                if (matcher.find()) {
-                    final String group = matcher.group(1);
-                    nameRaw = nameRaw.replaceAll("\\([vf]\\)", "");
-                    if (!Strings.isNullOrEmpty(group)) {
-                        if (group.contains("v")) {
-                            typeRaw = MealType.VEGAN;
-                        }
-                        if (group.contains("f")) {
-                            typeRaw = MealType.MEATLESS;
-                        }
-                    }
-                }
+                                if (!description.getElementsByClass("fleischlos").isEmpty()) {
+                                    meal.setType(MealType.MEATLESS);
+                                } else if (!description.getElementsByClass("fleisch").isEmpty()) {
+                                    meal.setType(MealType.MEAT);
+                                } else if (!description.getElementsByClass("vegan").isEmpty()) {
+                                    meal.setType(MealType.VEGAN);
+                                }
 
-                meal.setName(nameRaw);
-                meal.setType(typeRaw);
-                meal.setAdditives(additives);
+                                MealType typeRaw = meal.getType();
+                                List<Additive> additives = new ArrayList<>();
+                                String nameRaw = description.getElementsByAttribute("style").get(0).text();
+                                nameRaw = nameRaw.replaceAll("fleischlos", "");
+                                nameRaw = nameRaw.replaceAll("vegan", "");
+                                nameRaw = nameRaw.replaceAll("mit Fleisch", "");
 
-                result.add(meal);
-            }
-        }
+                                Matcher matcher = FOOD_PART_PATTERN.matcher(nameRaw);
+                                if (matcher.find()) {
+                                    String group = matcher.group(1);
+                                    nameRaw = nameRaw.replaceAll("\\([RS,]+\\)", "");
+                                    if (!Strings.isNullOrEmpty(group)) {
+                                        if (group.contains("R")) {
+                                            additives.add(Additive.BEEF);
+                                        }
+                                        if (group.contains("S")) {
+                                            additives.add(Additive.PIG);
+                                        }
+                                    }
+                                }
 
-        return result;
+                                matcher = ADDITIVES_PATTERN.matcher(nameRaw);
+                                if (matcher.find()) {
+                                    final String group = matcher.group(1);
+                                    nameRaw = nameRaw.replaceAll("\\([0-9,]+\\)", "");
+                                    if (!Strings.isNullOrEmpty(group)) {
+                                        final String additiveStr = group.trim();
+                                        final List<String> strings = Arrays.asList(additiveStr.split(","));
+                                        for (String string : strings) {
+                                            Additive additive = Additive.of(string);
+                                            if (additive != null) {
+                                                additives.add(additive);
+                                            }
+                                        }
+                                    }
+                                }
+
+                                matcher = FOOD_TYPE_PATTERN.matcher(nameRaw);
+                                if (matcher.find()) {
+                                    final String group = matcher.group(1);
+                                    nameRaw = nameRaw.replaceAll("\\([vf]\\)", "");
+                                    if (!Strings.isNullOrEmpty(group)) {
+                                        if (group.contains("v")) {
+                                            typeRaw = MealType.VEGAN;
+                                        }
+                                        if (group.contains("f")) {
+                                            typeRaw = MealType.MEATLESS;
+                                        }
+                                    }
+                                }
+
+                                meal.setName(nameRaw);
+                                meal.setType(typeRaw);
+                                meal.setAdditives(additives);
+                                return meal;
+                            })
+                            .collect(Collectors.toList());
+                })
+                .flatMap(Collection::parallelStream)
+                .collect(Collectors.toList());
     }
 }

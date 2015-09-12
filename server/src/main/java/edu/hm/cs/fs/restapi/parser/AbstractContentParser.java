@@ -1,10 +1,6 @@
 package edu.hm.cs.fs.restapi.parser;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.List;
-
-import javax.xml.xpath.XPathExpressionException;
 
 /**
  * An very abstract parser for every type of web content parsing.
@@ -13,17 +9,17 @@ import javax.xml.xpath.XPathExpressionException;
  */
 public abstract class AbstractContentParser<T> implements Parser<T> {
     /**
-     * The url to parse.
+     * The url to getAll.
      */
-    private final String mUrl;
+    private final String url;
 
     /**
      * Creates an abstract content parser.
      *
-     * @param url to parse.
+     * @param url to getAll.
      */
     public AbstractContentParser(final String url) {
-        this.mUrl = url;
+        this.url = url;
     }
 
     /**
@@ -31,22 +27,16 @@ public abstract class AbstractContentParser<T> implements Parser<T> {
      * offline file will be read.
      *
      * @return a list with the content.
-     * @throws IOException 
-     * @throws MalformedURLException 
-     * @throws XPathExpressionException 
+     * @throws Exception
      */
-    public final List<T> parse() throws MalformedURLException, IOException, XPathExpressionException {
-        return read(mUrl);
-    }
+    public abstract List<T> getAll() throws Exception;
 
     /**
-     * Reads the content from the specified url and parse it to objects.
+     * Get the url the parser should getAll the content from.
      *
-     * @param url to parse.
-     * @return the objects in a list.
-     * @throws IOException 
-     * @throws MalformedURLException 
-     * @throws XPathExpressionException 
+     * @return the url.
      */
-    public abstract List<T> read(String url) throws MalformedURLException, IOException, XPathExpressionException;
+    public String getUrl() {
+        return url;
+    }
 }

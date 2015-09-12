@@ -1,0 +1,1137 @@
+<?xml version="1.0" encoding="ASCII"?>
+<eventlist>
+    <event>
+        <title>Abschlusspr&#228;sentation Prof. Gruber</title>
+        <description/>
+        <responsible>grubermanfred</responsible>
+        <faculty>07</faculty>
+        <sticky>true</sticky>
+        <internal>false</internal>
+        <url/>
+        <id>abschlusspraesentationprofgruber</id>
+        <booking>
+            <weekday>fr</weekday>
+            <starttime>11:00</starttime>
+            <stoptime>11:45</stoptime>
+            <room>r3014</room>
+            <type>event</type>
+            <suffix/>
+
+            <startdate>2015-09-18</startdate>
+
+            <internal/>
+            <step>0</step>
+            <stopdate/>
+        </booking>
+    </event>
+    <event>
+        <title>Bachelorseminar Vortrag Prof. Hafner</title>
+        <description/>
+        <responsible>hafnerullrich</responsible>
+        <faculty>07</faculty>
+        <sticky>true</sticky>
+        <internal>false</internal>
+        <url/>
+        <id>bachelorseminarvortragprofhafner</id>
+        <booking>
+            <weekday>fr</weekday>
+            <starttime>09:30</starttime>
+            <stoptime>10:30</stoptime>
+            <room>r3016</room>
+            <type>event</type>
+            <suffix/>
+
+            <startdate>2015-09-11</startdate>
+
+            <internal/>
+            <step>0</step>
+            <stopdate/>
+        </booking>
+    </event>
+    <event>
+        <title>Fachbereichstag der Mathematiker</title>
+        <description/>
+        <responsible>ruckertmartin</responsible>
+        <faculty>07</faculty>
+        <sticky>false</sticky>
+        <internal>false</internal>
+        <url/>
+        <id>fachbereichstagdermathematiker</id>
+        <booking>
+            <weekday>fr</weekday>
+            <starttime>08:15</starttime>
+            <stoptime>15:30</stoptime>
+            <room>r3016</room>
+            <type>event</type>
+            <suffix/>
+
+            <startdate>2015-10-16</startdate>
+
+            <internal/>
+            <step>0</step>
+            <stopdate/>
+        </booking>
+        <booking>
+            <weekday>sa</weekday>
+            <starttime>08:15</starttime>
+            <stoptime>15:30</stoptime>
+            <room>r3017</room>
+            <type>event</type>
+            <suffix/>
+
+            <startdate>2015-10-17</startdate>
+
+            <internal/>
+            <step>0</step>
+            <stopdate/>
+        </booking>
+    </event>
+    <event>
+        <title>Geschlossen wegen Umbau</title>
+        <description/>
+        <responsible>wiedemannerik</responsible>
+        <faculty>07</faculty>
+        <sticky>true</sticky>
+        <internal>false</internal>
+        <url/>
+        <id>geschlossenwegenumbau</id>
+        <booking>
+            <weekday>di</weekday>
+            <starttime>08:15</starttime>
+            <stoptime>20:00</stoptime>
+            <room>r2016</room>
+            <type>event</type>
+            <suffix/>
+
+            <startdate>2015-07-14</startdate>
+
+            <internal/>
+            <step>1</step>
+            <stopdate>2015-09-30</stopdate>
+        </booking>
+        <booking>
+            <weekday>di</weekday>
+            <starttime>08:15</starttime>
+            <stoptime>20:00</stoptime>
+            <room>r3026</room>
+            <type>event</type>
+            <suffix/>
+
+            <startdate>2015-07-14</startdate>
+
+            <internal/>
+            <step>1</step>
+            <stopdate>2015-09-30</stopdate>
+        </booking>
+    </event>
+    <event>
+        <title>Grundlagen der BWL - Einf&#252;hrungskurs</title>
+        <description/>
+        <responsible>stuetzlegerhard</responsible>
+        <faculty>07</faculty>
+        <sticky>true</sticky>
+        <internal>false</internal>
+        <url/>
+        <id>grundlagenderbwleinfuehrungskurs</id>
+        <booking>
+            <weekday>mo</weekday>
+            <starttime>08:15</starttime>
+            <stoptime>17:45</stoptime>
+            <room>r0005</room>
+            <type>event</type>
+            <suffix>Bei Prof. Greiner</suffix>
+
+            <startdate>2015-10-05</startdate>
+
+            <internal/>
+            <step>0</step>
+            <stopdate/>
+        </booking>
+        <booking>
+            <weekday>mo</weekday>
+            <starttime>08:15</starttime>
+            <stoptime>17:45</stoptime>
+            <room>r0007</room>
+            <type>event</type>
+            <suffix>Bei Prof. Greiner</suffix>
+
+            <startdate>2015-10-05</startdate>
+
+            <internal/>
+            <step>0</step>
+            <stopdate/>
+        </booking>
+        <booking>
+            <weekday>mo</weekday>
+            <starttime>08:15</starttime>
+            <stoptime>17:45</stoptime>
+            <room>r0011</room>
+            <type>event</type>
+            <suffix/>
+
+            <startdate>2015-10-05</startdate>
+
+            <internal/>
+            <step>0</step>
+            <stopdate/>
+        </booking>
+        <booking>
+            <weekday>mo</weekday>
+            <starttime>08:15</starttime>
+            <stoptime>17:45</stoptime>
+            <room>r0012</room>
+            <type>event</type>
+            <suffix>Herr Bosch / Herr Judex</suffix>
+
+            <startdate>2015-10-05</startdate>
+
+            <internal/>
+            <step>0</step>
+            <stopdate/>
+        </booking>
+        <booking>
+            <weekday>mo</weekday>
+            <starttime>08:15</starttime>
+            <stoptime>10:00</stoptime>
+            <room>r1046</room>
+            <type>event</type>
+            <suffix/>
+
+            <startdate>2015-10-05</startdate>
+
+            <internal/>
+            <step>0</step>
+            <stopdate/>
+        </booking>
+        <booking>
+            <weekday>mo</weekday>
+            <starttime>08:15</starttime>
+            <stoptime>17:45</stoptime>
+            <room>r2016</room>
+            <type>event</type>
+            <suffix/>
+
+            <startdate>2015-10-05</startdate>
+
+            <internal/>
+            <step>0</step>
+            <stopdate/>
+        </booking>
+        <booking>
+            <weekday>mo</weekday>
+            <starttime>08:15</starttime>
+            <stoptime>17:45</stoptime>
+            <room>r2017</room>
+            <type>event</type>
+            <suffix/>
+
+            <startdate>2015-10-05</startdate>
+
+            <internal/>
+            <step>0</step>
+            <stopdate/>
+        </booking>
+        <booking>
+            <weekday>mo</weekday>
+            <starttime>08:15</starttime>
+            <stoptime>17:45</stoptime>
+            <room>r2018</room>
+            <type>event</type>
+            <suffix/>
+
+            <startdate>2015-10-05</startdate>
+
+            <internal/>
+            <step>0</step>
+            <stopdate/>
+        </booking>
+        <booking>
+            <weekday>di</weekday>
+            <starttime>08:15</starttime>
+            <stoptime>17:00</stoptime>
+            <room>r0005</room>
+            <type>event</type>
+            <suffix>Bei Prof. Greiner</suffix>
+
+            <startdate>2015-10-06</startdate>
+
+            <internal/>
+            <step>0</step>
+            <stopdate/>
+        </booking>
+        <booking>
+            <weekday>di</weekday>
+            <starttime>08:15</starttime>
+            <stoptime>17:00</stoptime>
+            <room>r0007</room>
+            <type>event</type>
+            <suffix>Bei Prof. Greiner</suffix>
+
+            <startdate>2015-10-06</startdate>
+
+            <internal/>
+            <step>0</step>
+            <stopdate/>
+        </booking>
+        <booking>
+            <weekday>di</weekday>
+            <starttime>08:15</starttime>
+            <stoptime>17:00</stoptime>
+            <room>r0011</room>
+            <type>event</type>
+            <suffix>Herr Bosch / Herr Judex</suffix>
+
+            <startdate>2015-10-06</startdate>
+
+            <internal/>
+            <step>0</step>
+            <stopdate/>
+        </booking>
+        <booking>
+            <weekday>di</weekday>
+            <starttime>08:15</starttime>
+            <stoptime>17:00</stoptime>
+            <room>r0012</room>
+            <type>event</type>
+            <suffix>Herr Bosch / Herr Judex</suffix>
+
+            <startdate>2015-10-06</startdate>
+
+            <internal/>
+            <step>0</step>
+            <stopdate/>
+        </booking>
+        <booking>
+            <weekday>di</weekday>
+            <starttime>08:15</starttime>
+            <stoptime>17:00</stoptime>
+            <room>r2016</room>
+            <type>event</type>
+            <suffix/>
+
+            <startdate>2015-10-06</startdate>
+
+            <internal/>
+            <step>0</step>
+            <stopdate/>
+        </booking>
+        <booking>
+            <weekday>di</weekday>
+            <starttime>08:15</starttime>
+            <stoptime>17:00</stoptime>
+            <room>r2017</room>
+            <type>event</type>
+            <suffix/>
+
+            <startdate>2015-10-06</startdate>
+
+            <internal/>
+            <step>0</step>
+            <stopdate/>
+        </booking>
+        <booking>
+            <weekday>di</weekday>
+            <starttime>08:15</starttime>
+            <stoptime>17:00</stoptime>
+            <room>r2018</room>
+            <type>event</type>
+            <suffix/>
+
+            <startdate>2015-10-06</startdate>
+
+            <internal/>
+            <step>0</step>
+            <stopdate/>
+        </booking>
+    </event>
+    <event>
+        <title>Informatiktag 2016 der Gesellschaft f&#252;r Informatik</title>
+        <description/>
+        <responsible>hofhansjoachim</responsible>
+        <faculty>07</faculty>
+        <sticky>false</sticky>
+        <internal>false</internal>
+        <url/>
+        <id>informatiktag2016dergesellschaftfuerinformatik</id>
+        <booking>
+            <weekday>do</weekday>
+            <starttime>08:15</starttime>
+            <stoptime>21:00</stoptime>
+            <room>r0005</room>
+            <type>event</type>
+            <suffix/>
+
+            <startdate>2016-03-03</startdate>
+
+            <internal/>
+            <step>1</step>
+            <stopdate>2016-03-05</stopdate>
+        </booking>
+        <booking>
+            <weekday>do</weekday>
+            <starttime>08:15</starttime>
+            <stoptime>21:00</stoptime>
+            <room>r0006</room>
+            <type>event</type>
+            <suffix/>
+
+            <startdate>2016-03-03</startdate>
+
+            <internal/>
+            <step>1</step>
+            <stopdate>2016-03-05</stopdate>
+        </booking>
+        <booking>
+            <weekday>do</weekday>
+            <starttime>08:15</starttime>
+            <stoptime>21:00</stoptime>
+            <room>r0007</room>
+            <type>event</type>
+            <suffix/>
+
+            <startdate>2016-03-03</startdate>
+
+            <internal/>
+            <step>1</step>
+            <stopdate>2016-03-05</stopdate>
+        </booking>
+        <booking>
+            <weekday>do</weekday>
+            <starttime>08:15</starttime>
+            <stoptime>21:00</stoptime>
+            <room>r0009</room>
+            <type>event</type>
+            <suffix/>
+
+            <startdate>2016-03-03</startdate>
+
+            <internal/>
+            <step>1</step>
+            <stopdate>2016-03-05</stopdate>
+        </booking>
+        <booking>
+            <weekday>do</weekday>
+            <starttime>08:15</starttime>
+            <stoptime>21:00</stoptime>
+            <room>r0010</room>
+            <type>event</type>
+            <suffix/>
+
+            <startdate>2016-03-03</startdate>
+
+            <internal/>
+            <step>1</step>
+            <stopdate>2016-03-05</stopdate>
+        </booking>
+        <booking>
+            <weekday>do</weekday>
+            <starttime>08:15</starttime>
+            <stoptime>21:00</stoptime>
+            <room>r0058</room>
+            <type>event</type>
+            <suffix/>
+
+            <startdate>2016-03-03</startdate>
+
+            <internal/>
+            <step>1</step>
+            <stopdate>2016-03-05</stopdate>
+        </booking>
+        <booking>
+            <weekday>do</weekday>
+            <starttime>08:15</starttime>
+            <stoptime>21:00</stoptime>
+            <room>r1046</room>
+            <type>event</type>
+            <suffix/>
+
+            <startdate>2016-03-03</startdate>
+
+            <internal/>
+            <step>1</step>
+            <stopdate>2016-03-05</stopdate>
+        </booking>
+    </event>
+    <event>
+        <title>.Net-Kurs mit der Firma Acando</title>
+        <description/>
+        <responsible>heigertjohannes</responsible>
+        <faculty>07</faculty>
+        <sticky>true</sticky>
+        <internal>false</internal>
+        <url/>
+        <id>netkursmitderfirmaacando</id>
+        <booking>
+            <weekday>mo</weekday>
+            <starttime>08:15</starttime>
+            <stoptime>21:00</stoptime>
+            <room>r2012</room>
+            <type>event</type>
+            <suffix/>
+
+            <startdate>2015-09-28</startdate>
+
+            <internal/>
+            <step>1</step>
+            <stopdate>2015-10-01</stopdate>
+        </booking>
+        <booking>
+            <weekday>mo</weekday>
+            <starttime>09:00</starttime>
+            <stoptime>18:00</stoptime>
+            <room>r2019</room>
+            <type>event</type>
+            <suffix/>
+
+            <startdate>2015-09-28</startdate>
+
+            <internal/>
+            <step>1</step>
+            <stopdate>2015-10-01</stopdate>
+        </booking>
+    </event>
+    <event>
+        <title>SQL Praktikum</title>
+        <description/>
+        <responsible>staudtmartin</responsible>
+        <faculty>07</faculty>
+        <sticky>true</sticky>
+        <internal>false</internal>
+        <url/>
+        <id>sqlpraktikum</id>
+        <booking>
+            <weekday>mo</weekday>
+            <starttime>10:00</starttime>
+            <stoptime>16:00</stoptime>
+            <room>r2008</room>
+            <type>event</type>
+            <suffix/>
+
+            <startdate>2015-09-28</startdate>
+
+            <internal/>
+            <step>1</step>
+            <stopdate>2015-10-03</stopdate>
+        </booking>
+        <booking>
+            <weekday>mo</weekday>
+            <starttime>10:00</starttime>
+            <stoptime>16:00</stoptime>
+            <room>r2009</room>
+            <type>event</type>
+            <suffix/>
+
+            <startdate>2015-09-28</startdate>
+
+            <internal/>
+            <step>1</step>
+            <stopdate>2015-10-03</stopdate>
+        </booking>
+    </event>
+    <event>
+        <title>Vogler Test TI</title>
+        <description/>
+        <responsible>voglerthomas</responsible>
+        <faculty>07</faculty>
+        <sticky>false</sticky>
+        <internal>false</internal>
+        <url/>
+        <id>voglertestti</id>
+        <booking>
+            <weekday>do</weekday>
+            <starttime>11:45</starttime>
+            <stoptime>13:15</stoptime>
+            <room>r2012</room>
+            <type>event</type>
+            <suffix/>
+
+            <startdate>2015-10-01</startdate>
+
+            <internal/>
+            <step>7</step>
+            <stopdate/>
+        </booking>
+    </event>
+    <event>
+        <title>Vorbereitungstreffen f&#252;r den Fachbereichstag Mathematik</title>
+        <description/>
+        <responsible>eichsoellneredda</responsible>
+        <faculty>07</faculty>
+        <sticky>false</sticky>
+        <internal>false</internal>
+        <url/>
+        <id>vorbereitungstreffenfuerdenfachbereichstagmathematik</id>
+        <booking>
+            <weekday>fr</weekday>
+            <starttime>08:30</starttime>
+            <stoptime>10:00</stoptime>
+            <room>r3014</room>
+            <type>event</type>
+            <suffix/>
+
+            <startdate>2015-10-09</startdate>
+
+            <internal/>
+            <step>0</step>
+            <stopdate/>
+        </booking>
+    </event>
+    <event>
+        <title>Vorkurs</title>
+        <description/>
+        <responsible>hertlejochen</responsible>
+        <faculty>07</faculty>
+        <sticky>true</sticky>
+        <internal>false</internal>
+        <url/>
+        <id>vorkurs</id>
+        <booking>
+            <weekday>mo</weekday>
+            <starttime>09:00</starttime>
+            <stoptime>17:00</stoptime>
+            <room>r0010</room>
+            <type>event</type>
+            <suffix/>
+
+            <startdate>2015-09-21</startdate>
+
+            <internal/>
+            <step>1</step>
+            <stopdate>2015-09-26</stopdate>
+        </booking>
+        <booking>
+            <weekday>mo</weekday>
+            <starttime>09:00</starttime>
+            <stoptime>17:00</stoptime>
+            <room>r0011</room>
+            <type>event</type>
+            <suffix/>
+
+            <startdate>2015-09-21</startdate>
+
+            <internal/>
+            <step>1</step>
+            <stopdate>2015-09-26</stopdate>
+        </booking>
+        <booking>
+            <weekday>mo</weekday>
+            <starttime>09:00</starttime>
+            <stoptime>17:00</stoptime>
+            <room>r0012</room>
+            <type>event</type>
+            <suffix/>
+
+            <startdate>2015-09-21</startdate>
+
+            <internal/>
+            <step>1</step>
+            <stopdate>2015-09-26</stopdate>
+        </booking>
+        <booking>
+            <weekday>mo</weekday>
+            <starttime>09:00</starttime>
+            <stoptime>17:00</stoptime>
+            <room>r0058</room>
+            <type>event</type>
+            <suffix/>
+
+            <startdate>2015-09-21</startdate>
+
+            <internal/>
+            <step>1</step>
+            <stopdate>2015-09-26</stopdate>
+        </booking>
+        <booking>
+            <weekday>mo</weekday>
+            <starttime>09:00</starttime>
+            <stoptime>17:00</stoptime>
+            <room>r2010</room>
+            <type>event</type>
+            <suffix/>
+
+            <startdate>2015-09-21</startdate>
+
+            <internal/>
+            <step>1</step>
+            <stopdate>2015-09-26</stopdate>
+        </booking>
+        <booking>
+            <weekday>mo</weekday>
+            <starttime>09:00</starttime>
+            <stoptime>17:00</stoptime>
+            <room>r2012</room>
+            <type>event</type>
+            <suffix/>
+
+            <startdate>2015-09-21</startdate>
+
+            <internal/>
+            <step>1</step>
+            <stopdate>2015-09-26</stopdate>
+        </booking>
+        <booking>
+            <weekday>mo</weekday>
+            <starttime>09:00</starttime>
+            <stoptime>17:00</stoptime>
+            <room>r2014</room>
+            <type>event</type>
+            <suffix/>
+
+            <startdate>2015-09-21</startdate>
+
+            <internal/>
+            <step>1</step>
+            <stopdate>2015-09-26</stopdate>
+        </booking>
+    </event>
+    <event>
+        <title>Wartung</title>
+        <description>Belegung durch Stundenplanung</description>
+        <responsible/>
+        <faculty>07</faculty>
+        <sticky>false</sticky>
+        <internal>false</internal>
+        <url/>
+        <id>wartung</id>
+        <booking>
+            <weekday>di</weekday>
+            <starttime>08:15</starttime>
+            <stoptime>09:45</stoptime>
+            <room>r1009</room>
+            <type>event</type>
+            <suffix/>
+
+            <startdate/>
+
+            <internal/>
+            <step>7</step>
+            <stopdate/>
+        </booking>
+        <booking>
+            <weekday>di</weekday>
+            <starttime>08:15</starttime>
+            <stoptime>09:45</stoptime>
+            <room>r1010a</room>
+            <type>event</type>
+            <suffix/>
+
+            <startdate/>
+
+            <internal/>
+            <step>7</step>
+            <stopdate/>
+        </booking>
+        <booking>
+            <weekday>di</weekday>
+            <starttime>08:15</starttime>
+            <stoptime>09:45</stoptime>
+            <room>r1012</room>
+            <type>event</type>
+            <suffix/>
+
+            <startdate/>
+
+            <internal/>
+            <step>7</step>
+            <stopdate/>
+        </booking>
+        <booking>
+            <weekday>di</weekday>
+            <starttime>08:15</starttime>
+            <stoptime>09:45</stoptime>
+            <room>r2008</room>
+            <type>event</type>
+            <suffix/>
+
+            <startdate/>
+
+            <internal/>
+            <step>7</step>
+            <stopdate/>
+        </booking>
+        <booking>
+            <weekday>di</weekday>
+            <starttime>08:15</starttime>
+            <stoptime>09:45</stoptime>
+            <room>r2009</room>
+            <type>event</type>
+            <suffix/>
+
+            <startdate/>
+
+            <internal/>
+            <step>7</step>
+            <stopdate/>
+        </booking>
+        <booking>
+            <weekday>di</weekday>
+            <starttime>08:15</starttime>
+            <stoptime>09:45</stoptime>
+            <room>r2010</room>
+            <type>event</type>
+            <suffix/>
+
+            <startdate/>
+
+            <internal/>
+            <step>7</step>
+            <stopdate/>
+        </booking>
+        <booking>
+            <weekday>di</weekday>
+            <starttime>08:15</starttime>
+            <stoptime>09:45</stoptime>
+            <room>r2012</room>
+            <type>event</type>
+            <suffix/>
+
+            <startdate/>
+
+            <internal/>
+            <step>7</step>
+            <stopdate/>
+        </booking>
+        <booking>
+            <weekday>di</weekday>
+            <starttime>08:15</starttime>
+            <stoptime>09:45</stoptime>
+            <room>r2014</room>
+            <type>event</type>
+            <suffix/>
+
+            <startdate/>
+
+            <internal/>
+            <step>7</step>
+            <stopdate/>
+        </booking>
+        <booking>
+            <weekday>di</weekday>
+            <starttime>08:15</starttime>
+            <stoptime>09:45</stoptime>
+            <room>r2016</room>
+            <type>event</type>
+            <suffix/>
+
+            <startdate/>
+
+            <internal/>
+            <step>7</step>
+            <stopdate/>
+        </booking>
+        <booking>
+            <weekday>di</weekday>
+            <starttime>08:15</starttime>
+            <stoptime>09:45</stoptime>
+            <room>r3019</room>
+            <type>event</type>
+            <suffix/>
+
+            <startdate/>
+
+            <internal/>
+            <step>7</step>
+            <stopdate/>
+        </booking>
+        <booking>
+            <weekday>di</weekday>
+            <starttime>08:15</starttime>
+            <stoptime>09:45</stoptime>
+            <room>r3020</room>
+            <type>event</type>
+            <suffix/>
+
+            <startdate/>
+
+            <internal/>
+            <step>7</step>
+            <stopdate/>
+        </booking>
+        <booking>
+            <weekday>di</weekday>
+            <starttime>08:15</starttime>
+            <stoptime>09:45</stoptime>
+            <room>r3021</room>
+            <type>event</type>
+            <suffix/>
+
+            <startdate/>
+
+            <internal/>
+            <step>7</step>
+            <stopdate/>
+        </booking>
+        <booking>
+            <weekday>di</weekday>
+            <starttime>08:15</starttime>
+            <stoptime>09:45</stoptime>
+            <room>r3024</room>
+            <type>event</type>
+            <suffix/>
+
+            <startdate/>
+
+            <internal/>
+            <step>7</step>
+            <stopdate/>
+        </booking>
+        <booking>
+            <weekday>di</weekday>
+            <starttime>08:15</starttime>
+            <stoptime>09:45</stoptime>
+            <room>r3026</room>
+            <type>event</type>
+            <suffix/>
+
+            <startdate/>
+
+            <internal/>
+            <step>7</step>
+            <stopdate/>
+        </booking>
+        <booking>
+            <weekday>di</weekday>
+            <starttime>10:00</starttime>
+            <stoptime>11:30</stoptime>
+            <room>r1009</room>
+            <type>event</type>
+            <suffix/>
+
+            <startdate/>
+
+            <internal/>
+            <step>7</step>
+            <stopdate/>
+        </booking>
+        <booking>
+            <weekday>di</weekday>
+            <starttime>10:00</starttime>
+            <stoptime>11:30</stoptime>
+            <room>r1010a</room>
+            <type>event</type>
+            <suffix/>
+
+            <startdate/>
+
+            <internal/>
+            <step>7</step>
+            <stopdate/>
+        </booking>
+        <booking>
+            <weekday>di</weekday>
+            <starttime>10:00</starttime>
+            <stoptime>11:30</stoptime>
+            <room>r1012</room>
+            <type>event</type>
+            <suffix/>
+
+            <startdate/>
+
+            <internal/>
+            <step>7</step>
+            <stopdate/>
+        </booking>
+        <booking>
+            <weekday>di</weekday>
+            <starttime>10:00</starttime>
+            <stoptime>11:30</stoptime>
+            <room>r2008</room>
+            <type>event</type>
+            <suffix/>
+
+            <startdate/>
+
+            <internal/>
+            <step>7</step>
+            <stopdate/>
+        </booking>
+        <booking>
+            <weekday>di</weekday>
+            <starttime>10:00</starttime>
+            <stoptime>11:30</stoptime>
+            <room>r2009</room>
+            <type>event</type>
+            <suffix/>
+
+            <startdate/>
+
+            <internal/>
+            <step>7</step>
+            <stopdate/>
+        </booking>
+        <booking>
+            <weekday>di</weekday>
+            <starttime>10:00</starttime>
+            <stoptime>11:30</stoptime>
+            <room>r2010</room>
+            <type>event</type>
+            <suffix/>
+
+            <startdate/>
+
+            <internal/>
+            <step>7</step>
+            <stopdate/>
+        </booking>
+        <booking>
+            <weekday>di</weekday>
+            <starttime>10:00</starttime>
+            <stoptime>11:30</stoptime>
+            <room>r2012</room>
+            <type>event</type>
+            <suffix/>
+
+            <startdate/>
+
+            <internal/>
+            <step>7</step>
+            <stopdate/>
+        </booking>
+        <booking>
+            <weekday>di</weekday>
+            <starttime>10:00</starttime>
+            <stoptime>11:30</stoptime>
+            <room>r2014</room>
+            <type>event</type>
+            <suffix/>
+
+            <startdate/>
+
+            <internal/>
+            <step>7</step>
+            <stopdate/>
+        </booking>
+        <booking>
+            <weekday>di</weekday>
+            <starttime>10:00</starttime>
+            <stoptime>11:30</stoptime>
+            <room>r2016</room>
+            <type>event</type>
+            <suffix/>
+
+            <startdate/>
+
+            <internal/>
+            <step>7</step>
+            <stopdate/>
+        </booking>
+        <booking>
+            <weekday>di</weekday>
+            <starttime>10:00</starttime>
+            <stoptime>11:30</stoptime>
+            <room>r3019</room>
+            <type>event</type>
+            <suffix/>
+
+            <startdate/>
+
+            <internal/>
+            <step>7</step>
+            <stopdate/>
+        </booking>
+        <booking>
+            <weekday>di</weekday>
+            <starttime>10:00</starttime>
+            <stoptime>11:30</stoptime>
+            <room>r3020</room>
+            <type>event</type>
+            <suffix/>
+
+            <startdate/>
+
+            <internal/>
+            <step>7</step>
+            <stopdate/>
+        </booking>
+        <booking>
+            <weekday>di</weekday>
+            <starttime>10:00</starttime>
+            <stoptime>11:30</stoptime>
+            <room>r3021</room>
+            <type>event</type>
+            <suffix/>
+
+            <startdate/>
+
+            <internal/>
+            <step>7</step>
+            <stopdate/>
+        </booking>
+        <booking>
+            <weekday>di</weekday>
+            <starttime>10:00</starttime>
+            <stoptime>11:30</stoptime>
+            <room>r3024</room>
+            <type>event</type>
+            <suffix/>
+
+            <startdate/>
+
+            <internal/>
+            <step>7</step>
+            <stopdate/>
+        </booking>
+        <booking>
+            <weekday>di</weekday>
+            <starttime>10:00</starttime>
+            <stoptime>11:30</stoptime>
+            <room>r3026</room>
+            <type>event</type>
+            <suffix/>
+
+            <startdate/>
+
+            <internal/>
+            <step>7</step>
+            <stopdate/>
+        </booking>
+    </event>
+    <event>
+        <title>Wegen Umbau geschlossen</title>
+        <description/>
+        <responsible>zupancmarjan</responsible>
+        <faculty>07</faculty>
+        <sticky>true</sticky>
+        <internal>false</internal>
+        <url/>
+        <id>wegenumbaugeschlossen</id>
+        <booking>
+            <weekday>mo</weekday>
+            <starttime>08:15</starttime>
+            <stoptime>21:00</stoptime>
+            <room>r1010a</room>
+            <type>event</type>
+            <suffix/>
+
+            <startdate>2015-09-14</startdate>
+
+            <internal/>
+            <step>1</step>
+            <stopdate>2015-09-24</stopdate>
+        </booking>
+    </event>
+    <event>
+        <title>ZUG Jour Fixe</title>
+        <description/>
+        <responsible>thurnerveronika</responsible>
+        <faculty>07</faculty>
+        <sticky>true</sticky>
+        <internal>false</internal>
+        <url/>
+        <id>zugjourfixe</id>
+        <booking>
+            <weekday>mi</weekday>
+            <starttime>10:00</starttime>
+            <stoptime>13:15</stoptime>
+            <room>r3014</room>
+            <type>event</type>
+            <suffix/>
+
+            <startdate>2015-10-07</startdate>
+
+            <internal/>
+            <step>7</step>
+            <stopdate>2016-03-17</stopdate>
+        </booking>
+    </event>
+</eventlist>

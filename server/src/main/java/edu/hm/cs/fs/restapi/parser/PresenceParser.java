@@ -6,13 +6,17 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Handler;
 import java.util.logging.Level;
+import java.util.logging.LogRecord;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import edu.hm.cs.fs.common.model.Presence;
 
 /**
- * Created by Fabio on 18.02.2015.
+ * @author Fabio
  */
 public class PresenceParser extends AbstractJsonParser<Presence> {
     private final static String URL = "http://fs.cs.hm.edu/presence/?app=true";
@@ -26,15 +30,16 @@ public class PresenceParser extends AbstractJsonParser<Presence> {
         List<Presence> result = new ArrayList<>();
         try {
             JSONArray jsonArray = data.getJSONArray("persons");
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject person = jsonArray.getJSONObject(i);
-
-                Presence presenceImpl = new Presence();
-                presenceImpl.setName(person.getString("nickName"));
-                presenceImpl.setStatus(person.getString("status"));
-
-                result.add(presenceImpl);
-            }
+            result = IntStream.range(0, jsonArray.length())
+                    .parallel()
+                    .mapToObj(jsonArray::getJSONObject)
+                    .map(jsonObject -> {
+                        Presence presence = new Presence();
+                        presence.setName(jsonObject.getString("nickName"));
+                        presence.setStatus(jsonObject.getString("status"));
+                        return presence;
+                    })
+                    .collect(Collectors.toList());
         } catch (JSONException e) {
             Logger.getGlobal().log(Level.SEVERE, "", e);
         }

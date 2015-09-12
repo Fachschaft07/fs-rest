@@ -1,18 +1,24 @@
 package edu.hm.cs.fs.common.model;
 
-import java.util.Calendar;
+import edu.hm.cs.fs.common.constant.Faculty;
+import edu.hm.cs.fs.common.model.simple.SimplePerson;
 
-import edu.hm.cs.fs.common.constant.EventType;
+import java.util.List;
 
 /**
  * @author Fabio
  */
 public class Event {
+
     private String id;
-    private String name;
-    private Calendar start;
-    private Calendar end;
-    private EventType type;
+    private String title;
+    private String description;
+    private SimplePerson responsible;
+    private Faculty faculty;
+    private boolean sticky;
+    private boolean internal;
+    private String url;
+    private List<Booking> bookings;
 
     public String getId() {
         return id;
@@ -22,35 +28,67 @@ public class Event {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public Calendar getStart() {
-        return start;
+    public String getDescription() {
+        return description;
     }
 
-    public void setStart(Calendar start) {
-        this.start = start;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public Calendar getEnd() {
-        return end;
+    public SimplePerson getResponsible() {
+        return responsible;
     }
 
-    public void setEnd(Calendar end) {
-        this.end = end;
+    public void setResponsible(SimplePerson responsible) {
+        this.responsible = responsible;
     }
 
-    public EventType getType() {
-        return type;
+    public Faculty getFaculty() {
+        return faculty;
     }
 
-    public void setType(EventType type) {
-        this.type = type;
+    public void setFaculty(Faculty faculty) {
+        this.faculty = faculty;
+    }
+
+    public boolean isSticky() {
+        return sticky;
+    }
+
+    public void setSticky(boolean sticky) {
+        this.sticky = sticky;
+    }
+
+    public boolean isInternal() {
+        return internal;
+    }
+
+    public void setInternal(boolean internal) {
+        this.internal = internal;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public List<Booking> getBookings() {
+        return bookings;
+    }
+
+    public void setBookings(List<Booking> bookings) {
+        this.bookings = bookings;
     }
 }

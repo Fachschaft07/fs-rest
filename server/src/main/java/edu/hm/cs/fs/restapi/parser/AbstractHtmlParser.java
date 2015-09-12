@@ -19,25 +19,20 @@ public abstract class AbstractHtmlParser<T> extends AbstractContentParser<T> {
     /**
      * Creates an abstract parser for html content.
      *
-     * @param url to parse.
+     * @param url to getAll.
      */
     public AbstractHtmlParser(final String url) {
         super(url);
     }
 
     @Override
-    public List<T> read(final String url) throws MalformedURLException, IOException {
+    public List<T> getAll() throws Exception {
         final List<T> result = new ArrayList<>();
-        //try {
-            final Document document = Jsoup.parse(
-                    new URL(url), // URL to parse
-                    (int) TimeUnit.MILLISECONDS.convert(10, TimeUnit.SECONDS) // Timeout
-            );
-            result.addAll(readDoc(document));
-        /*} catch (IOException e) {
-            e.printStackTrace();
-            // TODO Log.e(getClass().getSimpleName(), "", e);
-        }*/
+        final Document document = Jsoup.parse(
+                new URL(getUrl()), // URL to getAll
+                (int) TimeUnit.MILLISECONDS.convert(10, TimeUnit.SECONDS) // Timeout
+        );
+        result.addAll(readDoc(document));
         return result;
     }
 

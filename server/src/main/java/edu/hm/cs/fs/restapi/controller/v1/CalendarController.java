@@ -1,19 +1,17 @@
-package edu.hm.cs.fs.restapi.v1;
+package edu.hm.cs.fs.restapi.controller.v1;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.xml.xpath.XPathExpressionException;
-
+import edu.hm.cs.fs.common.model.Termin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.hm.cs.fs.common.model.Holiday;
-import edu.hm.cs.fs.common.model.Termin;
+import edu.hm.cs.fs.common.model.Event;
 import edu.hm.cs.fs.restapi.parser.TerminParser;
 
 /**
@@ -24,36 +22,33 @@ public class CalendarController {
     /**
      * @return
      * @throws IOException 
-     * @throws MalformedURLException 
-     * @throws XPathExpressionException 
+     * @throws Exception
      */
     @RequestMapping("/rest/api/1/calendar/termin")
-    public List<Termin> getTermins() throws MalformedURLException, XPathExpressionException, IOException {
-        return new TerminParser().parse().parallelStream()
-                .filter(termin -> !termin.getSubject().endsWith("erster Tag") &&
-                        !termin.getSubject().endsWith("letzter Tag"))
+    public List<Termin> getTermins() throws Exception {
+        return new TerminParser().getAll().parallelStream()
+                .filter(termin -> !termin.getTitle().endsWith("erster Tag") &&
+                        !termin.getTitle().endsWith("letzter Tag"))
                 .sorted((termin1, termin2) -> termin1.getDate().compareTo(termin2.getDate()))
                 .collect(Collectors.toList());
     }
 
     /**
      * @return
-     * @throws IOException 
-     * @throws MalformedURLException 
-     * @throws XPathExpressionException 
+     * @throws Exception
      */
     @RequestMapping("/rest/api/1/calendar/holiday")
-    public List<Holiday> getHolidays() throws MalformedURLException, XPathExpressionException, IOException {
-        final List<Termin> termins = new TerminParser().parse();
-        return termins.parallelStream()
-                .filter(termin -> termin.getSubject().endsWith("erster Tag"))
+    public List<Holiday> getHolidays() throws Exception {
+        final List<Termin> events = new TerminParser().getAll();
+        return events.parallelStream()
+                .filter(termin -> termin.getTitle().endsWith("erster Tag"))
                 .map(termin -> {
                     Holiday holiday = new Holiday();
-                    holiday.setName(getName(termin.getSubject(), termin.getDate()));
+                    holiday.setName(getName(termin.getTitle(), termin.getDate()));
                     holiday.setStart(termin.getDate());
-                    termins.parallelStream()
-                            .filter(termin1 -> termin1.getSubject().endsWith("letzter Tag"))
-                            .filter(termin1 -> getName(termin1.getSubject(), termin1.getDate())
+                    events.parallelStream()
+                            .filter(termin1 -> termin1.getTitle().endsWith("letzter Tag"))
+                            .filter(termin1 -> getName(termin1.getTitle(), termin1.getDate())
                                     .equalsIgnoreCase(holiday.getName()))
                             .findFirst()
                             .ifPresent(termin1 -> holiday.setEnd(termin1.getDate()));

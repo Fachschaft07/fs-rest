@@ -3,7 +3,6 @@ package edu.hm.cs.fs.restapi.parser.cache;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Type;
-import java.net.MalformedURLException;
 import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -25,13 +24,13 @@ public abstract class CachedParser<T> implements Parser<T> {
     private final Parser<T> parser;
     private final long intervalInMin;
     private final File cacheFile;
-    private Parser<T> parserAll;
 
     /**
      * Creates a cached parser with a specified interval.
      *
      * @param parser   to handle the cache for.
      * @param interval of the new content fetching.
+     * @param timeUnit of the interval.
      */
     public CachedParser(final Parser<T> parser, final long interval, final TimeUnit timeUnit) {
         this.parser = parser;
@@ -42,7 +41,7 @@ public abstract class CachedParser<T> implements Parser<T> {
     }
 
     @Override
-    public List<T> parse() throws MalformedURLException, IOException, XPathExpressionException {
+    public List<T> getAll() throws Exception {
         final List<T> cache;
         if (isUpToDate()) {
             cache = readFromCache();
@@ -52,7 +51,13 @@ public abstract class CachedParser<T> implements Parser<T> {
         return cache;
     }
 
-    public abstract Type getType();
+    protected abstract Type getType();
+
+    public void cleanUp() {
+        if (cacheFile.exists()) {
+            cacheFile.delete();
+        }
+    }
 
     private boolean isUpToDate() {
         final Calendar lastModified = Calendar.getInstance();
@@ -62,7 +67,7 @@ public abstract class CachedParser<T> implements Parser<T> {
         return cacheFile.exists() && Calendar.getInstance().before(lastModified);
     }
 
-    private List<T> readFromCache() throws MalformedURLException, IOException, XPathExpressionException {
+    private List<T> readFromCache() throws Exception {
         try {
             // Read the cache file and reproduce the output
             return gson.fromJson(Files.toString(cacheFile, Charsets.UTF_8), getType());
@@ -72,8 +77,8 @@ public abstract class CachedParser<T> implements Parser<T> {
         }
     }
 
-    private List<T> updateCache() throws MalformedURLException, IOException, XPathExpressionException {
-        List<T> result = parser.parse();
+    private List<T> updateCache() throws Exception {
+        List<T> result = parser.getAll();
         writeToCache(result);
         return result;
     }

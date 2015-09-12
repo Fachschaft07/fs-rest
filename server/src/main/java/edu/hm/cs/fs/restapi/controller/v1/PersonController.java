@@ -1,11 +1,11 @@
-package edu.hm.cs.fs.restapi.v1;
+package edu.hm.cs.fs.restapi.controller.v1;
 
 import edu.hm.cs.fs.common.model.Person;
 import edu.hm.cs.fs.common.model.simple.SimplePerson;
+import edu.hm.cs.fs.restapi.parser.PersonParser;
 import edu.hm.cs.fs.restapi.parser.cache.CachedPersonParser;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,14 +23,11 @@ public class PersonController {
     /**
      *
      * @return
-     * @throws IOException
-     * @throws XPathExpressionException
-     * @throws MalformedURLException
-     * @throws IllegalStateException
+     * @throws Exception
      */
     @RequestMapping("/rest/api/1/persons")
-    public List<SimplePerson> getPersons() throws IllegalStateException, MalformedURLException, XPathExpressionException, IOException {
-        return new CachedPersonParser().parse()
+    public List<SimplePerson> getPersons() throws Exception {
+        return new CachedPersonParser().getAll()
                 .stream()
                 .map(SimplePerson::new)
                 .collect(Collectors.toList());
@@ -40,15 +37,12 @@ public class PersonController {
      *
      * @param personId
      * @return
-     * @throws IOException 
-     * @throws XPathExpressionException 
-     * @throws MalformedURLException 
-     * @throws IllegalStateException 
+     * @throws Exception
      */
     @RequestMapping("/rest/api/1/person")
-    public Person getPersonById(@RequestParam(value = "id") String personId) throws IllegalStateException, MalformedURLException, XPathExpressionException, IOException {
-        return new CachedPersonParser()
-                .findById(personId)
+    public Person getPersonById(@RequestParam(value = "id") String personId) throws Exception {
+        return new PersonParser()
+                .getById(personId)
                 .orElseThrow(() -> new IllegalStateException("No person found with id '" + personId + "'."));
     }
 }

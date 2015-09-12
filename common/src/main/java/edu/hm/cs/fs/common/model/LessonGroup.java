@@ -9,9 +9,18 @@ import java.util.List;
  * @author Fabio
  */
 public class LessonGroup {
+    private Group group;
     private SimpleModule module;
     private SimplePerson teacher;
     private List<Integer> groups;
+
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
+    }
 
     public SimpleModule getModule() {
         return module;

@@ -32,48 +32,13 @@ public class LessonFk10Parser extends AbstractHtmlParser<Lesson> {
         mGroup = group;
     }
 
-    public static String getGroupId(final Group group) throws IOException {
-        Connection conn = Jsoup.connect(URL);
-        conn = conn.referrer(URL);
-        conn = conn.userAgent(USER_AGENT);
-        final Document doc = conn.get();
-        final Elements scripts = doc.select("script");
-        final Pattern pattern = Pattern.compile("addOption\\([^\\)]*\\)");
-        final Matcher matcher = pattern.matcher(scripts.get(5).toString()); // SS14 = 6; WS1415 = 5
-        final Map<Group, String> groups = new HashMap<>();
-        while (matcher.find()) {
-            final String match = matcher.group();
-            if (match.contains("WIF ")) {
-                String groupName = match.replaceFirst("addOption\\(\\\"schs[0-9]+\", \"", "");
-                groupName = groupName.replaceFirst("", "");
-                String groupId = groupName;
-                groupName = groupName.replaceFirst("\", \"[0-9]*\"\\)", "");
-                groupId = groupId.replaceFirst("WIF [0-9]*[ ]?[A-Za-z]*\", \"", "");
-                groupId = groupId.replaceFirst("\"\\)", "");
-
-                final Group foundGroup;
-                final String[] groupSplitter = groupName.split(" ");
-                if (groupSplitter.length > 2 && "M".equalsIgnoreCase(groupSplitter[2])) {
-                    foundGroup = Group.of(Study.IN.toString() + groupSplitter[1]);
-                } else {
-                    foundGroup = Group.of(Study.IB.toString() + groupSplitter[1] + (groupSplitter.length > 2 ? groupSplitter[2] : ""));
-                }
-
-                if (group.equals(foundGroup)) {
-                    return groupId;
-                }
-            }
-        }
-        return "-1";
-    }
-
     @Override
-    public List<Lesson> read(final String url) {
+    public List<Lesson> getAll() throws Exception {
         List<Lesson> result = new ArrayList<>();
         try {
             final Connection connect = Jsoup
-                    .connect(url)
-                    .referrer(url)
+                    .connect(getUrl())
+                    .referrer(getUrl())
                     .userAgent(USER_AGENT)
                     .data("semestergr", getGroupId(mGroup))
                     .data("modul", "")
@@ -123,5 +88,39 @@ public class LessonFk10Parser extends AbstractHtmlParser<Lesson> {
         }
 
         return result;
+    }
+
+    private static String getGroupId(final Group group) throws Exception {
+        Connection conn = Jsoup.connect(URL);
+        conn = conn.referrer(URL);
+        conn = conn.userAgent(USER_AGENT);
+        final Document doc = conn.get();
+        final Elements scripts = doc.select("script");
+        final Pattern pattern = Pattern.compile("addOption\\([^\\)]*\\)");
+        final Matcher matcher = pattern.matcher(scripts.get(5).toString()); // SS14 = 6; WS1415 = 5
+        while (matcher.find()) {
+            final String match = matcher.group();
+            if (match.contains("WIF ")) {
+                String groupName = match.replaceFirst("addOption\\(\\\"schs[0-9]+\", \"", "");
+                groupName = groupName.replaceFirst("", "");
+                String groupId = groupName;
+                groupName = groupName.replaceFirst("\", \"[0-9]*\"\\)", "");
+                groupId = groupId.replaceFirst("WIF [0-9]*[ ]?[A-Za-z]*\", \"", "");
+                groupId = groupId.replaceFirst("\"\\)", "");
+
+                final Group foundGroup;
+                final String[] groupSplitter = groupName.split(" ");
+                if (groupSplitter.length > 2 && "M".equalsIgnoreCase(groupSplitter[2])) {
+                    foundGroup = Group.of(Study.IN.toString() + groupSplitter[1]);
+                } else {
+                    foundGroup = Group.of(Study.IB.toString() + groupSplitter[1] + (groupSplitter.length > 2 ? groupSplitter[2] : ""));
+                }
+
+                if (group.equals(foundGroup)) {
+                    return groupId;
+                }
+            }
+        }
+        return Integer.toString(-1);
     }
 }

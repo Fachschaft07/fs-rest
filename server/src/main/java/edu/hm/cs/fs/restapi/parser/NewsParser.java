@@ -32,7 +32,7 @@ public class NewsParser extends AbstractXmlParser<News> {
     }
 
     @Override
-    public List<News> onCreateItems(final String rootPath) throws XPathExpressionException, MalformedURLException, IOException {
+    public List<News> onCreateItems(final String rootPath) throws Exception {
       
         String title;
         String link;

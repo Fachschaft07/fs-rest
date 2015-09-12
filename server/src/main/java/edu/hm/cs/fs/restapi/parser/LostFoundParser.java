@@ -28,18 +28,18 @@ public class LostFoundParser extends AbstractXmlParser<LostFound> {
     }
 
     @Override
-    public List<LostFound> onCreateItems(final String rootPath) throws XPathExpressionException {
-        String id;
+    public List<LostFound> onCreateItems(final String rootPath) throws Exception {
+        //String id;
         String subject;
         Date date = null;
 
         // Parse Elements...
-        id = findByXPath(rootPath + "/id/text()", XPathConstants.STRING, String.class);
+        //id = findByXPath(rootPath + "/id/text()", XPathConstants.STRING, String.class);
         subject = findByXPath(rootPath + "/subject/text()", XPathConstants.STRING, String.class);
         try {
             date = DATE_FORMATTER.parse((String) findByXPath(rootPath + "/date/text()", XPathConstants.STRING, String.class));
         } catch (Exception e) {
-            // TODO Auto-generated catch block
+            date = new Date(); // Just if the parsing failed...
             e.printStackTrace();
         }
 

@@ -7,6 +7,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -22,35 +23,30 @@ public abstract class AbstractJsonParser<T> extends AbstractContentParser<T> {
     /**
      * Creates an abstract parser for json content.
      *
-     * @param url to parse.
+     * @param url to getAll.
      */
     public AbstractJsonParser(final String url) {
         super(url);
     }
 
     @Override
-    public List<T> read(final String url) throws IOException {
+    public List<T> getAll() throws Exception {
         final List<T> result = new ArrayList<>();
-        //try {
-            final URL source = new URL(url);
-            final HttpURLConnection conn = (HttpURLConnection) source.openConnection();
-            conn.setReadTimeout(3000);
-            conn.setConnectTimeout(5000);
-            conn.setRequestMethod("GET");
-            conn.setDoInput(true);
-            conn.connect();
+        final URL source = new URL(getUrl());
+        final HttpURLConnection conn = (HttpURLConnection) source.openConnection();
+        conn.setReadTimeout(3000);
+        conn.setConnectTimeout(5000);
+        conn.setRequestMethod("GET");
+        conn.setDoInput(true);
+        conn.connect();
 
-            final String content = CharStreams.readLines(new InputStreamReader(conn.getInputStream())).stream().collect(Collectors.joining("\n")).trim();
+        final String content = CharStreams.readLines(new InputStreamReader(conn.getInputStream())).stream().collect(Collectors.joining("\n")).trim();
 
-            if (content.charAt(0) == '[') {
-                result.addAll(convert(new JSONArray(content)));
-            } else {
-                result.addAll(convert(new JSONObject(content)));
-            }
-       /* } catch (final Exception e) {
-            e.printStackTrace();
-            // TODO Log.e(getClass().getSimpleName(), "", e);
-        }*/
+        if (content.charAt(0) == '[') {
+            result.addAll(convert(new JSONArray(content)));
+        } else {
+            result.addAll(convert(new JSONObject(content)));
+        }
         return result;
     }
 

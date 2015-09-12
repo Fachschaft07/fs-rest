@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
@@ -34,7 +35,7 @@ public class OccupiedParser extends AbstractXmlParser<RoomOccupation> {
     }
 
     @Override
-    public List<RoomOccupation> onCreateItems(final String rootPath) throws XPathExpressionException {
+    public List<RoomOccupation> onCreateItems(final String rootPath) throws Exception {
         // Parse Elements...
         final String name = findByXPath(rootPath + "/value/text()",
                 XPathConstants.STRING, String.class);
@@ -43,26 +44,35 @@ public class OccupiedParser extends AbstractXmlParser<RoomOccupation> {
 
         Map<Day, List<Time>> map = new HashMap<>();
 
-        final int dayCount = getCountByXPath(rootPath + "/day");
-        for (int dayIndex = 1; dayIndex <= dayCount; dayIndex++) {
-            final String dayKey = findByXPath(rootPath + "/day[" + dayIndex + "]/weekday/text()",
-                    XPathConstants.STRING, String.class);
-            if (Strings.isNullOrEmpty(dayKey)) {
-                continue;
-            }
-            final Day day = Day.of(dayKey);
-            if (!map.containsKey(day)) {
-                map.put(day, new ArrayList<>());
-            }
+        getXPathStream(rootPath + "/day")
+                .forEach(path -> {
+                    try {
+                        final String dayKey = findByXPath(path + "/weekday/text()",
+                                XPathConstants.STRING, String.class);
+                        if (Strings.isNullOrEmpty(dayKey)) {
+                            return;
+                        }
+                        final Day day = Day.of(dayKey);
+                        if (!map.containsKey(day)) {
+                            map.put(day, new ArrayList<>());
+                        }
 
-            final int timeCount = getCountByXPath(rootPath + "/day[" + dayIndex + "]/time");
-            for (int timeIndex = 1; timeIndex <= timeCount; timeIndex++) {
-                final Optional<Time> time = Optional.ofNullable(Time.of(findByXPath(rootPath +
-                                "/day[" + dayIndex + "]/time[" + timeIndex + "]/starttime/text()",
-                        XPathConstants.STRING, String.class)));
-                time.ifPresent(timeAvailable -> map.get(day).add(timeAvailable));
-            }
-        }
+                        map.get(day).addAll(getXPathStream(path + "/time")
+                                .map(timePath -> {
+                                    try {
+                                        return findByXPath(timePath + "/starttime/text()",
+                                                XPathConstants.STRING, String.class);
+                                    } catch (XPathExpressionException e) {
+                                        throw new RuntimeException(e);
+                                    }
+                                })
+                                .filter(time -> !Strings.isNullOrEmpty(time))
+                                .map(Time::of)
+                                .collect(Collectors.toList()));
+                    } catch (XPathExpressionException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
 
         RoomOccupation room = new RoomOccupation();
         room.setName(name);

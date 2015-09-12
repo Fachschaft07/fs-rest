@@ -1,4 +1,4 @@
-package edu.hm.cs.fs.restapi.v1;
+package edu.hm.cs.fs.restapi.controller.v1;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -33,21 +33,20 @@ public class RoomController {
      * @param hour
      * @param minute
      * @return
-     * @throws IOException 
-     * @throws MalformedURLException 
-     * @throws XPathExpressionException 
+     * @throws Exception
      */
     @RequestMapping("/rest/api/1/room")
     public List<SimpleRoom> getRoomByDateTime(@RequestParam(value = "day", defaultValue = "MONDAY") Day day,
                                               @RequestParam(value = "hour", defaultValue = "8") int hour,
-                                              @RequestParam(value = "minute", defaultValue = "0") int minute) throws MalformedURLException, XPathExpressionException, IOException {
+                                              @RequestParam(value = "minute", defaultValue = "0") int minute)
+            throws Exception {
         final List<Time> timesAfter = Stream.of(Time.values())
                 .filter(filterTime -> filterTime.getStart().get(Calendar.HOUR_OF_DAY) >= hour ||
                         filterTime.getStart().get(Calendar.HOUR_OF_DAY) == hour &&
                                 filterTime.getStart().get(Calendar.MINUTE) >= minute)
                 .sorted(Enum::compareTo)
                 .collect(Collectors.toList());
-        return new CachedOccupiedParser().parse().parallelStream()
+        return new CachedOccupiedParser().getAll().parallelStream()
                 .filter(room -> room.getCapacity() > MIN_ROOM_CAPACITY)
                 .map(room -> {
                     Room tmpRoom = new Room();

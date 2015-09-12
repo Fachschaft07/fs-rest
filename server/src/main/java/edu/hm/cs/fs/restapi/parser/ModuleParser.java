@@ -1,15 +1,17 @@
 package edu.hm.cs.fs.restapi.parser;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
+import com.google.common.base.Strings;
+import edu.hm.cs.fs.common.model.Person;
 import org.jsoup.helper.StringUtil;
 
 import edu.hm.cs.fs.common.constant.ExamType;
@@ -21,7 +23,6 @@ import edu.hm.cs.fs.common.model.Module;
 import edu.hm.cs.fs.common.model.ModuleCode;
 import edu.hm.cs.fs.common.model.simple.SimpleModuleCode;
 import edu.hm.cs.fs.common.model.simple.SimplePerson;
-import edu.hm.cs.fs.restapi.parser.cache.CachedPersonParser;
 
 /**
  * A modul can be choosen by a student. Some moduls are mandatory. (Url: <a
@@ -29,27 +30,28 @@ import edu.hm.cs.fs.restapi.parser.cache.CachedPersonParser;
  *
  * @author Fabio
  */
-public class ModuleParser extends AbstractXmlParser<Module> {
+public class ModuleParser extends AbstractXmlParser<Module> implements ByIdParser<Module> {
     private static final String BASE_URL = "http://fi.cs.hm.edu/fi/rest/public/";
     private static final String URL = BASE_URL + "modul.xml";
     private static final String ROOT_NODE = "/modullist/modul";
+    private final ByIdParser<Person> personParser;
 
-    public ModuleParser() {
+    public ModuleParser(ByIdParser<Person> personParser) {
         super(URL, ROOT_NODE);
+        this.personParser = personParser;
     }
 
-    public ModuleParser(String moduleId) {
+    private ModuleParser(ByIdParser<Person> personParser, String moduleId) {
         super(BASE_URL + "modul/title/" + moduleId + ".xml", "modul");
+        this.personParser = personParser;
     }
 
     @Override
-    public List<Module> onCreateItems(final String rootPath) throws XPathExpressionException, MalformedURLException, IOException {
+    public List<Module> onCreateItems(final String rootPath) throws Exception {
         String name;
         int credits;
         int sws;
         String responsible;
-        List<SimplePerson> teachers = new ArrayList<>();
-        List<String> languages = new ArrayList<>();
         TeachingForm teachingForm = null;
         String expenditure;
         String requirements;
@@ -58,7 +60,6 @@ public class ModuleParser extends AbstractXmlParser<Module> {
         String media;
         String literature;
         Study program = null;
-        List<ModuleCode> modulCodes = new ArrayList<>();
 
         // Parse Elements...
         name = findByXPath(rootPath + "/name/text()",
@@ -70,23 +71,39 @@ public class ModuleParser extends AbstractXmlParser<Module> {
         responsible = findByXPath(rootPath + "/verantwortlich/text()",
                 XPathConstants.STRING, String.class);
 
-        final int countTeachers = getCountByXPath(rootPath + "/teacher");
-        for (int indexTeacher = 1; indexTeacher <= countTeachers; indexTeacher++) {
-            final String teacher = findByXPath(rootPath + "/teacher["
-                    + indexTeacher + "]/text()", XPathConstants.STRING, String.class);
-            if (!StringUtil.isBlank(teacher)) {
-                new CachedPersonParser().findByIdSimple(teacher).ifPresent(teachers::add);
-            }
-        }
+        final List<SimplePerson> teachers = getXPathStream(rootPath + "/teacher")
+                .map(path -> {
+                    try {
+                        return findByXPath(path + "/text()",
+                                XPathConstants.STRING, String.class);
+                    } catch (XPathExpressionException e) {
+                        throw new RuntimeException(e);
+                    }
+                })
+                .filter(person -> !Strings.isNullOrEmpty(person))
+                .map(person -> {
+                    try {
+                        return personParser.getById(person);
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                })
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .map(SimplePerson::new)
+                .collect(Collectors.toList());
 
-        final int countLanguage = getCountByXPath(rootPath + "/language");
-        for (int indexLanguage = 1; indexLanguage <= countLanguage; indexLanguage++) {
-            final String language = findByXPath(rootPath + "/language["
-                    + indexLanguage + "]/text()", XPathConstants.STRING, String.class);
-            if (!StringUtil.isBlank(language)) {
-                languages.add(language);
-            }
-        }
+        final List<String> languages = getXPathStream(rootPath + "/language")
+                .map(path -> {
+                    try {
+                        return findByXPath(path + "/text()",
+                                XPathConstants.STRING, String.class);
+                    } catch (XPathExpressionException e) {
+                        throw new RuntimeException(e);
+                    }
+                })
+                .filter(language -> !Strings.isNullOrEmpty(language))
+                .collect(Collectors.toList());
 
         final String teachingFormStr = findByXPath(rootPath
                 + "/lehrform/text()", XPathConstants.STRING, String.class);
@@ -111,79 +128,89 @@ public class ModuleParser extends AbstractXmlParser<Module> {
             program = Study.of(programStr);
         }
 
-        final int countCodes = getCountByXPath(rootPath
-                + "/modulcodes/modulcode");
-        for (int indexCodes = 1; indexCodes <= countCodes; indexCodes++) {
-            final String modulCodePath = rootPath
-                    + "/modulcodes/modulcode[" + indexCodes + "]";
+        final List<ModuleCode> moduleCodes = getXPathStream(rootPath + "/modulcode")
+                .map(path -> {
+                    try {
+                        final String modul = findByXPath(path
+                                + "/modul/text()", XPathConstants.STRING, String.class);
+                        final String regulation = findByXPath(path
+                                + "/regulation/text()", XPathConstants.STRING, String.class);
+                        final String stringOffer = findByXPath(path
+                                + "/angebot/text()", XPathConstants.STRING, String.class);
+                        Offer offer = null;
+                        if (!StringUtil.isBlank(stringOffer)) {
+                            offer = Offer.of(stringOffer);
+                        }
+                        ExamType services = null;
+                        final String servicesStr = findByXPath(path
+                                + "/leistungen/text()", XPathConstants.STRING, String.class);
+                        if (!StringUtil.isBlank(servicesStr)) {
+                            services = ExamType.of(servicesStr);
+                        }
+                        final String code = findByXPath(path + "/code/text()",
+                                XPathConstants.STRING, String.class);
 
-            final String modul = findByXPath(modulCodePath
-                    + "/modul/text()", XPathConstants.STRING, String.class);
-            final String regulation = findByXPath(modulCodePath
-                    + "/regulation/text()", XPathConstants.STRING, String.class);
-            final String stringOffer = findByXPath(modulCodePath
-                    + "/angebot/text()", XPathConstants.STRING, String.class);
-            Offer offer = null;
-            if (!StringUtil.isBlank(stringOffer)) {
-                offer = Offer.of(stringOffer);
-            }
-            ExamType services = null;
-            final String servicesStr = findByXPath(modulCodePath
-                    + "/leistungen/text()", XPathConstants.STRING, String.class);
-            if(!StringUtil.isBlank(servicesStr)) {
-                services = ExamType.of(servicesStr);
-            }
-            final String code = findByXPath(modulCodePath + "/code/text()",
-                    XPathConstants.STRING, String.class);
+                        final List<Semester> semesterList = getXPathStream(path + "/semester")
+                                .map(semesterPath -> {
+                                    try {
+                                        return findByXPath(semesterPath + "/text()",
+                                                XPathConstants.STRING, String.class);
+                                    } catch (XPathExpressionException e) {
+                                        throw new RuntimeException(e);
+                                    }
+                                })
+                                .filter(semester -> !Strings.isNullOrEmpty(semester))
+                                .map(semester -> Semester.of(Integer.parseInt(semester)))
+                                .collect(Collectors.toList());
 
-            final List<Semester> semesterList = new ArrayList<>();
-            final int countSemester = getCountByXPath(modulCodePath
-                    + "/semester");
-            for (int indexSemester = 1; indexSemester <= countSemester; indexSemester++) {
-                final String semester = findByXPath(modulCodePath
-                                + "/semester[" + indexSemester + "]/text()",
-                        XPathConstants.STRING, String.class);
-                if (!StringUtil.isBlank(semester)) {
-                    semesterList.add(Semester.of(Integer.parseInt(semester)));
-                }
-            }
+                        final String curriculum = findByXPath(path
+                                + "/curriculum/text()", XPathConstants.STRING, String.class);
 
-            final String curriculum = findByXPath(modulCodePath
-                    + "/curriculum/text()", XPathConstants.STRING, String.class);
-
-            ModuleCode moduleCode = new ModuleCode();
-            moduleCode.setModul(modul);
-            moduleCode.setRegulation(regulation);
-            moduleCode.setOffer(offer);
-            moduleCode.setServices(services);
-            moduleCode.setCode(code);
-            moduleCode.setSemesters(semesterList);
-            moduleCode.setCurriculum(curriculum);
-
-            modulCodes.add(moduleCode);
-        }
+                        ModuleCode moduleCode = new ModuleCode();
+                        moduleCode.setModul(modul);
+                        moduleCode.setRegulation(regulation);
+                        moduleCode.setOffer(offer);
+                        moduleCode.setServices(services);
+                        moduleCode.setCode(code);
+                        moduleCode.setSemesters(semesterList);
+                        moduleCode.setCurriculum(curriculum);
+                        return moduleCode;
+                    } catch (XPathExpressionException e) {
+                        throw new RuntimeException(e);
+                    }
+                })
+                .filter(moduleCode -> moduleCode != null)
+                .collect(Collectors.toList());
 
         Module module = new Module();
-        if(!modulCodes.isEmpty()) {
-            module.setId(modulCodes.get(0).getModul());
-            module.setName(name);
-            module.setCredits(credits);
-            module.setSws(sws);
-            new CachedPersonParser().findByIdSimple(responsible).ifPresent(module::setResponsible);
-            module.setTeachers(teachers);
-            module.setLanguages(languages);
-            module.setTeachingForm(teachingForm);
-            module.setExpenditure(expenditure);
-            module.setRequirements(requirements);
-            module.setGoals(goals);
-            module.setContent(content);
-            module.setMedia(media);
-            module.setLiterature(literature);
-            module.setProgram(program);
-            module.setModulCodes(modulCodes.stream().map(SimpleModuleCode::new).collect(Collectors.toList()));
+        moduleCodes.stream().findFirst().map(ModuleCode::getModul).ifPresent(module::setId);
+        module.setName(name);
+        module.setCredits(credits);
+        module.setSws(sws);
+        personParser.getById(responsible).map(SimplePerson::new).ifPresent(module::setResponsible);
+        module.setTeachers(teachers);
+        module.setLanguages(languages);
+        module.setTeachingForm(teachingForm);
+        module.setExpenditure(expenditure);
+        module.setRequirements(requirements);
+        module.setGoals(goals);
+        module.setContent(content);
+        module.setMedia(media);
+        module.setLiterature(literature);
+        module.setProgram(program);
+        module.setModulCodes(moduleCodes.parallelStream().map(SimpleModuleCode::new).collect(Collectors.toList()));
 
-            return Collections.singletonList(module);
+        return Collections.singletonList(module);
+    }
+
+    @Override
+    public Optional<Module> getById(String itemId) throws Exception {
+        try {
+            return new ModuleParser(personParser, itemId).getAll().parallelStream()
+                    .filter(module -> itemId.equals(module.getId()))
+                    .findAny();
+        } catch (IOException e) {
+            return Optional.empty();
         }
-        return new ArrayList<>();
     }
 }

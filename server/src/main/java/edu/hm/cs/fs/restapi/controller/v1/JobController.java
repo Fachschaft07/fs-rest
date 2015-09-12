@@ -1,12 +1,12 @@
-package edu.hm.cs.fs.restapi.v1;
+package edu.hm.cs.fs.restapi.controller.v1;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.xml.xpath.XPathExpressionException;
 
+import edu.hm.cs.fs.restapi.parser.PersonParser;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,14 +30,12 @@ public class JobController {
      * @param search for the words in the job title and description.
      * @param id     for the id of the job
      * @return a list with all matched jobs.
-     * @throws IOException 
-     * @throws MalformedURLException 
-     * @throws XPathExpressionException 
+     * @throws Exception
      */
     @RequestMapping("/rest/api/1/job")
     public List<SimpleJob> getJobs(@RequestParam(value = "search", defaultValue = "") String search,
-                                   @RequestParam(value = "id", defaultValue = "") String id) throws MalformedURLException, XPathExpressionException, IOException {
-        return new JobParser().parse().stream()
+                                   @RequestParam(value = "id", defaultValue = "") String id) throws Exception {
+        return new JobParser(new PersonParser()).getAll().stream()
                 .filter(job -> search == null || search.length() == 0 || (job.getTitle() + job.getDescription()).toLowerCase().contains(search.toLowerCase()))
                 .filter(job -> id == null || id.length() == 0 || job.getId().equals(id))
                 .map(SimpleJob::new)
