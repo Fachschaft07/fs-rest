@@ -8,7 +8,8 @@ import edu.hm.cs.fs.common.model.simple.SimplePerson;
 
 public class Lesson {
     private Day day;
-    private Time time;
+    private int hour;
+    private int minute;
     private String room;
     private String suffix;
     private SimpleModule module;
@@ -22,12 +23,20 @@ public class Lesson {
         this.day = day;
     }
 
-    public Time getTime() {
-        return time;
+    public int getHour() {
+        return hour;
     }
 
-    public void setTime(Time time) {
-        this.time = time;
+    public void setHour(int hour) {
+        this.hour = hour;
+    }
+
+    public int getMinute() {
+        return minute;
+    }
+
+    public void setMinute(int minute) {
+        this.minute = minute;
     }
 
     public String getRoom() {

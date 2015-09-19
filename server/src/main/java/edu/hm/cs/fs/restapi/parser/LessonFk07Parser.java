@@ -8,6 +8,7 @@ import org.jsoup.helper.StringUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
@@ -66,7 +67,8 @@ public class LessonFk07Parser extends AbstractXmlParser<Lesson> {
                         // Else go on...
                         final String startTimeStr = findByXPath(path + "/starttime/text()", XPathConstants.STRING, String.class);
                         if (!StringUtil.isBlank(startTimeStr)) {
-                            lesson.setTime(Time.of(startTimeStr));
+                            lesson.setHour(Integer.parseInt(startTimeStr.split(":")[0]));
+                            lesson.setMinute(Integer.parseInt(startTimeStr.split(":")[1]));
                         }
                         final String room = findByXPath(path + "/room/text()", XPathConstants.STRING, String.class);
                         final String teacherId = findByXPath(path + "/teacher/text()", XPathConstants.STRING, String.class);

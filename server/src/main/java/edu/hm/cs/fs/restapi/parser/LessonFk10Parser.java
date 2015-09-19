@@ -21,6 +21,8 @@ import edu.hm.cs.fs.common.constant.Study;
 import edu.hm.cs.fs.common.constant.Time;
 import edu.hm.cs.fs.common.model.Group;
 import edu.hm.cs.fs.common.model.Lesson;
+import edu.hm.cs.fs.common.model.simple.SimpleModule;
+import edu.hm.cs.fs.common.model.simple.SimplePerson;
 
 public class LessonFk10Parser extends AbstractHtmlParser<Lesson> {
     private static final String URL = "http://w3bw-o.hm.edu/iframe/studieninfo_vorlesungsplan.php";
@@ -60,27 +62,43 @@ public class LessonFk10Parser extends AbstractHtmlParser<Lesson> {
         List<Lesson> result = new ArrayList<>();
 
         Day day = null;
-        Time time = null;
+        int hour = 0;
+        int minute = 0;
         String subject = null;
+        String name = null;
         String room = null;
 
         final Element table = document.select("table").get(4);
         final Elements rows = table.getElementsByTag("td");
         for (final Element row : rows) {
             if (row.toString().contains("<h1")) { // i.e. <h1>Montag</h1>
-                day = Day.of(row.text());
+                day = Day.of(row.text().substring(0, 2));
             } else if (row.toString().contains("<h3")) { // i.e. <h3>10:00-11:30 UHR</h3>
-                time = Time.of(row.text().substring(0, row.text().indexOf("-")));
+                String time = row.text().substring(0, row.text().indexOf("-"));
+                hour = Integer.parseInt(time.split(":")[0]);
+                minute = Integer.parseInt(time.split(":")[1]);
             } else if (row.text().matches("[A-Za-z ]+[0-9]+ .*")) { // i.e. B 24 Marketing
                 subject = row.text();
             } else if (row.text().matches("[A-Za-z]+[0-9]*")) { // i.e. LE001
                 room = row.text();
-            } else if (!row.text().equals("")) {
+            } else if(row.text().matches("[^0-9]+")) {
+                name = row.text().trim();
+
                 Lesson lesson = new Lesson();
                 lesson.setDay(day);
-                lesson.setTime(time);
-                // Does not work with FK10 Modules
-                //TODO lesson.setModule(subject);
+                lesson.setHour(hour);
+                lesson.setMinute(minute);
+
+                SimpleModule module = new SimpleModule();
+                module.setId(subject);
+                module.setName(subject);
+                lesson.setModule(module);
+
+                SimplePerson person = new SimplePerson();
+                person.setId(name);
+                person.setName(name);
+                lesson.setTeacher(person);
+
                 lesson.setRoom(room);
 
                 result.add(lesson);

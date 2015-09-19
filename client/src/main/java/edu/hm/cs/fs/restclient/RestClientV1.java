@@ -219,6 +219,30 @@ public interface RestClientV1 {
      * @param group to get the correct lessons.
      * @param moduleId of the module.
      * @param teacherId of the prof.
+     * @return a list with lessons.
+     */
+    @GET(ROOT_PATH + "timetable/lessons")
+    List<Lesson> getLessons(@Query("group") Group group, @Query("module") String moduleId,
+                            @Query("teacher") String teacherId);
+
+    /**
+     * Requests all lessons by the specified parameters asynchronous.
+     *
+     * @param group to get the correct lessons.
+     * @param moduleId of the module.
+     * @param teacherId of the prof.
+     * @param callback  to retrieve the result.
+     */
+    @GET(ROOT_PATH + "timetable/lessons")
+    void getLessons(@Query("group") Group group, @Query("module") String moduleId,
+                    @Query("teacher") String teacherId, Callback<List<Lesson>> callback);
+
+    /**
+     * Requests all lessons by the specified parameters.
+     *
+     * @param group to get the correct lessons.
+     * @param moduleId of the module.
+     * @param teacherId of the prof.
      * @param pk if it is a practical lecture.
      * @return a list with lessons.
      */
@@ -237,7 +261,8 @@ public interface RestClientV1 {
      */
     @GET(ROOT_PATH + "timetable/lessons")
     void getLessons(@Query("group") Group group, @Query("module") String moduleId,
-                    @Query("teacher") String teacherId, @Query("pk") int pk, Callback<List<Lesson>> callback);
+                    @Query("teacher") String teacherId, @Query("pk") int pk,
+                    Callback<List<Lesson>> callback);
 
     ////////////////////////////////////////////////////////////////////
     //

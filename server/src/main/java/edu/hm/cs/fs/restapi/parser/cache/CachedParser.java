@@ -1,18 +1,16 @@
 package edu.hm.cs.fs.restapi.parser.cache;
 
+import com.google.common.base.Charsets;
+import com.google.common.io.Files;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
-import javax.xml.xpath.XPathExpressionException;
-
-import com.google.common.base.Charsets;
-import com.google.common.io.Files;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import edu.hm.cs.fs.restapi.parser.Parser;
 
@@ -33,11 +31,23 @@ public abstract class CachedParser<T> implements Parser<T> {
      * @param timeUnit of the interval.
      */
     public CachedParser(final Parser<T> parser, final long interval, final TimeUnit timeUnit) {
+        this(parser, parser.getClass().getSimpleName(), interval, timeUnit);
+    }
+
+    /**
+     * Creates a cached parser with a specified interval.
+     *
+     * @param parser        to handle the cache for.
+     * @param cacheFileName name of the cache file.
+     * @param interval      of the new content fetching.
+     * @param timeUnit      of the interval.
+     */
+    public CachedParser(final Parser<T> parser, String cacheFileName, final long interval, final TimeUnit timeUnit) {
         this.parser = parser;
         this.intervalInMin = TimeUnit.MINUTES.convert(interval, timeUnit);
         // Create a cache file in temp directory
         final File tmpDir = new File(System.getProperty("java.io.tmpdir"));
-        cacheFile = new File(tmpDir, "fs_rest_" + parser.getClass().getSimpleName() + "_cache.json");
+        cacheFile = new File(tmpDir, "fs_rest_" + cacheFileName + "_cache.json");
     }
 
     @Override

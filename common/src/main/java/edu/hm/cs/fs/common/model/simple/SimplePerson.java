@@ -7,18 +7,19 @@ import edu.hm.cs.fs.common.model.Person;
  */
 public class SimplePerson {
     private String id;
-    private String lastName;
-    private String firstName;
-    private String title;
+    private String name;
 
     public SimplePerson() {
     }
 
     public SimplePerson(final Person teacher) {
         id = teacher.getId();
-        lastName = teacher.getLastName();
-        firstName = teacher.getFirstName();
-        title = teacher.getTitle();
+        StringBuilder nameBuilder = new StringBuilder();
+        if(teacher.getTitle() != null) {
+            nameBuilder.append(teacher.getTitle()).append(" ");
+        }
+        nameBuilder.append(teacher.getLastName()).append(" ").append(teacher.getFirstName());
+        name = nameBuilder.toString();
     }
 
     public String getId() {
@@ -29,27 +30,11 @@ public class SimplePerson {
         this.id = id;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getName() {
+        return name;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
+    public void setName(String name) {
+        this.name = name;
     }
 }
