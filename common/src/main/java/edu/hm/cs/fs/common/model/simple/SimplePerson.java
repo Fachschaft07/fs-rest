@@ -13,13 +13,13 @@ public class SimplePerson {
     }
 
     public SimplePerson(final Person teacher) {
-        id = teacher.getId();
+        setId(teacher.getId());
         StringBuilder nameBuilder = new StringBuilder();
         if(teacher.getTitle() != null) {
             nameBuilder.append(teacher.getTitle()).append(" ");
         }
         nameBuilder.append(teacher.getLastName()).append(" ").append(teacher.getFirstName());
-        name = nameBuilder.toString();
+        setName(nameBuilder.toString());
     }
 
     public String getId() {

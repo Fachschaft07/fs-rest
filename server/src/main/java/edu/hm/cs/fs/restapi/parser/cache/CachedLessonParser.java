@@ -23,7 +23,7 @@ public class CachedLessonParser extends CachedParser<Lesson> {
      */
     public CachedLessonParser(final Group group) {
         super(new LessonParser(new PersonParser(), new ModuleParser(new PersonParser()), group),
-                "Timetable-" + group.toString(), 1, TimeUnit.DAYS);
+                "Timetable-" + group.toString(), 7, TimeUnit.DAYS);
     }
 
     @Override

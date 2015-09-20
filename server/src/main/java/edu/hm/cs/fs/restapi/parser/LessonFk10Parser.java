@@ -65,7 +65,6 @@ public class LessonFk10Parser extends AbstractHtmlParser<Lesson> {
         int hour = 0;
         int minute = 0;
         String subject = null;
-        String name = null;
         String room = null;
 
         final Element table = document.select("table").get(4);
@@ -82,7 +81,7 @@ public class LessonFk10Parser extends AbstractHtmlParser<Lesson> {
             } else if (row.text().matches("[A-Za-z]+[0-9]*")) { // i.e. LE001
                 room = row.text();
             } else if(row.text().matches("[^0-9]+")) {
-                name = row.text().trim();
+                String name = row.text().trim();
 
                 Lesson lesson = new Lesson();
                 lesson.setDay(day);
