@@ -1,22 +1,19 @@
 package edu.hm.cs.fs.restapi.controller.v1;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.google.common.base.Strings;
+
 import edu.hm.cs.fs.common.model.Exam;
 import edu.hm.cs.fs.common.model.Group;
 import edu.hm.cs.fs.restapi.parser.ExamParser;
 import edu.hm.cs.fs.restapi.parser.ModuleParser;
 import edu.hm.cs.fs.restapi.parser.PersonParser;
-import edu.hm.cs.fs.restapi.parser.cache.CachedModuleParser;
-import edu.hm.cs.fs.restapi.parser.cache.CachedPersonParser;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import javax.xml.xpath.XPathExpressionException;
 
 /**
  * Created by Fabio on 03.09.2015.

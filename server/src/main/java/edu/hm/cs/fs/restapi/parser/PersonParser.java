@@ -1,15 +1,13 @@
 package edu.hm.cs.fs.restapi.parser;
 
-import org.jsoup.helper.StringUtil;
-
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpressionException;
+
+import org.jsoup.helper.StringUtil;
 
 import edu.hm.cs.fs.common.constant.Day;
 import edu.hm.cs.fs.common.constant.Faculty;

@@ -1,10 +1,5 @@
 package edu.hm.cs.fs.restapi.parser;
 
-import com.google.common.base.Strings;
-import edu.hm.cs.fs.common.model.Termin;
-import org.jsoup.helper.StringUtil;
-
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
@@ -12,9 +7,10 @@ import java.util.Date;
 import java.util.List;
 
 import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpressionException;
 
-import edu.hm.cs.fs.common.model.Event;
+import com.google.common.base.Strings;
+
+import edu.hm.cs.fs.common.model.Termin;
 
 /**
  * The appointments at the faculty 07. (Url: <a href="http://fi.cs.hm.edu/fi/rest/public/termin.xml"

@@ -1,9 +1,10 @@
 package edu.hm.cs.fs.common.model.simple;
 
 
-import edu.hm.cs.fs.common.model.Room;
-
 import java.util.Calendar;
+
+import edu.hm.cs.fs.common.constant.RoomType;
+import edu.hm.cs.fs.common.model.Room;
 
 /**
  * Created by Luca on 02.09.2015.
@@ -12,6 +13,7 @@ public class SimpleRoom {
   private String name;
   private int hour;
   private int minute;
+  private RoomType roomType;
 
   public SimpleRoom() {
   }
@@ -20,6 +22,7 @@ public class SimpleRoom {
     this.name = room.getName();
     this.hour = room.getFreeUntilEnd().getEnd().get(Calendar.HOUR_OF_DAY);
     this.minute = room.getFreeUntilEnd().getEnd().get(Calendar.MINUTE);
+    this.roomType = room.getRoomType();
   }
 
   public String getName() {
@@ -44,5 +47,13 @@ public class SimpleRoom {
 
   public void setMinute(int minute) {
     this.minute = minute;
+  }
+  
+  public RoomType getRoomType() {
+    return roomType;
+  }
+
+  public void setRoomType(RoomType roomType) {
+    this.roomType = roomType;
   }
 }

@@ -1,20 +1,17 @@
 package edu.hm.cs.fs.restapi.controller.v1;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.xml.xpath.XPathExpressionException;
-
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.hm.cs.fs.common.constant.Day;
+import edu.hm.cs.fs.common.constant.RoomType;
 import edu.hm.cs.fs.common.constant.Time;
 import edu.hm.cs.fs.common.model.Room;
 import edu.hm.cs.fs.common.model.simple.SimpleRoom;
@@ -36,7 +33,8 @@ public class RoomController {
      * @throws Exception
      */
     @RequestMapping("/rest/api/1/room")
-    public List<SimpleRoom> getRoomByDateTime(@RequestParam(value = "day", defaultValue = "MONDAY") Day day,
+    public List<SimpleRoom> getRoomByDateTime(@RequestParam(value = "type", defaultValue = "ALL") RoomType type,
+                                              @RequestParam(value = "day", defaultValue = "MONDAY") Day day,
                                               @RequestParam(value = "hour", defaultValue = "8") int hour,
                                               @RequestParam(value = "minute", defaultValue = "0") int minute)
             throws Exception {
@@ -46,7 +44,9 @@ public class RoomController {
                                 filterTime.getStart().get(Calendar.MINUTE) >= minute)
                 .sorted(Enum::compareTo)
                 .collect(Collectors.toList());
+        
         return new CachedOccupiedParser().getAll().parallelStream()
+                .filter(room -> type == RoomType.ALL || type == room.getRoomType())
                 .filter(room -> room.getCapacity() > MIN_ROOM_CAPACITY)
                 .map(room -> {
                     Room tmpRoom = new Room();
@@ -57,7 +57,8 @@ public class RoomController {
 
                     tmpRoom.setName(roomNameBuilder.toString());
                     tmpRoom.setCapacity(room.getCapacity());
-
+                    tmpRoom.setRoomType(room.getRoomType());
+                    
                     // Does the room is occupied at any time this day?
                     if (room.getOccupied().containsKey(day)) {
                         // YES!

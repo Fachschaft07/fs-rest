@@ -1,13 +1,8 @@
 package edu.hm.cs.fs.restapi.parser;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
-
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -20,6 +15,9 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
 
 /**
  * An abstract parser for xml content.
@@ -41,7 +39,6 @@ public abstract class AbstractXmlParser<T> extends AbstractContentParser<T> {
         mRootNode = rootNode;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public List<T> getAll() throws Exception {
         final List<T> result;

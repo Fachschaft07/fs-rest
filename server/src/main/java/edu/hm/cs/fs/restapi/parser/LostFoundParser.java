@@ -7,7 +7,6 @@ import java.util.Date;
 import java.util.List;
 
 import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpressionException;
 
 import edu.hm.cs.fs.common.model.LostFound;
 

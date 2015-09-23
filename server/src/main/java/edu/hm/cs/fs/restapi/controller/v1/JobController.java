@@ -1,18 +1,15 @@
 package edu.hm.cs.fs.restapi.controller.v1;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.xml.xpath.XPathExpressionException;
-
-import edu.hm.cs.fs.restapi.parser.PersonParser;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.hm.cs.fs.common.model.simple.SimpleJob;
 import edu.hm.cs.fs.restapi.parser.JobParser;
+import edu.hm.cs.fs.restapi.parser.PersonParser;
 
 /**
  * The JobController represents the interface to the REST-API. It has different methods to access

@@ -1,24 +1,21 @@
 package edu.hm.cs.fs.restapi.parser;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import edu.hm.cs.fs.common.constant.Day;
 import edu.hm.cs.fs.common.constant.Study;
-import edu.hm.cs.fs.common.constant.Time;
 import edu.hm.cs.fs.common.model.Group;
 import edu.hm.cs.fs.common.model.Lesson;
 import edu.hm.cs.fs.common.model.simple.SimpleModule;

@@ -1,10 +1,9 @@
 package edu.hm.cs.fs.restapi.parser.cache;
 
-import edu.hm.cs.fs.restapi.parser.ByIdParser;
-import edu.hm.cs.fs.restapi.parser.Parser;
-
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
+
+import edu.hm.cs.fs.restapi.parser.ByIdParser;
 
 /**
  * @author Fabio

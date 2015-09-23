@@ -1,13 +1,11 @@
 package edu.hm.cs.fs.restapi.parser;
 
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import edu.hm.cs.fs.common.constant.Day;
+import edu.hm.cs.fs.common.constant.RoomType;
 import edu.hm.cs.fs.common.constant.Time;
 
 /**
@@ -13,6 +14,7 @@ public class RoomOccupation {
     private String name;
     private Map<Day, List<Time>> occupied;
     private Integer capacity;
+    private RoomType roomType;
 
     public String getName() {
         return name;
@@ -36,5 +38,13 @@ public class RoomOccupation {
 
     public void setCapacity(Integer capacity) {
         this.capacity = capacity;
+    }
+    
+    public RoomType getRoomType() {
+      return roomType;
+    }
+    
+    public void setRoomType(RoomType roomType) {
+      this.roomType = roomType;
     }
 }

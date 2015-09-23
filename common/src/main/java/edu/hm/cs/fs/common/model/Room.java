@@ -1,6 +1,7 @@
 package edu.hm.cs.fs.common.model;
 
 
+import edu.hm.cs.fs.common.constant.RoomType;
 import edu.hm.cs.fs.common.constant.Time;
 
 /**
@@ -10,6 +11,7 @@ public class Room {
     private String name;
     private Integer capacity;
     private Time freeUntilEnd;
+    private RoomType roomType;
 
     public String getName() {
         return name;
@@ -33,5 +35,13 @@ public class Room {
 
     public void setFreeUntilEnd(Time freeUntil) {
         this.freeUntilEnd = freeUntil;
+    }
+    
+    public RoomType getRoomType() {
+      return roomType;
+    }
+    
+    public void setRoomType(RoomType roomType) {
+      this.roomType = roomType;
     }
 }

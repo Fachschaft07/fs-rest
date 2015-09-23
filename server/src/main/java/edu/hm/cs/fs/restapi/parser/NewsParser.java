@@ -1,7 +1,5 @@
 package edu.hm.cs.fs.restapi.parser;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -11,7 +9,6 @@ import java.util.List;
 import java.util.Locale;
 
 import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpressionException;
 
 import edu.hm.cs.fs.common.model.News;
 

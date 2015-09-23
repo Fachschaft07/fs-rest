@@ -1,13 +1,10 @@
 package edu.hm.cs.fs.restapi.controller.v1;
 
+import java.util.List;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.io.IOException;
-import java.util.List;
-
-import javax.xml.xpath.XPathExpressionException;
 
 import edu.hm.cs.fs.common.constant.PublicTransportLocation;
 import edu.hm.cs.fs.common.model.PublicTransport;

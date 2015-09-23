@@ -1,8 +1,5 @@
 package edu.hm.cs.fs.restapi.parser;
 
-import com.google.common.base.Strings;
-
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -13,14 +10,14 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpressionException;
+
+import com.google.common.base.Strings;
 
 import edu.hm.cs.fs.common.constant.Study;
 import edu.hm.cs.fs.common.constant.StudyGroup;
 import edu.hm.cs.fs.common.model.Job;
 import edu.hm.cs.fs.common.model.Person;
 import edu.hm.cs.fs.common.model.simple.SimplePerson;
-import edu.hm.cs.fs.restapi.parser.cache.CachedPersonParser;
 
 /**
  * Url: <a href="http://fi.cs.hm.edu/fi/rest/public/job">http://fi.cs.hm.edu/fi/rest

@@ -1,16 +1,16 @@
 package edu.hm.cs.fs.restapi.parser.cache;
 
-import com.google.common.base.Charsets;
-import com.google.common.io.Files;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+
+import com.google.common.base.Charsets;
+import com.google.common.io.Files;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import edu.hm.cs.fs.restapi.parser.Parser;
 

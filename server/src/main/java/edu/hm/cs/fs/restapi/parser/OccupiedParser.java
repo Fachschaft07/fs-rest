@@ -1,19 +1,19 @@
 package edu.hm.cs.fs.restapi.parser;
 
-import com.google.common.base.Strings;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
+import com.google.common.base.Strings;
+
 import edu.hm.cs.fs.common.constant.Day;
+import edu.hm.cs.fs.common.constant.RoomType;
 import edu.hm.cs.fs.common.constant.Time;
 import edu.hm.cs.fs.common.model.RoomOccupation;
 
@@ -26,12 +26,12 @@ import edu.hm.cs.fs.common.model.RoomOccupation;
 public class OccupiedParser extends AbstractXmlParser<RoomOccupation> {
     private static final String URL = "http://fi.cs.hm.edu/fi/rest/public/timetable/room.xml";
     private static final String ROOT_NODE = "/list/timetable";
-
+    
     /**
      *
      */
     public OccupiedParser() {
-        super(URL, ROOT_NODE);
+        super(URL, ROOT_NODE);  
     }
 
     @Override
@@ -78,7 +78,9 @@ public class OccupiedParser extends AbstractXmlParser<RoomOccupation> {
         room.setName(name);
         room.setCapacity(capacity);
         room.setOccupied(map);
+        room.setRoomType(RoomType.getByName(name));
 
         return Collections.singletonList(room);
     }
+    
 }

@@ -1,12 +1,12 @@
 package edu.hm.cs.fs.restapi.parser;
 
+import java.util.List;
+
 import edu.hm.cs.fs.common.constant.Study;
 import edu.hm.cs.fs.common.model.Group;
 import edu.hm.cs.fs.common.model.Lesson;
 import edu.hm.cs.fs.common.model.Module;
 import edu.hm.cs.fs.common.model.Person;
-
-import java.util.List;
 
 /**
  * @author Fabio

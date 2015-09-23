@@ -1,14 +1,5 @@
 package edu.hm.cs.fs.restapi.parser;
 
-import edu.hm.cs.fs.common.model.Module;
-import edu.hm.cs.fs.common.model.Person;
-import edu.hm.cs.fs.common.model.simple.SimpleModule;
-import edu.hm.cs.fs.common.model.simple.SimplePerson;
-import org.jsoup.helper.StringUtil;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
@@ -16,12 +7,15 @@ import java.util.stream.Collectors;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
+import org.jsoup.helper.StringUtil;
+
 import edu.hm.cs.fs.common.constant.Day;
-import edu.hm.cs.fs.common.constant.Time;
 import edu.hm.cs.fs.common.model.Group;
 import edu.hm.cs.fs.common.model.Lesson;
-import edu.hm.cs.fs.restapi.parser.cache.CachedModuleParser;
-import edu.hm.cs.fs.restapi.parser.cache.CachedPersonParser;
+import edu.hm.cs.fs.common.model.Module;
+import edu.hm.cs.fs.common.model.Person;
+import edu.hm.cs.fs.common.model.simple.SimpleModule;
+import edu.hm.cs.fs.common.model.simple.SimplePerson;
 
 public class LessonFk07Parser extends AbstractXmlParser<Lesson> {
     private static final String URL = "http://fi.cs.hm.edu/fi/rest/public/timetable/group/";

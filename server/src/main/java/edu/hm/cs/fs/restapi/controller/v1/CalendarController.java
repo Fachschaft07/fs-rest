@@ -6,12 +6,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import edu.hm.cs.fs.common.model.Termin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.hm.cs.fs.common.model.Holiday;
-import edu.hm.cs.fs.common.model.Event;
+import edu.hm.cs.fs.common.model.Termin;
 import edu.hm.cs.fs.restapi.parser.TerminParser;
 
 /**

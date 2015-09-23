@@ -1,14 +1,11 @@
 package edu.hm.cs.fs.restapi.parser;
 
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import org.jsoup.nodes.Document;
 
 import edu.hm.cs.fs.common.constant.PublicTransportLocation;
 import edu.hm.cs.fs.common.model.PublicTransport;

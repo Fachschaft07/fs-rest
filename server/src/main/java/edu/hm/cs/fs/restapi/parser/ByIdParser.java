@@ -1,7 +1,5 @@
 package edu.hm.cs.fs.restapi.parser;
 
-import edu.hm.cs.fs.restapi.parser.Parser;
-
 import java.util.Optional;
 
 /**

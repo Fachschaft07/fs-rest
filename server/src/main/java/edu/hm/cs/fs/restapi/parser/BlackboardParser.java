@@ -1,25 +1,26 @@
 package edu.hm.cs.fs.restapi.parser;
 
-import com.google.common.base.Strings;
-import edu.hm.cs.fs.common.model.Person;
-import org.jsoup.helper.StringUtil;
-
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
+import org.jsoup.helper.StringUtil;
+
+import com.google.common.base.Strings;
+
 import edu.hm.cs.fs.common.model.BlackboardEntry;
 import edu.hm.cs.fs.common.model.Group;
+import edu.hm.cs.fs.common.model.Person;
 import edu.hm.cs.fs.common.model.simple.SimplePerson;
-import edu.hm.cs.fs.restapi.parser.cache.CachedPersonParser;
 
 /**
  * The news which are shown at the black board. (Url: <a href="http://fi.cs.hm.edu/fi/rest/public/news"

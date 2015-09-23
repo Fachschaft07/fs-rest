@@ -1,14 +1,19 @@
 package edu.hm.cs.fs.restapi.parser;
 
-import edu.hm.cs.fs.common.model.Termin;
-import org.junit.Test;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.atLeast;
+import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.verify;
 
 import java.util.List;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.*;
+import org.junit.Test;
+
+import edu.hm.cs.fs.common.model.Termin;
 
 /**
  * @author Fabio

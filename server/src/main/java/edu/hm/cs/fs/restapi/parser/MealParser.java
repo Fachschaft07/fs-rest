@@ -1,19 +1,19 @@
 package edu.hm.cs.fs.restapi.parser;
 
-import com.google.common.base.Strings;
-
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+
+import org.jsoup.nodes.Document;
+
+import com.google.common.base.Strings;
 
 import edu.hm.cs.fs.common.constant.Additive;
 import edu.hm.cs.fs.common.constant.MealType;

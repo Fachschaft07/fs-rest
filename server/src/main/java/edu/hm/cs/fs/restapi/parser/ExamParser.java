@@ -1,24 +1,28 @@
 package edu.hm.cs.fs.restapi.parser;
 
-import com.google.common.base.Strings;
-import edu.hm.cs.fs.common.model.Module;
-import edu.hm.cs.fs.common.model.Person;
-import edu.hm.cs.fs.common.model.simple.SimpleModule;
-import org.jsoup.helper.StringUtil;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
+
+import org.jsoup.helper.StringUtil;
+
+import com.google.common.base.Strings;
 
 import edu.hm.cs.fs.common.constant.ExamGroup;
 import edu.hm.cs.fs.common.constant.ExamType;
 import edu.hm.cs.fs.common.constant.Study;
 import edu.hm.cs.fs.common.model.Exam;
 import edu.hm.cs.fs.common.model.Group;
+import edu.hm.cs.fs.common.model.Module;
+import edu.hm.cs.fs.common.model.Person;
+import edu.hm.cs.fs.common.model.simple.SimpleModule;
 import edu.hm.cs.fs.common.model.simple.SimplePerson;
 
 /**

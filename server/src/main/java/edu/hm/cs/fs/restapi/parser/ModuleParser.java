@@ -1,6 +1,5 @@
 package edu.hm.cs.fs.restapi.parser;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
@@ -10,9 +9,9 @@ import java.util.stream.Collectors;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
-import com.google.common.base.Strings;
-import edu.hm.cs.fs.common.model.Person;
 import org.jsoup.helper.StringUtil;
+
+import com.google.common.base.Strings;
 
 import edu.hm.cs.fs.common.constant.ExamType;
 import edu.hm.cs.fs.common.constant.Offer;
@@ -21,6 +20,7 @@ import edu.hm.cs.fs.common.constant.Study;
 import edu.hm.cs.fs.common.constant.TeachingForm;
 import edu.hm.cs.fs.common.model.Module;
 import edu.hm.cs.fs.common.model.ModuleCode;
+import edu.hm.cs.fs.common.model.Person;
 import edu.hm.cs.fs.common.model.simple.SimpleModuleCode;
 import edu.hm.cs.fs.common.model.simple.SimplePerson;
 
