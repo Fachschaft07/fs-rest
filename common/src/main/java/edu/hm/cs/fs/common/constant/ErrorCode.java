@@ -8,15 +8,15 @@ public enum ErrorCode {
   ERROR_109(109, "java.io.IOException"),
   ERROR_113(113, "javax.xml.xpath.XPathExpressionException");
   
-  private final Integer code;
+  private final int code;
   private final String exception;
   
-  private ErrorCode(Integer code, String exception) {
+  ErrorCode(int code, String exception) {
     this.code = code;
     this.exception = exception;
   }
   
-  public Integer getCode() {
+  public int getCode() {
     return this.code;
   }
   
@@ -24,7 +24,7 @@ public enum ErrorCode {
     return exception;
   }
   
-  public static ErrorCode getErrorCodeByCode(Integer code){
+  public static ErrorCode getErrorCodeByCode(int code){
     for(ErrorCode errorCode:ErrorCode.values()){
       if(errorCode.getCode() == code){
         return errorCode;
@@ -36,8 +36,8 @@ public enum ErrorCode {
   
   public static ErrorCode getErrorCodeByException(String exception){
     for(ErrorCode code:ErrorCode.values()){
-      if(code.getException().equals(exception)){
-        return code;
+      if(code.getException().equals(exception)) {
+          return code;
       }
     }
     

@@ -125,6 +125,22 @@ public interface RestClientV1 {
     ///////////////////////////////////////////////////////////////////
 
     /**
+     * Requests all jobs.
+     *
+     * @return a list with jobs.
+     */
+    @GET(ROOT_PATH + "jobs")
+    List<SimpleJob> getJobs();
+
+    /**
+     * Requests all jobs asynchronous.
+     *
+     * @param callback to retrieve the result.
+     */
+    @GET(ROOT_PATH + "jobs")
+    void getJobs(final Callback<List<SimpleJob>> callback);
+
+    /**
      * Requests all searched jobs.
      *
      * @param searchContent the job title and description for matching.
