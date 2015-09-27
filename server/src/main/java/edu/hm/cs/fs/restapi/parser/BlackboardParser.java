@@ -32,8 +32,6 @@ public class BlackboardParser extends AbstractXmlParser<BlackboardEntry> impleme
     private static final String URL = "http://fi.cs.hm.edu/fi/rest/public/news.xml";
     private static final String ROOT_NODE = "/newslist/news";
 
-    private static final DateFormat DATE_PARSER = new SimpleDateFormat(
-            "yyyy-MM-dd");
     private final ByIdParser<Person> personParser;
 
     public BlackboardParser(ByIdParser<Person> personParser) {
@@ -64,7 +62,7 @@ public class BlackboardParser extends AbstractXmlParser<BlackboardEntry> impleme
                 rootPath + "/publish/text()", XPathConstants.STRING, String.class);
         if (!StringUtil.isBlank(publishDate)) {
             try {
-                mPublish = DATE_PARSER.parse(publishDate);
+                mPublish = new SimpleDateFormat("yyyy-MM-dd").parse(publishDate);
             } catch (ParseException e) {
                 mPublish = new Date();
                 e.printStackTrace();
