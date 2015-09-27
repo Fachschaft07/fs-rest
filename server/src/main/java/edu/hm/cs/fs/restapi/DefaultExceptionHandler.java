@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import edu.hm.cs.fs.common.constant.ErrorCode;
 import edu.hm.cs.fs.common.model.ExceptionResponse;
 
 @ControllerAdvice
@@ -19,6 +20,7 @@ public class DefaultExceptionHandler {
   ExceptionResponse defaultErrorHandler(HttpServletRequest request, Exception e) {
     ExceptionResponse resp = new ExceptionResponse();
 
+    resp.setErrorCode(ErrorCode.getErrorCodeByException(e.getClass().getName()).getCode());
     resp.setUrl(request.getRequestURL().toString());
     resp.setException(e.getClass().getName());
     resp.setMessage(e.getMessage());
