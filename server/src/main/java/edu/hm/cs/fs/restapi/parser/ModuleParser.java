@@ -128,8 +128,9 @@ public class ModuleParser extends AbstractXmlParser<Module> implements ByIdParse
             program = Study.of(programStr);
         }
 
-        final List<ModuleCode> moduleCodes = getXPathStream(rootPath + "/modulcode")
+        List<ModuleCode> moduleCodes = getXPathStream(rootPath + "/modulcodes/modulcode")
                 .map(path -> {
+                  
                     try {
                         final String modul = findByXPath(path
                                 + "/modul/text()", XPathConstants.STRING, String.class);
@@ -176,11 +177,70 @@ public class ModuleParser extends AbstractXmlParser<Module> implements ByIdParse
                         moduleCode.setCurriculum(curriculum);
                         return moduleCode;
                     } catch (XPathExpressionException e) {
+                        e.printStackTrace();
                         throw new RuntimeException(e);
                     }
                 })
                 .filter(moduleCode -> moduleCode != null)
                 .collect(Collectors.toList());
+        
+        if(moduleCodes == null || moduleCodes.isEmpty()){
+          moduleCodes = getXPathStream(rootPath + "/modulcode")
+              .map(path -> {
+                
+                  try {
+                      final String modul = findByXPath(path
+                              + "/modul/text()", XPathConstants.STRING, String.class);
+                      final String regulation = findByXPath(path
+                              + "/regulation/text()", XPathConstants.STRING, String.class);
+                      final String stringOffer = findByXPath(path
+                              + "/angebot/text()", XPathConstants.STRING, String.class);
+                      Offer offer = null;
+                      if (!StringUtil.isBlank(stringOffer)) {
+                          offer = Offer.of(stringOffer);
+                      }
+                      ExamType services = null;
+                      final String servicesStr = findByXPath(path
+                              + "/leistungen/text()", XPathConstants.STRING, String.class);
+                      if (!StringUtil.isBlank(servicesStr)) {
+                          services = ExamType.of(servicesStr);
+                      }
+                      final String code = findByXPath(path + "/code/text()",
+                              XPathConstants.STRING, String.class);
+
+                      final List<Semester> semesterList = getXPathStream(path + "/semester")
+                              .map(semesterPath -> {
+                                  try {
+                                      return findByXPath(semesterPath + "/text()",
+                                              XPathConstants.STRING, String.class);
+                                  } catch (XPathExpressionException e) {
+                                      throw new RuntimeException(e);
+                                  }
+                              })
+                              .filter(semester -> !Strings.isNullOrEmpty(semester))
+                              .map(semester -> Semester.of(Integer.parseInt(semester)))
+                              .collect(Collectors.toList());
+
+                      final String curriculum = findByXPath(path
+                              + "/curriculum/text()", XPathConstants.STRING, String.class);
+
+                      ModuleCode moduleCode = new ModuleCode();
+                      moduleCode.setModul(modul);
+                      moduleCode.setRegulation(regulation);
+                      moduleCode.setOffer(offer);
+                      moduleCode.setServices(services);
+                      moduleCode.setCode(code);
+                      moduleCode.setSemesters(semesterList);
+                      moduleCode.setCurriculum(curriculum);
+                      return moduleCode;
+                  } catch (XPathExpressionException e) {
+                      e.printStackTrace();
+                      throw new RuntimeException(e);
+                  }
+              })
+              .filter(moduleCode -> moduleCode != null)
+              .collect(Collectors.toList());
+        }
 
         Module module = new Module();
         moduleCodes.stream().findFirst().map(ModuleCode::getModul).ifPresent(module::setId);
@@ -206,9 +266,9 @@ public class ModuleParser extends AbstractXmlParser<Module> implements ByIdParse
     @Override
     public Optional<Module> getById(String itemId) throws Exception {
         try {
-            return new ModuleParser(personParser, itemId).getAll().parallelStream()
-                    .filter(module -> itemId.equals(module.getId()))
-                    .findAny();
+          return new ModuleParser(personParser, itemId).getAll().parallelStream()
+              .filter(module -> itemId.equals(module.getId()))
+              .findAny();
         } catch (IOException e) {
             return Optional.empty();
         }

@@ -125,29 +125,13 @@ public interface RestClientV1 {
     ///////////////////////////////////////////////////////////////////
 
     /**
-     * Requests all jobs.
-     *
-     * @return a list with jobs.
-     */
-    @GET(ROOT_PATH + "job")
-    List<SimpleJob> getJobs();
-
-    /**
-     * Requests all jobs asynchronous.
-     *
-     * @param callback to retrieve the result.
-     */
-    @GET(ROOT_PATH + "job")
-    void getJobs(final Callback<List<SimpleJob>> callback);
-
-    /**
      * Requests all searched jobs.
      *
      * @param searchContent the job title and description for matching.
      * @return a list with jobs.
      */
-    @GET(ROOT_PATH + "job")
-    List<SimpleJob> getJobsByContent(@Query("search") final String searchContent);
+    @GET(ROOT_PATH + "jobs")
+    List<SimpleJob> getJobs(@Query("search") final String searchContent);
 
     /**
      * Requests all searched jobs asynchronous.
@@ -155,8 +139,27 @@ public interface RestClientV1 {
      * @param search   the job title and description for matching.
      * @param callback to retrieve the result.
      */
+    @GET(ROOT_PATH + "jobs")
+    void getJobs(@Query("search") final String search,
+                          final Callback<List<SimpleJob>> callback);
+    
+    /**
+     * Requests an job by id.
+     *
+     * @param id the job id.
+     * @return a job.
+     */
     @GET(ROOT_PATH + "job")
-    void getJobsByContent(@Query("search") final String search,
+    List<SimpleJob> getJobById(@Query("id") final String id);
+
+    /**
+     * Requests an job by id.
+     *
+     * @param id the job id.
+     * @return a job.
+     */
+    @GET(ROOT_PATH + "job")
+    void getJobById(@Query("id") final String id,
                           final Callback<List<SimpleJob>> callback);
 
     ////////////////////////////////////////////////////////////////////
@@ -174,7 +177,7 @@ public interface RestClientV1 {
      * @return a list with free rooms.
      */
     @GET(ROOT_PATH + "room")
-    List<SimpleRoom> getRoomByDateTime(@Query("day") Day day, @Query("hour") int hour,
+    List<SimpleRoom> getRoomByDateTime(@Query("type") RoomType type, @Query("day") Day day, @Query("hour") int hour,
                                        @Query("minute") int minute);
 
     /**
@@ -186,7 +189,7 @@ public interface RestClientV1 {
      * @param callback to retrieve the result.
      */
     @GET(ROOT_PATH + "room")
-    void getRoomByDateTime(@Query("day") Day day, @Query("hour") int hour,
+    void getRoomByDateTime(@Query("type") RoomType type, @Query("day") Day day, @Query("hour") int hour,
                            @Query("minute") int minute, Callback<List<SimpleRoom>> callback);
 
     ////////////////////////////////////////////////////////////////////

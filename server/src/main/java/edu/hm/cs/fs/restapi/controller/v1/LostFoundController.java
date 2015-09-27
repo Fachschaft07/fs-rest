@@ -32,7 +32,7 @@ public class LostFoundController {
     @RequestMapping("/rest/api/1/lostandfound")
     public List<LostFound> lostFound(@RequestParam(value = "search", defaultValue = "") String search) throws Exception {
         return new LostFoundParser().getAll().stream()
-                .filter(lostFound -> lostFound.getSubject().contains(search))
+                .filter(lostFound -> lostFound.getSubject().toLowerCase().contains(search.toLowerCase()))
                 .collect(Collectors.toList());
     }
 }
