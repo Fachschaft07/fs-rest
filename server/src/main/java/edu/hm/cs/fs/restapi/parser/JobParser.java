@@ -62,7 +62,7 @@ public class JobParser extends AbstractXmlParser<Job> implements ByIdParser<Job>
             expire = new Date();
         }
         final String url = findByXPath(rootPath + "/url/text()", XPathConstants.STRING, String.class);
-
+        
         // Create object
         final Job job = new Job();
         job.setId(jobId);

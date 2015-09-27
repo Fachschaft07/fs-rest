@@ -20,6 +20,7 @@ public class SimpleJob {
     provider = job.getProvider();
     description = job.getDescription();
     contact = job.getContact();
+    url  = job.getUrl();
   }
 
   public String getTitle() {
