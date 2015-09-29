@@ -90,6 +90,14 @@ public class TimetableController {
                     }
                     return false;
                 })
+                .map(lesson -> {
+                  StringBuilder roomNameBuilder = new StringBuilder(lesson.getRoom().toUpperCase());
+                  roomNameBuilder.insert(2, '.');
+                  
+                  lesson.setRoom(roomNameBuilder.toString());
+                  
+                  return lesson;
+                })
                 .collect(Collectors.toList());
     }
 }
