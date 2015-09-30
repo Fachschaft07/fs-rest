@@ -41,7 +41,16 @@ public class TimetableController {
                     lessonGroup.setTeacher(lesson.getTeacher());
                     lessonGroup.setModule(lesson.getModule());
                     lessonGroup.setGroups(new ArrayList<>());
-                    final String key = lessonGroup.getModule().getId() + lessonGroup.getTeacher().getId();
+                    String key = "";
+                    
+                    if(lessonGroup.getModule() != null){
+                      key += lessonGroup.getModule().getId();
+                    }
+                    
+                    if(lessonGroup.getTeacher() != null){
+                      key += lessonGroup.getTeacher().getId();
+                    }
+                    
                     if (!result.containsKey(key)) {
                         result.put(key, lessonGroup);
                     }
@@ -89,6 +98,14 @@ public class TimetableController {
                         }
                     }
                     return false;
+                })
+                .map(lesson -> {
+                  StringBuilder roomNameBuilder = new StringBuilder(lesson.getRoom().toUpperCase());
+                  roomNameBuilder.insert(2, '.');
+                  
+                  lesson.setRoom(roomNameBuilder.toString());
+                  
+                  return lesson;
                 })
                 .collect(Collectors.toList());
     }
