@@ -13,14 +13,16 @@ import edu.hm.cs.fs.restapi.parser.ModuleParser;
  * @author Fabio
  */
 public class CachedModuleParser extends ByIdCachedParser<Module> {
-    private static final int INTERVAL = 31;
-    private static final TimeUnit TIME_UNIT = TimeUnit.DAYS;
+    private static final int UPDATETIME = 3;
+    private static final TimeUnit TIME_UNIT = TimeUnit.HOURS;
 
+    private static CachedModuleParser instance;
+    
     /**
      * Creates a cached module parser.
      */
-    public CachedModuleParser() {
-        super(new ModuleParser(new CachedPersonParser()), INTERVAL, TIME_UNIT);
+    private CachedModuleParser() {
+        super(new ModuleParser(CachedPersonParser.getInstance()), UPDATETIME, TIME_UNIT, UpdateType.FIXEDTIME);
     }
 
     @Override
@@ -32,5 +34,12 @@ public class CachedModuleParser extends ByIdCachedParser<Module> {
     protected Type getType() {
         return new TypeToken<ArrayList<Module>>() {
         }.getType();
+    }
+    
+    public static CachedModuleParser getInstance(){
+      if(instance==null){
+        instance = new CachedModuleParser();
+      }
+      return instance;
     }
 }

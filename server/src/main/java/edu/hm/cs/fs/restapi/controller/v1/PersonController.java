@@ -24,7 +24,7 @@ public class PersonController {
      */
     @RequestMapping("/rest/api/1/persons")
     public List<SimplePerson> getPersons() throws Exception {
-        return new CachedPersonParser().getAll()
+        return CachedPersonParser.getInstance().getAll()
                 .stream()
                 .map(SimplePerson::new)
                 .collect(Collectors.toList());

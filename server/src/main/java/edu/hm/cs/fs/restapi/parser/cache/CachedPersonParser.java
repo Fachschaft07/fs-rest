@@ -13,14 +13,16 @@ import edu.hm.cs.fs.restapi.parser.PersonParser;
  * @author Fabio
  */
 public class CachedPersonParser extends ByIdCachedParser<Person> {
-    private static final int INTERVAL = 31;
-    private static final TimeUnit TIME_UNIT = TimeUnit.DAYS;
+    private static final int UPDATETIME = 4;
+    private static final TimeUnit TIME_UNIT = TimeUnit.HOURS;
 
+    private static CachedPersonParser instance;
+    
     /**
      * Creates a cached person parser.
      */
-    public CachedPersonParser() {
-        super(new PersonParser(), INTERVAL, TIME_UNIT);
+    private CachedPersonParser() {
+        super(new PersonParser(), UPDATETIME, TIME_UNIT, UpdateType.FIXEDTIME);
     }
 
     @Override
@@ -32,5 +34,12 @@ public class CachedPersonParser extends ByIdCachedParser<Person> {
     protected Type getType() {
         return new TypeToken<ArrayList<Person>>() {
         }.getType();
+    }
+    
+    public static CachedPersonParser getInstance(){
+      if(instance==null){
+        instance = new CachedPersonParser();
+      }
+      return instance;
     }
 }

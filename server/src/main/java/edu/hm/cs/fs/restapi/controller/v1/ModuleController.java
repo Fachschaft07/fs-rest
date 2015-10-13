@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import edu.hm.cs.fs.common.model.Module;
 import edu.hm.cs.fs.common.model.simple.SimpleModule;
-import edu.hm.cs.fs.restapi.parser.ModuleParser;
-import edu.hm.cs.fs.restapi.parser.PersonParser;
 import edu.hm.cs.fs.restapi.parser.cache.CachedModuleParser;
 
 /**
@@ -25,7 +23,7 @@ public class ModuleController {
      */
     @RequestMapping("/rest/api/1/modules")
     public List<SimpleModule> getModules() throws Exception {
-        return new CachedModuleParser().getAll()
+        return CachedModuleParser.getInstance().getAll()
                 .parallelStream()
                 .map(SimpleModule::new)
                 .collect(Collectors.toList());
@@ -39,7 +37,7 @@ public class ModuleController {
      */
     @RequestMapping("/rest/api/1/module")
     public Module getModuleById(@RequestParam(value = "id") String moduleId) throws Exception {
-        return new ModuleParser(new PersonParser())
+        return CachedModuleParser.getInstance()
                 .getById(moduleId)
                 .orElseThrow(() -> new IllegalStateException("No module found with id '" + moduleId + "'."));
     }

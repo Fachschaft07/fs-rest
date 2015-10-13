@@ -75,7 +75,12 @@ public class OccupiedParser extends AbstractXmlParser<RoomOccupation> {
                 });
 
         RoomOccupation room = new RoomOccupation();
-        room.setName(name);
+        
+        // Convert name from r0009 to R0.009
+        StringBuilder roomNameBuilder = new StringBuilder(name.toUpperCase());
+        roomNameBuilder.insert(2, '.');
+        
+        room.setName(roomNameBuilder.toString());
         room.setCapacity(capacity);
         room.setOccupied(map);
         room.setRoomType(RoomType.getByName(name));

@@ -16,8 +16,8 @@ public abstract class ByIdCachedParser<T> extends CachedParser<T> implements ByI
      * @param interval of the new content fetching.
      * @param timeUnit of the interval.
      */
-    public ByIdCachedParser(final ByIdParser<T> parser, final long interval, final TimeUnit timeUnit) {
-        super(parser, interval, timeUnit);
+    protected ByIdCachedParser(final ByIdParser<T> parser, final long interval, final TimeUnit timeUnit, final UpdateType updateType) {
+        super(parser, interval, timeUnit, updateType);
     }
 
     @Override
