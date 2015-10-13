@@ -1,9 +1,5 @@
 package edu.hm.cs.fs.restapi;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.Writer;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
@@ -27,10 +23,7 @@ public class DefaultExceptionHandler {
   @ResponseBody
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   ExceptionResponse defaultErrorHandler(HttpServletRequest request, Exception e) {
-    StringWriter sw = new StringWriter();
-    PrintWriter pw = new PrintWriter(sw);
-    e.printStackTrace(pw);
-    logger.error(sw.toString());
+    logger.error(e.getMessage(), e);
     
     ExceptionResponse resp = new ExceptionResponse();
 

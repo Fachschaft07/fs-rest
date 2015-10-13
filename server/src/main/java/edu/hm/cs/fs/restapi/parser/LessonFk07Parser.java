@@ -8,6 +8,7 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
 import org.jsoup.helper.StringUtil;
+import org.springframework.util.StringUtils;
 
 import edu.hm.cs.fs.common.constant.Day;
 import edu.hm.cs.fs.common.model.Group;
@@ -51,7 +52,7 @@ public class LessonFk07Parser extends AbstractXmlParser<Lesson> {
                     try {
                         Lesson lesson = new Lesson();
                         lesson.setDay(day);
-
+                        
                         // If field 'type' contains >filler< continue with the next entry
                         final String type = findByXPath(path + "/type/text()", XPathConstants.STRING, String.class);
                         if ("filler".equalsIgnoreCase(type)) {
@@ -70,7 +71,13 @@ public class LessonFk07Parser extends AbstractXmlParser<Lesson> {
                         final String moduleId = findByXPath(path + "/title/text()", XPathConstants.STRING, String.class);
 
                         personParser.getById(teacherId).map(SimplePerson::new).ifPresent(lesson::setTeacher);
-                        lesson.setRoom(room);
+                        
+                        if(room != null && !StringUtils.isEmpty(room)){
+                          StringBuilder roomNameBuilder = new StringBuilder(room.toUpperCase());
+                          roomNameBuilder.insert(2, '.');
+                          lesson.setRoom(roomNameBuilder.toString());
+                        }
+                        
                         lesson.setSuffix(suffix);
                         moduleParser.getById(moduleId).map(SimpleModule::new).ifPresent(lesson::setModule);
                         return lesson;

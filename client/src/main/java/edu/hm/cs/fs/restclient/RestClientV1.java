@@ -41,7 +41,44 @@ public interface RestClientV1 {
      */
     @GET(ROOT_PATH + "blackboard")
     void getEntries(Callback<List<BlackboardEntry>> callback);
+    
+    /**
+     * Requests all blackboard entries that are publish after 'since'.
+     *
+     * @param since a long representing an date.
+     * @return a list with blackboard entries.
+     */
+    @GET(ROOT_PATH + "blackboard")
+    List<BlackboardEntry> getEntriesSince(long since);
+    
+    /**
+     * Requests all blackboard entries that are publish after 'since' asynchronous.
+     *
+     * @param since a long representing an date.
+     * @param callback to retrieve the result.
+     */
+    @GET(ROOT_PATH + "blackboard")
+    void getEntriesSince(long since, Callback<List<BlackboardEntry>> callback);
+    
+    /**
+     * Requests all blackboard entries that are publish before 'before'.
+     *
+     * @param before a long representing an date.
+     * @return a list with blackboard entries.
+     */
+    @GET(ROOT_PATH + "blackboard")
+    List<BlackboardEntry> getEntriesBefore(long before);
 
+    /**
+     * Requests all blackboard entries that are publish before 'before'.
+     *
+     * @param before a long representing an date.
+     * @param callback to retrieve the result.
+     */
+    @GET(ROOT_PATH + "blackboard")
+    void getEntriesBefore(long before, Callback<List<BlackboardEntry>> callback);
+    
+    
     ////////////////////////////////////////////////////////////////////
     //
     // Calendar
@@ -232,6 +269,26 @@ public interface RestClientV1 {
     @GET(ROOT_PATH + "timetable/modules")
     void getLessonGroups(@Query("group") Group group, Callback<List<LessonGroup>> callback);
 
+    /**
+     * Requests all lessons by the specified parameters.
+     *
+     * @param group to get the correct lessons.
+     * @param moduleId of the module.
+     * @return a list with lessons.
+     */
+    @GET(ROOT_PATH + "timetable/lessons")
+    List<Lesson> getLessons(@Query("group") Group group, @Query("module") String moduleId);
+    
+    /**
+     * Requests all lessons by the specified parameters asynchronous.
+     *
+     * @param group to get the correct lessons.
+     * @param moduleId of the module.
+     * @param callback  to retrieve the result.
+     */
+    @GET(ROOT_PATH + "timetable/lessons")
+    void getLessons(@Query("group") Group group, @Query("module") String moduleId, Callback<List<Lesson>> callback);
+    
     /**
      * Requests all lessons by the specified parameters.
      *

@@ -177,7 +177,6 @@ public class ModuleParser extends AbstractXmlParser<Module> implements ByIdParse
                         moduleCode.setCurriculum(curriculum);
                         return moduleCode;
                     } catch (XPathExpressionException e) {
-                        e.printStackTrace();
                         throw new RuntimeException(e);
                     }
                 })
@@ -234,7 +233,6 @@ public class ModuleParser extends AbstractXmlParser<Module> implements ByIdParse
                       moduleCode.setCurriculum(curriculum);
                       return moduleCode;
                   } catch (XPathExpressionException e) {
-                      e.printStackTrace();
                       throw new RuntimeException(e);
                   }
               })

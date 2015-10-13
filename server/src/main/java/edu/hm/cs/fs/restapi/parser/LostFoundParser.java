@@ -39,7 +39,6 @@ public class LostFoundParser extends AbstractXmlParser<LostFound> {
             date = DATE_FORMATTER.parse((String) findByXPath(rootPath + "/date/text()", XPathConstants.STRING, String.class));
         } catch (Exception e) {
             date = new Date(); // Just if the parsing failed...
-            e.printStackTrace();
         }
 
         LostFound lostFound = new LostFound();

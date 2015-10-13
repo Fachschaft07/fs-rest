@@ -45,17 +45,13 @@ public class RoomController {
                 .sorted(Enum::compareTo)
                 .collect(Collectors.toList());
         
-        return new CachedOccupiedParser().getAll().parallelStream()
+        return CachedOccupiedParser.getInstance().getAll().parallelStream()
                 .filter(room -> type == RoomType.ALL || type == room.getRoomType())
                 .filter(room -> room.getCapacity() > MIN_ROOM_CAPACITY)
                 .map(room -> {
                     Room tmpRoom = new Room();
 
-                    // Convert name from r0009 to R0.009
-                    StringBuilder roomNameBuilder = new StringBuilder(room.getName().toUpperCase());
-                    roomNameBuilder.insert(2, '.');
-
-                    tmpRoom.setName(roomNameBuilder.toString());
+                    tmpRoom.setName(room.getName());
                     tmpRoom.setCapacity(room.getCapacity());
                     tmpRoom.setRoomType(room.getRoomType());
                     
