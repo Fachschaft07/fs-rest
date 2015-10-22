@@ -43,6 +43,66 @@ public interface RestClientV1 {
     void getEntries(Callback<List<BlackboardEntry>> callback);
     
     /**
+     * Requests all blackboard entries that fit the search.
+     *
+     * @param search string to search for.
+     * @return a list with blackboard entries.
+     */
+    @GET(ROOT_PATH + "blackboard")
+    List<BlackboardEntry> getEntries(String search);
+    
+    /**
+     * Requests all blackboard entries that fit the search.
+     *
+     * @param search string to search for.
+     * @param callback to retrieve the result.
+     */
+    @GET(ROOT_PATH + "blackboard")
+    void getEntries(String search, Callback<List<BlackboardEntry>> callback);
+    
+    /**
+     * Requests all blackboard entries for an study group.
+     *
+     * @param group representing an study group.
+     * @return a list with blackboard entries.
+     */
+    @GET(ROOT_PATH + "blackboard")
+    List<BlackboardEntry> getEntries(Group group);
+    
+    /**
+     * Requests all blackboard entries for an study group.
+     *
+     * @param group representing an study group.
+     * @param callback to retrieve the result.
+     */
+    @GET(ROOT_PATH + "blackboard")
+    void getEntries(Group group, Callback<List<BlackboardEntry>> callback);
+    
+    /**
+     * Requests all blackboard entries for an study group.
+     *
+     * @param search to search for in blackboard entry.
+     * @param group representing an study group.
+     * @param since a long representing an date.
+     * @param before a long representing an date.
+     * @return a list with blackboard entries.
+     */
+    @GET(ROOT_PATH + "blackboard")
+    List<BlackboardEntry> getEntries(String search, Group group, long since, long before);
+    
+    /**
+     * Requests all blackboard entries for an study group.
+     *
+     * @param search to search for in blackboard entry.
+     * @param group representing an study group.
+     * @param since a long representing an date.
+     * @param before a long representing an date.
+     * @param callback to retrieve the result.
+     */
+    @GET(ROOT_PATH + "blackboard")
+    void getEntries(String search, Group group, long since, long before, Callback<List<BlackboardEntry>> callback);
+    
+    /**
      * Requests all blackboard entries that are publish after 'since'.
      *
      * @param since a long representing an date.
@@ -61,6 +121,28 @@ public interface RestClientV1 {
     void getEntriesSince(long since, Callback<List<BlackboardEntry>> callback);
     
     /**
+     * Requests all blackboard entries for an study group.
+     *
+     * @param search to search for in blackboard entry.
+     * @param group representing an study group.
+     * @param since a long representing an date.
+     * @return a list with blackboard entries.
+     */
+    @GET(ROOT_PATH + "blackboard")
+    List<BlackboardEntry> getEntriesSince(String search, Group group, long since);
+    
+    /**
+     * Requests all blackboard entries for an study group.
+     *
+     * @param search to search for in blackboard entry.
+     * @param group representing an study group.
+     * @param since a long representing an date.
+     * @param callback to retrieve the result.
+     */
+    @GET(ROOT_PATH + "blackboard")
+    void getEntriesSince(String search, Group group, long since, Callback<List<BlackboardEntry>> callback);
+    
+    /**
      * Requests all blackboard entries that are publish before 'before'.
      *
      * @param before a long representing an date.
@@ -77,6 +159,30 @@ public interface RestClientV1 {
      */
     @GET(ROOT_PATH + "blackboard")
     void getEntriesBefore(long before, Callback<List<BlackboardEntry>> callback);
+    
+    /**
+     * Requests all blackboard entries for an study group.
+     *
+     * @param search to search for in blackboard entry.
+     * @param group representing an study group.
+     * @param since a long representing an date.
+     * @param before a long representing an date.
+     * @return a list with blackboard entries.
+     */
+    @GET(ROOT_PATH + "blackboard")
+    List<BlackboardEntry> getEntriesBefore(String search, Group group, long before);
+    
+    /**
+     * Requests all blackboard entries for an study group.
+     *
+     * @param search to search for in blackboard entry.
+     * @param group representing an study group.
+     * @param since a long representing an date.
+     * @param before a long representing an date.
+     * @param callback to retrieve the result.
+     */
+    @GET(ROOT_PATH + "blackboard")
+    void getEntriesBefore(String search, Group group, long before, Callback<List<BlackboardEntry>> callback);
     
     
     ////////////////////////////////////////////////////////////////////

@@ -2,7 +2,10 @@ package edu.hm.cs.fs.restapi;
 
 import org.apache.log4j.Logger;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.context.web.SpringBootServletInitializer;
 
 import edu.hm.cs.fs.restapi.parser.cache.CacheUpdater;
 import edu.hm.cs.fs.restapi.parser.cache.CachedBlackboardParser;
@@ -15,11 +18,17 @@ import edu.hm.cs.fs.restapi.parser.cache.CachedPersonParser;
  *
  * @author Fabio
  */
+@EnableAutoConfiguration
 @SpringBootApplication
-public class Application {
+public class Application extends SpringBootServletInitializer {
   
     private final static Logger logger = Logger.getLogger(Application.class);
   
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+        return application.sources(Application.class);
+    }
+    
     /**
      * The main class is called to start the application.
      *

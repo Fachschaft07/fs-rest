@@ -14,6 +14,8 @@ import javax.xml.xpath.XPathExpressionException;
 
 import org.apache.log4j.Logger;
 import org.jsoup.helper.StringUtil;
+import org.springframework.util.StringUtils;
+import org.springframework.web.util.HtmlUtils;
 
 import com.google.common.base.Strings;
 
@@ -57,6 +59,9 @@ public class BlackboardParser extends AbstractXmlParser<BlackboardEntry>
     mSubject = findByXPath(rootPath + "/subject/text()", XPathConstants.STRING, String.class);
     mText = findByXPath(rootPath + "/text/text()", XPathConstants.STRING, String.class);
 
+    mText = HtmlUtils.htmlEscape(mText);
+    mText = StringUtils.replace(mText, "#", "<br/>");
+    
     final String publishDate =
         findByXPath(rootPath + "/publish/text()", XPathConstants.STRING, String.class);
     if (!StringUtil.isBlank(publishDate)) {
