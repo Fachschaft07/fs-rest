@@ -49,7 +49,7 @@ public interface RestClientV1 {
      * @return a list with blackboard entries.
      */
     @GET(ROOT_PATH + "blackboard")
-    List<BlackboardEntry> getEntries(String search);
+    List<BlackboardEntry> getEntries(@Query("search") String search);
     
     /**
      * Requests all blackboard entries that fit the search.
@@ -58,7 +58,7 @@ public interface RestClientV1 {
      * @param callback to retrieve the result.
      */
     @GET(ROOT_PATH + "blackboard")
-    void getEntries(String search, Callback<List<BlackboardEntry>> callback);
+    void getEntries(@Query("search") String search, Callback<List<BlackboardEntry>> callback);
     
     /**
      * Requests all blackboard entries for an study group.
@@ -67,7 +67,7 @@ public interface RestClientV1 {
      * @return a list with blackboard entries.
      */
     @GET(ROOT_PATH + "blackboard")
-    List<BlackboardEntry> getEntries(Group group);
+    List<BlackboardEntry> getEntries(@Query("group") Group group);
     
     /**
      * Requests all blackboard entries for an study group.
@@ -76,7 +76,7 @@ public interface RestClientV1 {
      * @param callback to retrieve the result.
      */
     @GET(ROOT_PATH + "blackboard")
-    void getEntries(Group group, Callback<List<BlackboardEntry>> callback);
+    void getEntries(@Query("group") Group group, Callback<List<BlackboardEntry>> callback);
     
     /**
      * Requests all blackboard entries for an study group.
@@ -88,7 +88,7 @@ public interface RestClientV1 {
      * @return a list with blackboard entries.
      */
     @GET(ROOT_PATH + "blackboard")
-    List<BlackboardEntry> getEntries(String search, Group group, long since, long before);
+    List<BlackboardEntry> getEntries(@Query("search") String search, @Query("group") Group group, @Query("since") long since, @Query("before") long before);
     
     /**
      * Requests all blackboard entries for an study group.
@@ -100,7 +100,7 @@ public interface RestClientV1 {
      * @param callback to retrieve the result.
      */
     @GET(ROOT_PATH + "blackboard")
-    void getEntries(String search, Group group, long since, long before, Callback<List<BlackboardEntry>> callback);
+    void getEntries(@Query("search") String search, @Query("group") Group group, @Query("since") long since, @Query("before") long before, Callback<List<BlackboardEntry>> callback);
     
     /**
      * Requests all blackboard entries that are publish after 'since'.
@@ -109,7 +109,7 @@ public interface RestClientV1 {
      * @return a list with blackboard entries.
      */
     @GET(ROOT_PATH + "blackboard")
-    List<BlackboardEntry> getEntriesSince(long since);
+    List<BlackboardEntry> getEntriesSince(@Query("since") long since);
     
     /**
      * Requests all blackboard entries that are publish after 'since' asynchronous.
@@ -118,7 +118,7 @@ public interface RestClientV1 {
      * @param callback to retrieve the result.
      */
     @GET(ROOT_PATH + "blackboard")
-    void getEntriesSince(long since, Callback<List<BlackboardEntry>> callback);
+    void getEntriesSince(@Query("since") long since, Callback<List<BlackboardEntry>> callback);
     
     /**
      * Requests all blackboard entries for an study group.
@@ -129,7 +129,7 @@ public interface RestClientV1 {
      * @return a list with blackboard entries.
      */
     @GET(ROOT_PATH + "blackboard")
-    List<BlackboardEntry> getEntriesSince(String search, Group group, long since);
+    List<BlackboardEntry> getEntriesSince(@Query("search") String search, @Query("group") Group group, @Query("since") long since);
     
     /**
      * Requests all blackboard entries for an study group.
@@ -140,7 +140,7 @@ public interface RestClientV1 {
      * @param callback to retrieve the result.
      */
     @GET(ROOT_PATH + "blackboard")
-    void getEntriesSince(String search, Group group, long since, Callback<List<BlackboardEntry>> callback);
+    void getEntriesSince(@Query("search") String search, @Query("group") Group group, @Query("since") long since, Callback<List<BlackboardEntry>> callback);
     
     /**
      * Requests all blackboard entries that are publish before 'before'.
@@ -149,7 +149,7 @@ public interface RestClientV1 {
      * @return a list with blackboard entries.
      */
     @GET(ROOT_PATH + "blackboard")
-    List<BlackboardEntry> getEntriesBefore(long before);
+    List<BlackboardEntry> getEntriesBefore(@Query("before") long before);
 
     /**
      * Requests all blackboard entries that are publish before 'before'.
@@ -158,31 +158,29 @@ public interface RestClientV1 {
      * @param callback to retrieve the result.
      */
     @GET(ROOT_PATH + "blackboard")
-    void getEntriesBefore(long before, Callback<List<BlackboardEntry>> callback);
+    void getEntriesBefore(@Query("before") long before, Callback<List<BlackboardEntry>> callback);
     
     /**
      * Requests all blackboard entries for an study group.
      *
      * @param search to search for in blackboard entry.
      * @param group representing an study group.
-     * @param since a long representing an date.
      * @param before a long representing an date.
      * @return a list with blackboard entries.
      */
     @GET(ROOT_PATH + "blackboard")
-    List<BlackboardEntry> getEntriesBefore(String search, Group group, long before);
+    List<BlackboardEntry> getEntriesBefore(@Query("search") String search, @Query("group") Group group, @Query("before") long before);
     
     /**
      * Requests all blackboard entries for an study group.
      *
      * @param search to search for in blackboard entry.
      * @param group representing an study group.
-     * @param since a long representing an date.
      * @param before a long representing an date.
      * @param callback to retrieve the result.
      */
     @GET(ROOT_PATH + "blackboard")
-    void getEntriesBefore(String search, Group group, long before, Callback<List<BlackboardEntry>> callback);
+    void getEntriesBefore(@Query("search") String search, @Query("group") Group group, @Query("before") long before, Callback<List<BlackboardEntry>> callback);
     
     
     ////////////////////////////////////////////////////////////////////
