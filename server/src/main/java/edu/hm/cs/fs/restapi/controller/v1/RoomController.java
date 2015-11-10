@@ -1,5 +1,6 @@
 package edu.hm.cs.fs.restapi.controller.v1;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
@@ -18,70 +19,76 @@ import edu.hm.cs.fs.common.model.simple.SimpleRoom;
 import edu.hm.cs.fs.restapi.parser.cache.CachedOccupiedParser;
 
 /**
- * @author Fabio
+ * @author Fabio, Luca
  */
 @RestController
 public class RoomController {
-    private static final int MIN_ROOM_CAPACITY = 4;
+  private static final int MIN_ROOM_CAPACITY = 4;
 
-    /**
-     *
-     * @param day
-     * @param hour
-     * @param minute
-     * @return
-     * @throws Exception
-     */
-    @RequestMapping("/rest/api/1/room")
-    public List<SimpleRoom> getRoomByDateTime(@RequestParam(value = "type", defaultValue = "ALL") RoomType type,
-                                              @RequestParam(value = "day", defaultValue = "MONDAY") Day day,
-                                              @RequestParam(value = "hour", defaultValue = "8") int hour,
-                                              @RequestParam(value = "minute", defaultValue = "0") int minute)
-            throws Exception {
-        final List<Time> timesAfter = Stream.of(Time.values())
-                .filter(filterTime -> filterTime.getStart().get(Calendar.HOUR_OF_DAY) >= hour ||
-                        filterTime.getStart().get(Calendar.HOUR_OF_DAY) == hour &&
-                                filterTime.getStart().get(Calendar.MINUTE) >= minute)
-                .sorted(Enum::compareTo)
-                .collect(Collectors.toList());
-        
-        return CachedOccupiedParser.getInstance().getAll().parallelStream()
-                .filter(room -> type == RoomType.ALL || type == room.getRoomType())
-                .filter(room -> room.getCapacity() > MIN_ROOM_CAPACITY)
-                .map(room -> {
-                    Room tmpRoom = new Room();
-
-                    tmpRoom.setName(room.getName());
-                    tmpRoom.setCapacity(room.getCapacity());
-                    tmpRoom.setRoomType(room.getRoomType());
-                    
-                    // Does the room is occupied at any time this day?
-                    if (room.getOccupied().containsKey(day)) {
-                        // YES!
-                        // Get times when the room is free
-                        Optional<Time> freeTime = Optional.empty();
-                        for (final Time possibleFreeTime : timesAfter) {
-                            if (room.getOccupied().get(day).parallelStream()
-                                    .noneMatch(occupiedTime -> occupiedTime == possibleFreeTime)) {
-                                freeTime = Optional.of(possibleFreeTime);
-                            } else {
-                                break;
-                            }
-                        }
-                        // Empty? -> Room is not free today!
-                        if (!freeTime.isPresent()) {
-                            return null;
-                        }
-                        // Extract the latest free time
-                        tmpRoom.setFreeUntilEnd(freeTime.get());
-                    } else {
-                        // NO!
-                        tmpRoom.setFreeUntilEnd(Time.LESSON_8);
-                    }
-                    return tmpRoom;
-                })
-                .filter(room -> room != null)
-                .map(SimpleRoom::new)
-                .collect(Collectors.toList());
+  private static List<String> excludedRooms = new ArrayList<String>() {
+    {
+      add("R3.013");
+      add("R3.014");
+      add("R3.015");
+      add("R3.016");
+      add("R3.017");
     }
+  };
+
+  /**
+   *
+   * @param day
+   * @param hour
+   * @param minute
+   * @return
+   * @throws Exception
+   */
+  @RequestMapping("/rest/api/1/room")
+  public List<SimpleRoom> getRoomByDateTime(
+      @RequestParam(value = "type", defaultValue = "ALL") RoomType type,
+      @RequestParam(value = "day", defaultValue = "MONDAY") Day day,
+      @RequestParam(value = "hour", defaultValue = "8") int hour,
+      @RequestParam(value = "minute", defaultValue = "0") int minute) throws Exception {
+    final List<Time> timesAfter = Stream.of(Time.values())
+        .filter(filterTime -> filterTime.getStart().get(Calendar.HOUR_OF_DAY) >= hour
+            || filterTime.getStart().get(Calendar.HOUR_OF_DAY) == hour
+                && filterTime.getStart().get(Calendar.MINUTE) >= minute)
+        .sorted(Enum::compareTo).collect(Collectors.toList());
+
+    return CachedOccupiedParser.getInstance().getAll().parallelStream()
+        .filter(room -> !excludedRooms.contains(room.getName()))
+        .filter(room -> type == RoomType.ALL || type == room.getRoomType())
+        .filter(room -> room.getCapacity() > MIN_ROOM_CAPACITY).map(room -> {
+          Room tmpRoom = new Room();
+
+          tmpRoom.setName(room.getName());
+          tmpRoom.setCapacity(room.getCapacity());
+          tmpRoom.setRoomType(room.getRoomType());
+
+          // Does the room is occupied at any time this day?
+          if (room.getOccupied().containsKey(day)) {
+            // YES!
+            // Get times when the room is free
+            Optional<Time> freeTime = Optional.empty();
+            for (final Time possibleFreeTime : timesAfter) {
+              if (room.getOccupied().get(day).parallelStream()
+                  .noneMatch(occupiedTime -> occupiedTime == possibleFreeTime)) {
+                freeTime = Optional.of(possibleFreeTime);
+              } else {
+                break;
+              }
+            }
+            // Empty? -> Room is not free today!
+            if (!freeTime.isPresent()) {
+              return null;
+            }
+            // Extract the latest free time
+            tmpRoom.setFreeUntilEnd(freeTime.get());
+          } else {
+            // NO!
+            tmpRoom.setFreeUntilEnd(Time.LESSON_8);
+          }
+          return tmpRoom;
+        }).filter(room -> room != null).map(SimpleRoom::new).collect(Collectors.toList());
+  }
 }
