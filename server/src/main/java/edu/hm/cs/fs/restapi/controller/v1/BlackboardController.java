@@ -60,11 +60,8 @@ public class BlackboardController {
           }
 
           return publish.before(date);
-        }).sorted(new Comparator<BlackboardEntry>() {
-          @Override
-          public int compare(BlackboardEntry o1, BlackboardEntry o2) {
-            return (int) (o2.getPublish().getTime() - o1.getPublish().getTime());
-          }
+        }).sorted((o1, o2) -> {
+          return o2.getPublish().compareTo(o1.getPublish()) * -1; // we want it DESC
         }).collect(Collectors.toList());
   }
 }

@@ -3,6 +3,7 @@ package edu.hm.cs.fs.restapi.controller.v1;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import edu.hm.cs.fs.restapi.parser.cache.CachedExamParser;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,7 +22,6 @@ import edu.hm.cs.fs.restapi.parser.PersonParser;
 @RestController
 public class ExamController {
     /**
-     *
      * @param group
      * @param moduleId
      * @return
@@ -29,9 +29,11 @@ public class ExamController {
      */
     @RequestMapping("/rest/api/1/exam")
     public List<Exam> getExams(@RequestParam(value = "group", defaultValue = "") Group group,
+                               @RequestParam(value = "code", defaultValue = "") String code,
                                @RequestParam(value = "module", defaultValue = "") String moduleId) throws Exception {
-        return new ExamParser(new PersonParser(), new ModuleParser(new PersonParser())).getAll().parallelStream()
+        return CachedExamParser.getInstance().getAll().parallelStream()
                 .filter(exam -> group == null || exam.getStudy() == group.getStudy())
+                .filter(exam -> Strings.isNullOrEmpty(code) || exam.getCode().equals(code))
                 .filter(exam -> Strings.isNullOrEmpty(moduleId) || exam.getModule() != null &&
                         exam.getModule().getId().equalsIgnoreCase(moduleId))
                 .collect(Collectors.toList());
