@@ -33,7 +33,7 @@ public interface RestClientV1 {
      * @return a list with blackboard entries.
      */
     @GET(ROOT_PATH + "blackboard")
-    Observable<BlackboardEntry> getEntries();
+    Observable<List<BlackboardEntry>> getEntries();
 
     /**
      * Requests all blackboard entries asynchronous.
@@ -50,7 +50,7 @@ public interface RestClientV1 {
      * @return a list with blackboard entries.
      */
     @GET(ROOT_PATH + "blackboard")
-    Observable<BlackboardEntry> getEntries(@Query("search") String search);
+    Observable<List<BlackboardEntry>> getEntries(@Query("search") String search);
     
     /**
      * Requests all blackboard entries that fit the search.
@@ -68,7 +68,7 @@ public interface RestClientV1 {
      * @return a list with blackboard entries.
      */
     @GET(ROOT_PATH + "blackboard")
-    Observable<BlackboardEntry> getEntries(@Query("group") Group group);
+    Observable<List<BlackboardEntry>> getEntries(@Query("group") Group group);
     
     /**
      * Requests all blackboard entries for an study group.
@@ -89,7 +89,7 @@ public interface RestClientV1 {
      * @return a list with blackboard entries.
      */
     @GET(ROOT_PATH + "blackboard")
-    Observable<BlackboardEntry> getEntries(@Query("search") String search, @Query("group") Group group, @Query("since") long since, @Query("before") long before);
+    Observable<List<BlackboardEntry>> getEntries(@Query("search") String search, @Query("group") Group group, @Query("since") long since, @Query("before") long before);
     
     /**
      * Requests all blackboard entries for an study group.
@@ -110,7 +110,7 @@ public interface RestClientV1 {
      * @return a list with blackboard entries.
      */
     @GET(ROOT_PATH + "blackboard")
-    Observable<BlackboardEntry> getEntriesSince(@Query("since") long since);
+    Observable<List<BlackboardEntry>> getEntriesSince(@Query("since") long since);
     
     /**
      * Requests all blackboard entries that are publish after 'since' asynchronous.
@@ -130,7 +130,7 @@ public interface RestClientV1 {
      * @return a list with blackboard entries.
      */
     @GET(ROOT_PATH + "blackboard")
-    Observable<BlackboardEntry> getEntriesSince(@Query("search") String search, @Query("group") Group group, @Query("since") long since);
+    Observable<List<BlackboardEntry>> getEntriesSince(@Query("search") String search, @Query("group") Group group, @Query("since") long since);
     
     /**
      * Requests all blackboard entries for an study group.
@@ -150,7 +150,7 @@ public interface RestClientV1 {
      * @return a list with blackboard entries.
      */
     @GET(ROOT_PATH + "blackboard")
-    Observable<BlackboardEntry> getEntriesBefore(@Query("before") long before);
+    Observable<List<BlackboardEntry>> getEntriesBefore(@Query("before") long before);
 
     /**
      * Requests all blackboard entries that are publish before 'before'.
@@ -170,7 +170,7 @@ public interface RestClientV1 {
      * @return a list with blackboard entries.
      */
     @GET(ROOT_PATH + "blackboard")
-    Observable<BlackboardEntry> getEntriesBefore(@Query("search") String search, @Query("group") Group group, @Query("before") long before);
+    Observable<List<BlackboardEntry>> getEntriesBefore(@Query("search") String search, @Query("group") Group group, @Query("before") long before);
     
     /**
      * Requests all blackboard entries for an study group.
@@ -196,7 +196,7 @@ public interface RestClientV1 {
      * @return a list with termins.
      */
     @GET(ROOT_PATH + "calendar/termin")
-    Observable<Event> getTermins();
+    Observable<List<Event>> getTermins();
 
     /**
      * Requests all termins asynchronous.
@@ -212,7 +212,7 @@ public interface RestClientV1 {
      * @return a list with holidays.
      */
     @GET(ROOT_PATH + "calendar/holiday")
-    Observable<Holiday> getHolidays();
+    Observable<List<Holiday>> getHolidays();
 
     /**
      * Requests all holidays asynchronous.
@@ -234,7 +234,7 @@ public interface RestClientV1 {
      * @return a list with presence.
      */
     @GET(ROOT_PATH + "fs/presence")
-    Observable<Presence> getPresence();
+    Observable<List<Presence>> getPresence();
 
     /**
      * Requests all presence asynchronous.
@@ -250,7 +250,7 @@ public interface RestClientV1 {
      * @return a list with all News.
      */
     @GET(ROOT_PATH + "fs/news")
-    Observable<News> getNews();
+    Observable<List<News>> getNews();
 
     /**
      * Request all News from the FS Website.
@@ -272,7 +272,7 @@ public interface RestClientV1 {
      * @return a list with jobs.
      */
     @GET(ROOT_PATH + "jobs")
-    Observable<SimpleJob> getJobs();
+    Observable<List<SimpleJob>> getJobs();
 
     /**
      * Requests all jobs asynchronous.
@@ -289,7 +289,7 @@ public interface RestClientV1 {
      * @return a list with jobs.
      */
     @GET(ROOT_PATH + "jobs")
-    Observable<SimpleJob> getJobs(@Query("search") final String searchContent);
+    Observable<List<SimpleJob>> getJobs(@Query("search") final String searchContent);
 
     /**
      * Requests all searched jobs asynchronous.
@@ -335,7 +335,7 @@ public interface RestClientV1 {
      * @return a list with free rooms.
      */
     @GET(ROOT_PATH + "room")
-    Observable<SimpleRoom> getRoomByDateTime(@Query("type") RoomType type, @Query("day") Day day, @Query("hour") int hour,
+    Observable<List<SimpleRoom>> getRoomByDateTime(@Query("type") RoomType type, @Query("day") Day day, @Query("hour") int hour,
                                        @Query("minute") int minute);
 
     /**
@@ -363,7 +363,7 @@ public interface RestClientV1 {
      * @return a list with lessons.
      */
     @GET(ROOT_PATH + "timetable/modules")
-    Observable<LessonGroup> getLessonGroups(@Query("group") Group group);
+    Observable<List<LessonGroup>> getLessonGroups(@Query("group") Group group);
 
     /**
      * Requests all lessons from a specified group asynchronous.
@@ -382,7 +382,7 @@ public interface RestClientV1 {
      * @return a list with lessons.
      */
     @GET(ROOT_PATH + "timetable/lessons")
-    Observable<Lesson> getLessons(@Query("group") Group group, @Query("module") String moduleId);
+    Observable<List<Lesson>> getLessons(@Query("group") Group group, @Query("module") String moduleId);
     
     /**
      * Requests all lessons by the specified parameters asynchronous.
@@ -403,7 +403,7 @@ public interface RestClientV1 {
      * @return a list with lessons.
      */
     @GET(ROOT_PATH + "timetable/lessons")
-    Observable<Lesson> getLessons(@Query("group") Group group, @Query("module") String moduleId,
+    Observable<List<Lesson>> getLessons(@Query("group") Group group, @Query("module") String moduleId,
                             @Query("teacher") String teacherId);
 
     /**
@@ -428,7 +428,7 @@ public interface RestClientV1 {
      * @return a list with lessons.
      */
     @GET(ROOT_PATH + "timetable/lessons")
-    Observable<Lesson> getLessons(@Query("group") Group group, @Query("module") String moduleId,
+    Observable<List<Lesson>> getLessons(@Query("group") Group group, @Query("module") String moduleId,
                             @Query("teacher") String teacherId, @Query("pk") int pk);
 
     /**
@@ -457,7 +457,7 @@ public interface RestClientV1 {
      * @return a list with modules.
      */
     @GET(ROOT_PATH + "modules")
-    Observable<SimpleModule> getModules();
+    Observable<List<SimpleModule>> getModules();
 
     /**
      * Requests all modules in a small form for lower traffic usage asynchronous.
@@ -497,7 +497,7 @@ public interface RestClientV1 {
      * @return a list with exams.
      */
     @GET(ROOT_PATH + "exam")
-    Observable<Exam> getExams();
+    Observable<List<Exam>> getExams();
 
     /**
      * Requests all exams asynchronous.
@@ -515,7 +515,7 @@ public interface RestClientV1 {
      * @return a list with exams.
      */
     @GET(ROOT_PATH + "exam")
-    Observable<Exam> getExams(@Query("group") String studyGroup, @Query("module") String moduleId);
+    Observable<List<Exam>> getExams(@Query("group") String studyGroup, @Query("module") String moduleId);
 
     /**
      * Requests all lessons of the specified study group and module asynchronous.
@@ -540,7 +540,7 @@ public interface RestClientV1 {
      * @return a list with persons.
      */
     @GET(ROOT_PATH + "persons")
-    Observable<SimplePerson> getPersons();
+    Observable<List<SimplePerson>> getPersons();
 
     /**
      * Request all the persons asynchronous.
@@ -581,7 +581,7 @@ public interface RestClientV1 {
      * @return a person.
      */
     @GET(ROOT_PATH + "lostandfound")
-    Observable<LostFound> getLostAndFound();
+    Observable<List<LostFound>> getLostAndFound();
 
     /**
      * Request the lost and founds asynchronous.
@@ -598,7 +598,7 @@ public interface RestClientV1 {
      * @return a person.
      */
     @GET(ROOT_PATH + "lostandfound")
-    Observable<LostFound> getLostAndFound(@Query("search") final String content);
+    Observable<List<LostFound>> getLostAndFound(@Query("search") final String content);
 
     /**
      * Request the lost and founds asynchronous.
@@ -623,7 +623,7 @@ public interface RestClientV1 {
      * @return a list with meals.
      */
     @GET(ROOT_PATH + "meal")
-    Observable<Meal> getMeals(@Query("location") StudentWorkMunich location);
+    Observable<List<Meal>> getMeals(@Query("location") StudentWorkMunich location);
 
     /**
      * Requests all meals asynchronous.
@@ -647,7 +647,7 @@ public interface RestClientV1 {
      * @return a list with public transport possibilities.
      */
     @GET(ROOT_PATH + "publicTransport")
-    Observable<PublicTransport> getPublicTransports(
+    Observable<List<PublicTransport>> getPublicTransports(
             @Query("location") final PublicTransportLocation location);
 
     /**
