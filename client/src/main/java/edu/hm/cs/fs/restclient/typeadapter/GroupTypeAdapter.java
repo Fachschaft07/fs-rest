@@ -10,9 +10,6 @@ import edu.hm.cs.fs.common.constant.Letter;
 import edu.hm.cs.fs.common.constant.Semester;
 import edu.hm.cs.fs.common.model.Group;
 
-/**
- * Created by Fabio on 15.08.2015.
- */
 public class GroupTypeAdapter extends TypeAdapter<Group> {
     @Override
     public void write(final JsonWriter out, final Group value) throws IOException {
