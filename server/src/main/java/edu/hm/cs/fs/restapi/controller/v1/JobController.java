@@ -41,7 +41,6 @@ public class JobController {
      * Requests all jobs from <a href="http://fi.cs.hm.edu/fi/rest/public/job">http://fi.cs.hm.edu/fi/rest/public/job</a>.
      * and filters them by ID or Search
      *
-     * @param search for the words in the job title and description.
      * @param id     for the id of the job
      * @return a list with all matched jobs.
      * @throws Exception

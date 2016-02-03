@@ -33,6 +33,7 @@ public class LostFoundController {
     public List<LostFound> lostFound(@RequestParam(value = "search", defaultValue = "") String search) throws Exception {
         return new LostFoundParser().getAll().stream()
                 .filter(lostFound -> lostFound.getSubject().toLowerCase().contains(search.toLowerCase()))
+                .sorted((lf1, lf2) -> lf1.getDate().compareTo(lf2.getDate()) * -1)
                 .collect(Collectors.toList());
     }
 }

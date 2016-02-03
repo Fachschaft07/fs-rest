@@ -1,6 +1,8 @@
 package edu.hm.cs.fs.restapi.controller.v1;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,6 +31,8 @@ public class PublicTransportController {
     @RequestMapping("/rest/api/1/publicTransport")
     public List<PublicTransport> getPublicTransports(@RequestParam("location") PublicTransportLocation location)
             throws Exception {
-        return new PublicTransportParser(location).getAll();
+        return new PublicTransportParser(location).getAll().stream()
+                .filter(mvv -> mvv.getDepartureIn(TimeUnit.MINUTES) >= 0)
+                .collect(Collectors.toList());
     }
 }

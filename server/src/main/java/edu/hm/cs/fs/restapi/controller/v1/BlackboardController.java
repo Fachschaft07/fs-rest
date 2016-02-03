@@ -39,7 +39,7 @@ public class BlackboardController {
       @RequestParam(value = "since", defaultValue = "0") long since,
       @RequestParam(value = "before", defaultValue = "0") long before,
       @RequestParam(value = "group", defaultValue = "") Group group) throws Exception {
-    
+
     return CachedBlackboardParser.getInstance().getAll().parallelStream().filter(entry -> {
       boolean ret = (group.getStudy()==null);
 
@@ -60,8 +60,8 @@ public class BlackboardController {
           }
 
           return publish.before(date);
-        }).sorted((o1, o2) -> {
-          return o2.getPublish().compareTo(o1.getPublish()) * -1; // we want it DESC
-        }).collect(Collectors.toList());
+        }).sorted((o1, o2) ->
+          o2.getPublish().compareTo(o1.getPublish()) * -1 // we want it DESC
+        ).collect(Collectors.toList());
   }
 }

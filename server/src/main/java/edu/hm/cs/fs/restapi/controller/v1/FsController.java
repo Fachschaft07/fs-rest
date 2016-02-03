@@ -1,6 +1,7 @@
 package edu.hm.cs.fs.restapi.controller.v1;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,6 +34,8 @@ public class FsController {
      */
     @RequestMapping("/rest/api/1/fs/news")
     public List<News> getNews() throws Exception {
-        return new NewsParser().getAll();
+        return new NewsParser().getAll().stream()
+                .sorted((n1, n2) -> n1.getDate().compareTo(n2.getDate()) * -1)
+                .collect(Collectors.toList());
     }
 }

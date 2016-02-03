@@ -89,6 +89,10 @@ public class RoomController {
             tmpRoom.setFreeUntilEnd(Time.LESSON_8);
           }
           return tmpRoom;
-        }).filter(room -> room != null).map(SimpleRoom::new).collect(Collectors.toList());
+        })
+            .filter(room -> room != null)
+            .map(SimpleRoom::new)
+            .sorted((r1, r2) -> r1.getName().compareTo(r2.getName()))
+            .collect(Collectors.toList());
   }
 }
