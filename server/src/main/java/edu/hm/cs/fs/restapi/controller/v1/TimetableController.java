@@ -85,8 +85,11 @@ public class TimetableController {
                 .filter(lesson -> !Strings.isNullOrEmpty(teacherId) && lesson.getTeacher() != null)
                 .filter(lesson -> teacherId.equals(lesson.getTeacher().getId()))
                 .filter(lesson -> {
-                    if (pk == 0 || Strings.isNullOrEmpty(lesson.getSuffix()) || !lesson.getSuffix().contains("Praktikum")) {
-                        return true;
+                    if (Strings.isNullOrEmpty(lesson.getSuffix())
+                            || !lesson.getSuffix().contains("Praktikum")
+                            && !lesson.getSuffix().contains("Teilgruppe")
+                            && !lesson.getSuffix().contains("Übung")) {
+                        return true; // Normal lesson
                     }
                     final Matcher matcher = Pattern.compile("([0-9]+)\\.").matcher(lesson.getSuffix());
                     while (matcher.find()) {
