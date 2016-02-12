@@ -1,10 +1,12 @@
-package edu.hm.cs.fs.restapi.controller.v1;
+package edu.hm.cs.fs.restapi.controller;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 import edu.hm.cs.fs.restapi.parser.cache.CachedExamParser;
+import io.swagger.annotations.*;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,7 +29,21 @@ public class ExamController {
      * @return
      * @throws Exception
      */
-    @RequestMapping("/rest/api/1/exam")
+    @ApiOperation(value = "getExams")
+    @RequestMapping(method = RequestMethod.GET, value = "/rest/api/1/exam", produces = "application/json")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "group", value = "Group in format [A-Z]{2}[0-9]{1}[A-Z]{1}", required = false, dataType = "string", paramType = "query", defaultValue = ""),
+            @ApiImplicitParam(name = "code", value = "Code of the exam (eg. 007)", required = false, dataType = "string", paramType = "query", defaultValue = ""),
+            @ApiImplicitParam(name = "module", value = "Module ID", required = false, dataType = "string", paramType = "query", defaultValue = "")
+    })
+    @ApiResponses({
+            @ApiResponse(code = 101, message = "java.lang.RuntimeException"),
+            @ApiResponse(code = 103, message = "org.springframework.web.bind.MissingServletRequestParameterException"),
+            @ApiResponse(code = 107, message = "java.lang.IllegalStateException"),
+            @ApiResponse(code = 109, message = "java.io.IOException"),
+            @ApiResponse(code = 113, message = "javax.xml.xpath.XPathExpressionException"),
+            @ApiResponse(code = 200, message = "Success")
+    })
     public List<Exam> getExams(@RequestParam(value = "group", defaultValue = "") Group group,
                                @RequestParam(value = "code", defaultValue = "") String code,
                                @RequestParam(value = "module", defaultValue = "") String moduleId) throws Exception {

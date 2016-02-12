@@ -1,4 +1,4 @@
-package edu.hm.cs.fs.restapi.controller.v1;
+package edu.hm.cs.fs.restapi.controller;
 
 import java.io.IOException;
 import java.util.Calendar;
@@ -6,7 +6,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import io.swagger.annotations.*;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.hm.cs.fs.common.model.Holiday;
@@ -23,7 +25,16 @@ public class CalendarController {
      * @throws IOException 
      * @throws Exception
      */
-    @RequestMapping("/rest/api/1/calendar/termin")
+    @ApiOperation(value = "getTermins")
+    @RequestMapping(method = RequestMethod.GET, value = "/rest/api/1/calendar/termin", produces = "application/json")
+    @ApiResponses({
+            @ApiResponse(code = 101, message = "java.lang.RuntimeException"),
+            @ApiResponse(code = 103, message = "org.springframework.web.bind.MissingServletRequestParameterException"),
+            @ApiResponse(code = 107, message = "java.lang.IllegalStateException"),
+            @ApiResponse(code = 109, message = "java.io.IOException"),
+            @ApiResponse(code = 113, message = "javax.xml.xpath.XPathExpressionException"),
+            @ApiResponse(code = 200, message = "Success")
+    })
     public List<Termin> getTermins() throws Exception {
         return new TerminParser().getAll().parallelStream()
                 .filter(termin -> !termin.getTitle().endsWith("erster Tag") &&
@@ -36,7 +47,16 @@ public class CalendarController {
      * @return
      * @throws Exception
      */
-    @RequestMapping("/rest/api/1/calendar/holiday")
+    @ApiOperation(value = "getHolidays")
+    @RequestMapping(method = RequestMethod.GET, value = "/rest/api/1/calendar/holiday", produces = "application/json")
+    @ApiResponses({
+            @ApiResponse(code = 101, message = "java.lang.RuntimeException"),
+            @ApiResponse(code = 103, message = "org.springframework.web.bind.MissingServletRequestParameterException"),
+            @ApiResponse(code = 107, message = "java.lang.IllegalStateException"),
+            @ApiResponse(code = 109, message = "java.io.IOException"),
+            @ApiResponse(code = 113, message = "javax.xml.xpath.XPathExpressionException"),
+            @ApiResponse(code = 200, message = "Success")
+    })
     public List<Holiday> getHolidays() throws Exception {
         final List<Termin> events = new TerminParser().getAll();
         return events.parallelStream()

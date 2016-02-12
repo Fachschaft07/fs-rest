@@ -1,4 +1,4 @@
-package edu.hm.cs.fs.restapi.controller.v1;
+package edu.hm.cs.fs.restapi.controller;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -9,8 +9,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import io.swagger.annotations.*;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,7 +33,19 @@ public class TimetableController {
      * @return
      * @throws Exception
      */
-    @RequestMapping("/rest/api/1/timetable/modules")
+    @ApiOperation(value = "getLessonGroupsByGroup")
+    @RequestMapping(method = RequestMethod.GET, value = "/rest/api/1/timetable/modules", produces = "application/json")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "group", value = "Group in format [A-Z]{2}[0-9]{1}[A-Z]{1}", required = true, dataType = "string", paramType = "query")
+    })
+    @ApiResponses({
+            @ApiResponse(code = 101, message = "java.lang.RuntimeException"),
+            @ApiResponse(code = 103, message = "org.springframework.web.bind.MissingServletRequestParameterException"),
+            @ApiResponse(code = 107, message = "java.lang.IllegalStateException"),
+            @ApiResponse(code = 109, message = "java.io.IOException"),
+            @ApiResponse(code = 113, message = "javax.xml.xpath.XPathExpressionException"),
+            @ApiResponse(code = 200, message = "Success")
+    })
     public List<LessonGroup> getLessonsGroups(@RequestParam("group") Group group) throws Exception {
         Map<String, LessonGroup> result = new HashMap<>();
         CachedLessonParser.getInstance(group).getAll().stream().forEach(lesson -> {
@@ -76,9 +90,25 @@ public class TimetableController {
      * @return
      * @throws Exception
      */
-    @RequestMapping("/rest/api/1/timetable/lessons")
+    @ApiOperation(value = "getLessons")
+    @RequestMapping(method = RequestMethod.GET, value = "/rest/api/1/timetable/lessons", produces = "application/json")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "group", value = "Group in format [A-Z]{2}[0-9]{1}[A-Z]{1}", required = true, dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "module", value = "Module ID", required = true, dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "teacher", value = "Teacher ID for more precision", required = false, dataType = "string", paramType = "query", defaultValue = ""),
+            @ApiImplicitParam(name = "pk", value = "Number of placement group", required = false, dataType = "int", paramType = "query", defaultValue = "0")
+    })
+    @ApiResponses({
+            @ApiResponse(code = 101, message = "java.lang.RuntimeException"),
+            @ApiResponse(code = 103, message = "org.springframework.web.bind.MissingServletRequestParameterException"),
+            @ApiResponse(code = 107, message = "java.lang.IllegalStateException"),
+            @ApiResponse(code = 109, message = "java.io.IOException"),
+            @ApiResponse(code = 113, message = "javax.xml.xpath.XPathExpressionException"),
+            @ApiResponse(code = 200, message = "Success")
+    })
     public List<Lesson> getLessons(@RequestParam("group") Group group,
-                                   @RequestParam("module") String moduleId, @RequestParam(value = "teacher", defaultValue = "") String teacherId,
+                                   @RequestParam("module") String moduleId,
+                                   @RequestParam(value = "teacher", defaultValue = "") String teacherId,
                                    @RequestParam(value = "pk", defaultValue = "0") int pk) throws Exception {
         return CachedLessonParser.getInstance(group).getAll().parallelStream()
                 .filter(lesson -> moduleId.equals(lesson.getModule().getId()))
