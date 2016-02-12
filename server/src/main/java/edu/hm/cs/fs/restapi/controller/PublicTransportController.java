@@ -33,7 +33,7 @@ public class PublicTransportController {
     @ApiOperation(value = "getPublicTransport")
     @RequestMapping(method = RequestMethod.GET, value = "/rest/api/1/publicTransport", produces = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "location", value = "Location of departure", required = true, dataType = "PublicTransportLocation", paramType = "query")
+            @ApiImplicitParam(name = "location", value = "Location of departure", required = true, dataType = "string", paramType = "query")
     })
     @ApiResponses({
             @ApiResponse(code = 101, message = "java.lang.RuntimeException"),

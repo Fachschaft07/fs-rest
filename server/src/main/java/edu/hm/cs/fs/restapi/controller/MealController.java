@@ -27,7 +27,7 @@ public class MealController {
     @ApiOperation(value = "getMeals")
     @RequestMapping(method = RequestMethod.GET, value = "/rest/api/1/meal", produces = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "location", value = "Location of the mensa or stu cafe", required = true, dataType = "StudentWorkMunich", paramType = "query")
+            @ApiImplicitParam(name = "location", value = "Location of mensa or stu cafe", required = true, dataType = "string", paramType = "query")
     })
     @ApiResponses({
             @ApiResponse(code = 101, message = "java.lang.RuntimeException"),
