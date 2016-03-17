@@ -7,9 +7,6 @@ import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.util.Date;
 
-/**
- * Created by Fabio on 15.08.2015.
- */
 public class DateTypeAdapter extends TypeAdapter<Date> {
     @Override
     public void write(final JsonWriter out, final Date value) throws IOException {

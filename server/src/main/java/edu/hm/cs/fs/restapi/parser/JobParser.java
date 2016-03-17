@@ -14,7 +14,7 @@ import javax.xml.xpath.XPathConstants;
 import com.google.common.base.Strings;
 
 import edu.hm.cs.fs.common.constant.Study;
-import edu.hm.cs.fs.common.constant.StudyGroup;
+import edu.hm.cs.fs.common.model.Group;
 import edu.hm.cs.fs.common.model.Job;
 import edu.hm.cs.fs.common.model.Person;
 import edu.hm.cs.fs.common.model.simple.SimplePerson;
@@ -50,7 +50,7 @@ public class JobParser extends AbstractXmlParser<Job> implements ByIdParser<Job>
         final String programStr = findByXPath(rootPath + "/program/text()", XPathConstants.STRING, String.class);
         Study program = null;
         if (!Strings.isNullOrEmpty(programStr)) {
-            StudyGroup studyGroup = StudyGroup.of(programStr);
+            Group studyGroup = Group.of(programStr);
             if (studyGroup != null) {
                 program = studyGroup.getStudy();
             }

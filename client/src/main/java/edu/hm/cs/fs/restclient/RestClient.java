@@ -1,24 +1,80 @@
 package edu.hm.cs.fs.restclient;
 
+import com.google.gson.GsonBuilder;
 import edu.hm.cs.fs.common.constant.*;
 import edu.hm.cs.fs.common.model.*;
 import edu.hm.cs.fs.common.model.simple.SimpleJob;
 import edu.hm.cs.fs.common.model.simple.SimpleModule;
 import edu.hm.cs.fs.common.model.simple.SimplePerson;
 import edu.hm.cs.fs.common.model.simple.SimpleRoom;
+import edu.hm.cs.fs.restclient.typeadapter.DateTypeAdapter;
+import edu.hm.cs.fs.restclient.typeadapter.GroupTypeAdapter;
 import retrofit.Callback;
+import retrofit.ErrorHandler;
+import retrofit.RestAdapter;
+import retrofit.converter.GsonConverter;
 import retrofit.http.GET;
 import retrofit.http.Query;
+import rx.Observable;
 
+import java.util.Date;
 import java.util.List;
 
 /**
- * The Rest Client of Version 1.
+ * The rest client api.
  *
  * @author Fabio
  */
-public interface RestClientV1 {
+public interface RestClient {
     String ROOT_PATH = "/rest/api/1/";
+
+    /**
+     * The builder creates the connection to the rest client.
+     */
+    class Builder {
+        private static final String ENDPOINT_ULR = "http://fs.cs.hm.edu";
+        private String endpoint = ENDPOINT_ULR;
+        private ErrorHandler errorHandler = ErrorHandler.DEFAULT;
+
+        /**
+         * Specify another endpoint url. (e.g. for testing)
+         *
+         * @param url to connect to.
+         * @return the builder.
+         */
+        public Builder setEndpoint(final String url) {
+            endpoint = url;
+            return this;
+        }
+
+        /**
+         * Set a custom error handler which will be called when an exception is thrown.
+         *
+         * @param errorHandler to set.
+         * @return the builder.
+         */
+        public Builder setErrorHandler(final ErrorHandler errorHandler) {
+            this.errorHandler = errorHandler;
+            return this;
+        }
+
+        /**
+         * Create an interface to communicate with the rest api.
+         *
+         * @return the controller.
+         */
+        public RestClient build() {
+            return new RestAdapter.Builder()
+                    .setErrorHandler(errorHandler)
+                    .setEndpoint(endpoint)
+                    .setConverter(new GsonConverter(new GsonBuilder()
+                            .registerTypeAdapter(Date.class, new DateTypeAdapter())
+                            .registerTypeAdapter(Group.class, new GroupTypeAdapter())
+                            .create()))
+                    .build()
+                    .create(RestClient.class);
+        }
+    }
 
     ////////////////////////////////////////////////////////////////////
     //
@@ -32,7 +88,7 @@ public interface RestClientV1 {
      * @return a list with blackboard entries.
      */
     @GET(ROOT_PATH + "blackboard")
-    List<BlackboardEntry> getEntries();
+    Observable<List<BlackboardEntry>> getEntries();
 
     /**
      * Requests all blackboard entries asynchronous.
@@ -41,7 +97,67 @@ public interface RestClientV1 {
      */
     @GET(ROOT_PATH + "blackboard")
     void getEntries(Callback<List<BlackboardEntry>> callback);
-    
+
+    /**
+     * Requests all blackboard entries that fit the search.
+     *
+     * @param search string to search for.
+     * @return a list with blackboard entries.
+     */
+    @GET(ROOT_PATH + "blackboard")
+    Observable<List<BlackboardEntry>> getEntries(@Query("search") String search);
+
+    /**
+     * Requests all blackboard entries that fit the search.
+     *
+     * @param search   string to search for.
+     * @param callback to retrieve the result.
+     */
+    @GET(ROOT_PATH + "blackboard")
+    void getEntries(@Query("search") String search, Callback<List<BlackboardEntry>> callback);
+
+    /**
+     * Requests all blackboard entries for an study group.
+     *
+     * @param group representing an study group.
+     * @return a list with blackboard entries.
+     */
+    @GET(ROOT_PATH + "blackboard")
+    Observable<List<BlackboardEntry>> getEntries(@Query("group") Group group);
+
+    /**
+     * Requests all blackboard entries for an study group.
+     *
+     * @param group    representing an study group.
+     * @param callback to retrieve the result.
+     */
+    @GET(ROOT_PATH + "blackboard")
+    void getEntries(@Query("group") Group group, Callback<List<BlackboardEntry>> callback);
+
+    /**
+     * Requests all blackboard entries for an study group.
+     *
+     * @param search to search for in blackboard entry.
+     * @param group  representing an study group.
+     * @param since  a long representing an date.
+     * @param before a long representing an date.
+     * @return a list with blackboard entries.
+     */
+    @GET(ROOT_PATH + "blackboard")
+    Observable<List<BlackboardEntry>> getEntries(@Query("search") String search, @Query("group") Group group, @Query("since") long since, @Query("before") long before);
+
+    /**
+     * Requests all blackboard entries for an study group.
+     *
+     * @param search   to search for in blackboard entry.
+     * @param group    representing an study group.
+     * @param since    a long representing an date.
+     * @param before   a long representing an date.
+     * @param callback to retrieve the result.
+     */
+    @GET(ROOT_PATH + "blackboard")
+    void getEntries(@Query("search") String search, @Query("group") Group group, @Query("since") long since, @Query("before") long before, Callback<List<BlackboardEntry>> callback);
+
     /**
      * Requests all blackboard entries that are publish after 'since'.
      *
@@ -49,17 +165,39 @@ public interface RestClientV1 {
      * @return a list with blackboard entries.
      */
     @GET(ROOT_PATH + "blackboard")
-    List<BlackboardEntry> getEntriesSince(long since);
-    
+    Observable<List<BlackboardEntry>> getEntriesSince(@Query("since") long since);
+
     /**
      * Requests all blackboard entries that are publish after 'since' asynchronous.
      *
-     * @param since a long representing an date.
+     * @param since    a long representing an date.
      * @param callback to retrieve the result.
      */
     @GET(ROOT_PATH + "blackboard")
-    void getEntriesSince(long since, Callback<List<BlackboardEntry>> callback);
-    
+    void getEntriesSince(@Query("since") long since, Callback<List<BlackboardEntry>> callback);
+
+    /**
+     * Requests all blackboard entries for an study group.
+     *
+     * @param search to search for in blackboard entry.
+     * @param group  representing an study group.
+     * @param since  a long representing an date.
+     * @return a list with blackboard entries.
+     */
+    @GET(ROOT_PATH + "blackboard")
+    Observable<List<BlackboardEntry>> getEntriesSince(@Query("search") String search, @Query("group") Group group, @Query("since") long since);
+
+    /**
+     * Requests all blackboard entries for an study group.
+     *
+     * @param search   to search for in blackboard entry.
+     * @param group    representing an study group.
+     * @param since    a long representing an date.
+     * @param callback to retrieve the result.
+     */
+    @GET(ROOT_PATH + "blackboard")
+    void getEntriesSince(@Query("search") String search, @Query("group") Group group, @Query("since") long since, Callback<List<BlackboardEntry>> callback);
+
     /**
      * Requests all blackboard entries that are publish before 'before'.
      *
@@ -67,18 +205,40 @@ public interface RestClientV1 {
      * @return a list with blackboard entries.
      */
     @GET(ROOT_PATH + "blackboard")
-    List<BlackboardEntry> getEntriesBefore(long before);
+    Observable<List<BlackboardEntry>> getEntriesBefore(@Query("before") long before);
 
     /**
      * Requests all blackboard entries that are publish before 'before'.
      *
-     * @param before a long representing an date.
+     * @param before   a long representing an date.
      * @param callback to retrieve the result.
      */
     @GET(ROOT_PATH + "blackboard")
-    void getEntriesBefore(long before, Callback<List<BlackboardEntry>> callback);
-    
-    
+    void getEntriesBefore(@Query("before") long before, Callback<List<BlackboardEntry>> callback);
+
+    /**
+     * Requests all blackboard entries for an study group.
+     *
+     * @param search to search for in blackboard entry.
+     * @param group  representing an study group.
+     * @param before a long representing an date.
+     * @return a list with blackboard entries.
+     */
+    @GET(ROOT_PATH + "blackboard")
+    Observable<List<BlackboardEntry>> getEntriesBefore(@Query("search") String search, @Query("group") Group group, @Query("before") long before);
+
+    /**
+     * Requests all blackboard entries for an study group.
+     *
+     * @param search   to search for in blackboard entry.
+     * @param group    representing an study group.
+     * @param before   a long representing an date.
+     * @param callback to retrieve the result.
+     */
+    @GET(ROOT_PATH + "blackboard")
+    void getEntriesBefore(@Query("search") String search, @Query("group") Group group, @Query("before") long before, Callback<List<BlackboardEntry>> callback);
+
+
     ////////////////////////////////////////////////////////////////////
     //
     // Calendar
@@ -91,7 +251,7 @@ public interface RestClientV1 {
      * @return a list with termins.
      */
     @GET(ROOT_PATH + "calendar/termin")
-    List<Event> getTermins();
+    Observable<List<Event>> getTermins();
 
     /**
      * Requests all termins asynchronous.
@@ -107,7 +267,7 @@ public interface RestClientV1 {
      * @return a list with holidays.
      */
     @GET(ROOT_PATH + "calendar/holiday")
-    List<Holiday> getHolidays();
+    Observable<List<Holiday>> getHolidays();
 
     /**
      * Requests all holidays asynchronous.
@@ -129,7 +289,7 @@ public interface RestClientV1 {
      * @return a list with presence.
      */
     @GET(ROOT_PATH + "fs/presence")
-    List<Presence> getPresence();
+    Observable<List<Presence>> getPresence();
 
     /**
      * Requests all presence asynchronous.
@@ -145,7 +305,7 @@ public interface RestClientV1 {
      * @return a list with all News.
      */
     @GET(ROOT_PATH + "fs/news")
-    List<News> getNews();
+    Observable<List<News>> getNews();
 
     /**
      * Request all News from the FS Website.
@@ -167,7 +327,7 @@ public interface RestClientV1 {
      * @return a list with jobs.
      */
     @GET(ROOT_PATH + "jobs")
-    List<SimpleJob> getJobs();
+    Observable<List<SimpleJob>> getJobs();
 
     /**
      * Requests all jobs asynchronous.
@@ -184,7 +344,7 @@ public interface RestClientV1 {
      * @return a list with jobs.
      */
     @GET(ROOT_PATH + "jobs")
-    List<SimpleJob> getJobs(@Query("search") final String searchContent);
+    Observable<List<SimpleJob>> getJobs(@Query("search") final String searchContent);
 
     /**
      * Requests all searched jobs asynchronous.
@@ -194,8 +354,8 @@ public interface RestClientV1 {
      */
     @GET(ROOT_PATH + "jobs")
     void getJobs(@Query("search") final String search,
-                          final Callback<List<SimpleJob>> callback);
-    
+                 final Callback<List<SimpleJob>> callback);
+
     /**
      * Requests an job by id.
      *
@@ -203,7 +363,7 @@ public interface RestClientV1 {
      * @return a job.
      */
     @GET(ROOT_PATH + "job")
-    List<SimpleJob> getJobById(@Query("id") final String id);
+    Observable<SimpleJob> getJobById(@Query("id") final String id);
 
     /**
      * Requests an job by id.
@@ -213,7 +373,7 @@ public interface RestClientV1 {
      */
     @GET(ROOT_PATH + "job")
     void getJobById(@Query("id") final String id,
-                          final Callback<List<SimpleJob>> callback);
+                    final Callback<List<SimpleJob>> callback);
 
     ////////////////////////////////////////////////////////////////////
     //
@@ -230,8 +390,8 @@ public interface RestClientV1 {
      * @return a list with free rooms.
      */
     @GET(ROOT_PATH + "room")
-    List<SimpleRoom> getRoomByDateTime(@Query("type") RoomType type, @Query("day") Day day, @Query("hour") int hour,
-                                       @Query("minute") int minute);
+    Observable<List<SimpleRoom>> getRoomByDateTime(@Query("type") RoomType type, @Query("day") Day day, @Query("hour") int hour,
+                                                   @Query("minute") int minute);
 
     /**
      * Requests all free rooms asynchronous.
@@ -258,7 +418,7 @@ public interface RestClientV1 {
      * @return a list with lessons.
      */
     @GET(ROOT_PATH + "timetable/modules")
-    List<LessonGroup> getLessonGroups(@Query("group") Group group);
+    Observable<List<LessonGroup>> getLessonGroups(@Query("group") Group group);
 
     /**
      * Requests all lessons from a specified group asynchronous.
@@ -272,40 +432,40 @@ public interface RestClientV1 {
     /**
      * Requests all lessons by the specified parameters.
      *
-     * @param group to get the correct lessons.
+     * @param group    to get the correct lessons.
      * @param moduleId of the module.
      * @return a list with lessons.
      */
     @GET(ROOT_PATH + "timetable/lessons")
-    List<Lesson> getLessons(@Query("group") Group group, @Query("module") String moduleId);
-    
-    /**
-     * Requests all lessons by the specified parameters asynchronous.
-     *
-     * @param group to get the correct lessons.
-     * @param moduleId of the module.
-     * @param callback  to retrieve the result.
-     */
-    @GET(ROOT_PATH + "timetable/lessons")
-    void getLessons(@Query("group") Group group, @Query("module") String moduleId, Callback<List<Lesson>> callback);
-    
-    /**
-     * Requests all lessons by the specified parameters.
-     *
-     * @param group to get the correct lessons.
-     * @param moduleId of the module.
-     * @param teacherId of the prof.
-     * @return a list with lessons.
-     */
-    @GET(ROOT_PATH + "timetable/lessons")
-    List<Lesson> getLessons(@Query("group") Group group, @Query("module") String moduleId,
-                            @Query("teacher") String teacherId);
+    Observable<List<Lesson>> getLessons(@Query("group") Group group, @Query("module") String moduleId);
 
     /**
      * Requests all lessons by the specified parameters asynchronous.
      *
-     * @param group to get the correct lessons.
+     * @param group    to get the correct lessons.
      * @param moduleId of the module.
+     * @param callback to retrieve the result.
+     */
+    @GET(ROOT_PATH + "timetable/lessons")
+    void getLessons(@Query("group") Group group, @Query("module") String moduleId, Callback<List<Lesson>> callback);
+
+    /**
+     * Requests all lessons by the specified parameters.
+     *
+     * @param group     to get the correct lessons.
+     * @param moduleId  of the module.
+     * @param teacherId of the prof.
+     * @return a list with lessons.
+     */
+    @GET(ROOT_PATH + "timetable/lessons")
+    Observable<List<Lesson>> getLessons(@Query("group") Group group, @Query("module") String moduleId,
+                                        @Query("teacher") String teacherId);
+
+    /**
+     * Requests all lessons by the specified parameters asynchronous.
+     *
+     * @param group     to get the correct lessons.
+     * @param moduleId  of the module.
      * @param teacherId of the prof.
      * @param callback  to retrieve the result.
      */
@@ -316,23 +476,23 @@ public interface RestClientV1 {
     /**
      * Requests all lessons by the specified parameters.
      *
-     * @param group to get the correct lessons.
-     * @param moduleId of the module.
+     * @param group     to get the correct lessons.
+     * @param moduleId  of the module.
      * @param teacherId of the prof.
-     * @param pk if it is a practical lecture.
+     * @param pk        if it is a practical lecture.
      * @return a list with lessons.
      */
     @GET(ROOT_PATH + "timetable/lessons")
-    List<Lesson> getLessons(@Query("group") Group group, @Query("module") String moduleId,
-                            @Query("teacher") String teacherId, @Query("pk") int pk);
+    Observable<List<Lesson>> getLessons(@Query("group") Group group, @Query("module") String moduleId,
+                                        @Query("teacher") String teacherId, @Query("pk") int pk);
 
     /**
      * Requests all lessons by the specified parameters asynchronous.
      *
-     * @param group to get the correct lessons.
-     * @param moduleId of the module.
+     * @param group     to get the correct lessons.
+     * @param moduleId  of the module.
      * @param teacherId of the prof.
-     * @param pk if it is a practical lecture.
+     * @param pk        if it is a practical lecture.
      * @param callback  to retrieve the result.
      */
     @GET(ROOT_PATH + "timetable/lessons")
@@ -352,7 +512,7 @@ public interface RestClientV1 {
      * @return a list with modules.
      */
     @GET(ROOT_PATH + "modules")
-    List<SimpleModule> getModules();
+    Observable<List<SimpleModule>> getModules();
 
     /**
      * Requests all modules in a small form for lower traffic usage asynchronous.
@@ -366,10 +526,10 @@ public interface RestClientV1 {
      * Requests a module by id with all information.
      *
      * @param moduleId to request.
-     * @return the module or <code>null</code>.
+     * @return the module.
      */
     @GET(ROOT_PATH + "module")
-    Module getModuleById(@Query("id") String moduleId);
+    Observable<Module> getModuleById(@Query("id") String moduleId);
 
     /**
      * Requests a module by id with all information asynchronous.
@@ -392,7 +552,7 @@ public interface RestClientV1 {
      * @return a list with exams.
      */
     @GET(ROOT_PATH + "exam")
-    List<Exam> getExams();
+    Observable<List<Exam>> getExams();
 
     /**
      * Requests all exams asynchronous.
@@ -410,7 +570,7 @@ public interface RestClientV1 {
      * @return a list with exams.
      */
     @GET(ROOT_PATH + "exam")
-    List<Exam> getExams(@Query("group") String studyGroup, @Query("module") String moduleId);
+    Observable<List<Exam>> getExams(@Query("group") String studyGroup, @Query("module") String moduleId);
 
     /**
      * Requests all lessons of the specified study group and module asynchronous.
@@ -435,7 +595,7 @@ public interface RestClientV1 {
      * @return a list with persons.
      */
     @GET(ROOT_PATH + "persons")
-    List<SimplePerson> getPersons();
+    Observable<List<SimplePerson>> getPersons();
 
     /**
      * Request all the persons asynchronous.
@@ -452,7 +612,7 @@ public interface RestClientV1 {
      * @return a person.
      */
     @GET(ROOT_PATH + "person")
-    Person getPersonById(@Query("id") final String personId);
+    Observable<Person> getPersonById(@Query("id") final String personId);
 
     /**
      * Request the person by id asynchronous.
@@ -476,7 +636,7 @@ public interface RestClientV1 {
      * @return a person.
      */
     @GET(ROOT_PATH + "lostandfound")
-    List<LostFound> getLostAndFound();
+    Observable<List<LostFound>> getLostAndFound();
 
     /**
      * Request the lost and founds asynchronous.
@@ -493,7 +653,7 @@ public interface RestClientV1 {
      * @return a person.
      */
     @GET(ROOT_PATH + "lostandfound")
-    List<LostFound> getLostAndFound(@Query("search") final String content);
+    Observable<List<LostFound>> getLostAndFound(@Query("search") final String content);
 
     /**
      * Request the lost and founds asynchronous.
@@ -518,7 +678,7 @@ public interface RestClientV1 {
      * @return a list with meals.
      */
     @GET(ROOT_PATH + "meal")
-    List<Meal> getMeals(@Query("location") StudentWorkMunich location);
+    Observable<List<Meal>> getMeals(@Query("location") StudentWorkMunich location);
 
     /**
      * Requests all meals asynchronous.
@@ -542,7 +702,7 @@ public interface RestClientV1 {
      * @return a list with public transport possibilities.
      */
     @GET(ROOT_PATH + "publicTransport")
-    List<PublicTransport> getPublicTransports(
+    Observable<List<PublicTransport>> getPublicTransports(
             @Query("location") final PublicTransportLocation location);
 
     /**

@@ -20,17 +20,17 @@ import edu.hm.cs.fs.restapi.parser.Parser;
  * The CachedParser is a Delegator for every Parser to handle the caching.
  */
 public abstract class CachedParser<T> implements Parser<T>, Runnable {
-  
+
   public enum UpdateType {
     FIXEDTIME, INTERVAL
   }
-  
+
   private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
   private final Parser<T> parser;
   private final File cacheFile;
 
   private Logger logger = Logger.getLogger(this.getClass());
-  
+
   /**
    * Creates a cached parser with a specified interval.
    *
@@ -54,7 +54,7 @@ public abstract class CachedParser<T> implements Parser<T>, Runnable {
       final TimeUnit timeUnit, final UpdateType updateType) {
     this.parser = parser;
     this.cacheFile = new File(new File(System.getProperty("java.io.tmpdir")), "fs_rest_" + cacheFileName + "_cache.json"); // Create a cache file in temp directory
-    
+
     // register with updater
     switch (updateType) {
       case FIXEDTIME:
@@ -77,11 +77,11 @@ public abstract class CachedParser<T> implements Parser<T>, Runnable {
     logger.info("Start updating cache file for "+this.getClass().getSimpleName());
     List<T> result = parser.getAll();
     synchronized (cacheFile) {
-      Files.write(gson.toJson(result, getType()), cacheFile, Charsets.UTF_8); 
+      Files.write(gson.toJson(result, getType()), cacheFile, Charsets.UTF_8);
     }
     logger.info("Finished updating cache file for "+this.getClass().getSimpleName());
   }
-  
+
   public void cleanUp() {
     logger.info("Cleaning up cache file for "+this.getClass().getSimpleName());
     if (cacheFile.exists()) {
@@ -99,6 +99,9 @@ public abstract class CachedParser<T> implements Parser<T>, Runnable {
   }
 
   private List<T> readFromCache() throws Exception {
+    if(!cacheFile.exists()) {
+      updateCache();
+    }
     synchronized (cacheFile) {
       try {
         // Read the cache file and reproduce the output

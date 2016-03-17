@@ -2,10 +2,7 @@ package edu.hm.cs.fs.restapi.parser;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import javax.xml.xpath.XPathConstants;
@@ -66,6 +63,7 @@ public class ExamParser extends AbstractXmlParser<Exam> {
                                                     }
                                                 })
                                                 .filter(room -> !Strings.isNullOrEmpty(room))
+                                                .map(room -> room.substring(0, 1).toUpperCase() + "." + room.substring(1, room.length()))
                                                 .collect(Collectors.toList());
 
                                         return getXPathStream(basePath + "/exam")
@@ -94,39 +92,27 @@ public class ExamParser extends AbstractXmlParser<Exam> {
                                                                     }
                                                                 })
                                                                 .map(Study::of)
+                                                                .filter(study -> study != null)
                                                                 .collect(Collectors.toList());
 
-                                                        final List<SimplePerson> examiners = getXPathStream(basePath + "/examiner")
-                                                                .map(examinerPath -> {
-                                                                    try {
-                                                                        return findByXPath(examinerPath + "/text()",
-                                                                                XPathConstants.STRING, String.class);
-                                                                    } catch (XPathExpressionException e) {
-                                                                        throw new RuntimeException(e);
-                                                                    }
-                                                                })
-                                                                .map(person -> {
-                                                                    try {
-                                                                        return personParser.getById(person);
-                                                                    } catch (Exception e) {
-                                                                        throw new RuntimeException(e);
-                                                                    }
-                                                                })
-                                                                .filter(Optional::isPresent)
-                                                                .map(Optional::get)
-                                                                .map(SimplePerson::new)
-                                                                .collect(Collectors.toList());
+                                                        final String examiner1 = findByXPath(examPath + "/examiner/text()",
+                                                                XPathConstants.STRING, String.class);
+                                                        final String examiner2 = findByXPath(examPath + "/examiner2/text()",
+                                                                XPathConstants.STRING, String.class);
+                                                        final List<SimplePerson> examiners = new ArrayList<>();
+                                                        personParser.getById(examiner1).map(SimplePerson::new).ifPresent(examiners::add);
+                                                        personParser.getById(examiner2).map(SimplePerson::new).ifPresent(examiners::add);
 
-                                                        final String typeStr = findByXPath(basePath + "/type/text()",
+                                                        final String typeStr = findByXPath(examPath + "/type/text()",
                                                                 XPathConstants.STRING, String.class);
                                                         ExamType type = null;
                                                         if (!StringUtil.isBlank(typeStr)) {
                                                             type = ExamType.of(typeStr);
                                                         }
 
-                                                        final String material = findByXPath(basePath + "/material/text()",
+                                                        final String material = findByXPath(examPath + "/material/text()",
                                                                 XPathConstants.STRING, String.class);
-                                                        final String allocationStr = findByXPath(basePath + "/allocation/text()",
+                                                        final String allocationStr = findByXPath(examPath + "/allocation/text()",
                                                                 XPathConstants.STRING, String.class);
                                                         ExamGroup allocation = null;
                                                         if (!StringUtil.isBlank(allocationStr)) {

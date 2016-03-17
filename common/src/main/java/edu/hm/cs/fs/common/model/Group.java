@@ -84,7 +84,9 @@ public class Group {
     @Override
     public String toString() {
         final StringBuilder strBuilder = new StringBuilder();
-        strBuilder.append(getStudy().toString());
+        if(getStudy() != null){
+            strBuilder.append(getStudy().toString());
+        }
         if (getSemester() != null) {
             strBuilder.append(getSemester().getNumber());
         }
