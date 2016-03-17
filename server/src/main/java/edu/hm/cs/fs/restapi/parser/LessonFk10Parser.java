@@ -21,7 +21,9 @@ import edu.hm.cs.fs.common.model.Lesson;
 import edu.hm.cs.fs.common.model.simple.SimpleModule;
 import edu.hm.cs.fs.common.model.simple.SimplePerson;
 
+
 public class LessonFk10Parser extends AbstractHtmlParser<Lesson> {
+
     private static final String URL = "http://w3bw-o.hm.edu/iframe/studieninfo_vorlesungsplan.php";
     private final static String USER_AGENT = "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:28.0) Gecko/20100101 Firefox/28.0";
     private final Group mGroup;
@@ -68,6 +70,9 @@ public class LessonFk10Parser extends AbstractHtmlParser<Lesson> {
         final Elements rows = table.getElementsByTag("td");
         for (final Element row : rows) {
             if (row.toString().contains("<h1")) { // i.e. <h1>Montag</h1>
+                if(row.toString().contains("Blockveranstaltungen")){
+                    break;
+                }
                 day = Day.of(row.text().substring(0, 2));
             } else if (row.toString().contains("<h3")) { // i.e. <h3>10:00-11:30 UHR</h3>
                 String time = row.text().substring(0, row.text().indexOf("-"));
