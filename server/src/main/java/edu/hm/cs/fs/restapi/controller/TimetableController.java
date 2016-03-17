@@ -1,15 +1,16 @@
 package edu.hm.cs.fs.restapi.controller;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import edu.hm.cs.fs.common.model.*;
+import edu.hm.cs.fs.common.model.simple.SimplePerson;
+import edu.hm.cs.fs.restapi.parser.BookingParser;
+import edu.hm.cs.fs.restapi.parser.cache.*;
 import io.swagger.annotations.*;
+import jdk.nashorn.internal.runtime.arrays.IteratorAction;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,11 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.common.base.Strings;
-
-import edu.hm.cs.fs.common.model.Group;
-import edu.hm.cs.fs.common.model.Lesson;
-import edu.hm.cs.fs.common.model.LessonGroup;
-import edu.hm.cs.fs.restapi.parser.cache.CachedLessonParser;
 
 /**
  * @author Fabio
@@ -129,5 +125,37 @@ public class TimetableController {
                     }
                     return false;
                 }).collect(Collectors.toList());
+    }
+
+    /**
+     * @param teacherId
+     * @return
+     * @throws Exception
+     */
+    @ApiOperation(value = "getLessonForTeacher")
+    @RequestMapping(method = RequestMethod.GET, value = "/rest/api/1/timetable/teacher", produces = "application/json")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "teacherId", value = "Teacher in format [A-Z]*", required = true, dataType = "string", paramType = "query")
+    })
+    @ApiResponses({
+            @ApiResponse(code = 101, message = "java.lang.RuntimeException"),
+            @ApiResponse(code = 103, message = "org.springframework.web.bind.MissingServletRequestParameterException"),
+            @ApiResponse(code = 107, message = "java.lang.IllegalStateException"),
+            @ApiResponse(code = 109, message = "java.io.IOException"),
+            @ApiResponse(code = 113, message = "javax.xml.xpath.XPathExpressionException"),
+            @ApiResponse(code = 200, message = "Success")
+    })
+    public List<TeacherBooking> getLessonsForTeacher(@RequestParam("teacherId") String teacherId) throws Exception {
+
+        return CachedBookingParser.getInstance()
+                .getAll()
+                .parallelStream()
+                .filter(booking -> {
+                    if(teacherId != null && booking.getTeacher() != null)
+                        return teacherId.equals(booking.getTeacher().getId());
+
+                    return false;
+                })
+                .collect(Collectors.toList());
     }
 }
