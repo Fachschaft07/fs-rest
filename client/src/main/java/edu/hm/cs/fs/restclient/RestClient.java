@@ -14,9 +14,11 @@ import edu.hm.cs.fs.restclient.typeadapter.DateTypeAdapter;
 import edu.hm.cs.fs.restclient.typeadapter.GroupTypeAdapter;
 import retrofit2.Call;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
+import rx.Observable;
 
 import java.util.Date;
 import java.util.List;
@@ -59,6 +61,7 @@ public interface RestClient {
                             .registerTypeAdapter(Group.class, new GroupTypeAdapter())
                             .registerTypeAdapter(Date.class, new DateTypeAdapter())
                             .create()))
+                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .build()
                     .create(RestClient.class);
         }
@@ -79,6 +82,12 @@ public interface RestClient {
     Call<List<BlackboardEntry>> getEntries();
 
     /**
+     * @see #getEntries()
+     */
+    @GET(ROOT_PATH + "blackboard")
+    Observable<List<BlackboardEntry>> getEntriesRx();
+
+    /**
      * Requests all blackboard entries that fit the search.
      *
      * @param search string to search for.
@@ -88,6 +97,12 @@ public interface RestClient {
     Call<List<BlackboardEntry>> getEntries(@Query("search") String search);
 
     /**
+     * @see #getEntries(String)
+     */
+    @GET(ROOT_PATH + "blackboard")
+    Observable<List<BlackboardEntry>> getEntriesRx(@Query("search") String search);
+
+    /**
      * Requests all blackboard entries for an study group.
      *
      * @param group representing an study group.
@@ -95,6 +110,12 @@ public interface RestClient {
      */
     @GET(ROOT_PATH + "blackboard")
     Call<List<BlackboardEntry>> getEntries(@Query("group") Group group);
+
+    /**
+     * @see #getEntries(Group)
+     */
+    @GET(ROOT_PATH + "blackboard")
+    Observable<List<BlackboardEntry>> getEntriesRx(@Query("group") Group group);
 
     /**
      * Requests all blackboard entries for an study group.
@@ -109,6 +130,12 @@ public interface RestClient {
     Call<List<BlackboardEntry>> getEntries(@Query("search") String search, @Query("group") Group group, @Query("since") long since, @Query("before") long before);
 
     /**
+     * @see #getEntries(String, Group, long, long)
+     */
+    @GET(ROOT_PATH + "blackboard")
+    Observable<List<BlackboardEntry>> getEntriesRx(@Query("search") String search, @Query("group") Group group, @Query("since") long since, @Query("before") long before);
+
+    /**
      * Requests all blackboard entries that are publish after 'since'.
      *
      * @param since a long representing an date.
@@ -116,6 +143,12 @@ public interface RestClient {
      */
     @GET(ROOT_PATH + "blackboard")
     Call<List<BlackboardEntry>> getEntriesSince(@Query("since") long since);
+
+    /**
+     * @see #getEntriesSince(long)
+     */
+    @GET(ROOT_PATH + "blackboard")
+    Observable<List<BlackboardEntry>> getEntriesSinceRx(@Query("since") long since);
 
     /**
      * Requests all blackboard entries for an study group.
@@ -129,6 +162,12 @@ public interface RestClient {
     Call<List<BlackboardEntry>> getEntriesSince(@Query("search") String search, @Query("group") Group group, @Query("since") long since);
 
     /**
+     * @see #getEntriesSince(String, Group, long)
+     */
+    @GET(ROOT_PATH + "blackboard")
+    Observable<List<BlackboardEntry>> getEntriesSinceRx(@Query("search") String search, @Query("group") Group group, @Query("since") long since);
+
+    /**
      * Requests all blackboard entries that are publish before 'before'.
      *
      * @param before a long representing an date.
@@ -136,6 +175,12 @@ public interface RestClient {
      */
     @GET(ROOT_PATH + "blackboard")
     Call<List<BlackboardEntry>> getEntriesBefore(@Query("before") long before);
+
+    /**
+     * @see #getEntriesBefore(long)
+     */
+    @GET(ROOT_PATH + "blackboard")
+    Observable<List<BlackboardEntry>> getEntriesBeforeRx(@Query("before") long before);
 
     /**
      * Requests all blackboard entries for an study group.
@@ -147,6 +192,12 @@ public interface RestClient {
      */
     @GET(ROOT_PATH + "blackboard")
     Call<List<BlackboardEntry>> getEntriesBefore(@Query("search") String search, @Query("group") Group group, @Query("before") long before);
+
+    /**
+     * @see #getEntriesBefore(String, Group, long)
+     */
+    @GET(ROOT_PATH + "blackboard")
+    Observable<List<BlackboardEntry>> getEntriesBeforeRx(@Query("search") String search, @Query("group") Group group, @Query("before") long before);
 
     ////////////////////////////////////////////////////////////////////
     //
@@ -163,12 +214,24 @@ public interface RestClient {
     Call<List<Event>> getTermins();
 
     /**
+     * @see #getTermins()
+     */
+    @GET(ROOT_PATH + "calendar/termin")
+    Observable<List<Event>> getTerminsRx();
+
+    /**
      * Requests all holidays.
      *
      * @return a list with holidays.
      */
     @GET(ROOT_PATH + "calendar/holiday")
     Call<List<Holiday>> getHolidays();
+
+    /**
+     * @see #getHolidays()
+     */
+    @GET(ROOT_PATH + "calendar/holiday")
+    Observable<List<Holiday>> getHolidaysRx();
 
     ////////////////////////////////////////////////////////////////////
     //
@@ -185,12 +248,24 @@ public interface RestClient {
     Call<List<Presence>> getPresence();
 
     /**
+     * @see #getPresence()
+     */
+    @GET(ROOT_PATH + "fs/presence")
+    Observable<List<Presence>> getPresenceRx();
+
+    /**
      * Request all News from the FS Website.
      *
      * @return a list with all News.
      */
     @GET(ROOT_PATH + "fs/news")
     Call<List<News>> getNews();
+
+    /**
+     * @see #getNews()
+     */
+    @GET(ROOT_PATH + "fs/news")
+    Observable<List<News>> getNewsRx();
 
     ////////////////////////////////////////////////////////////////////
     //
@@ -207,6 +282,12 @@ public interface RestClient {
     Call<List<SimpleJob>> getJobs();
 
     /**
+     * @see #getJobs()
+     */
+    @GET(ROOT_PATH + "jobs")
+    Observable<List<SimpleJob>> getJobsRx();
+
+    /**
      * Requests all searched jobs.
      *
      * @param searchContent the job title and description for matching.
@@ -216,6 +297,12 @@ public interface RestClient {
     Call<List<SimpleJob>> getJobs(@Query("search") final String searchContent);
 
     /**
+     * @see #getJobs(String)
+     */
+    @GET(ROOT_PATH + "jobs")
+    Observable<List<SimpleJob>> getJobsRx(@Query("search") final String searchContent);
+
+    /**
      * Requests an job by id.
      *
      * @param id the job id.
@@ -223,6 +310,12 @@ public interface RestClient {
      */
     @GET(ROOT_PATH + "job")
     Call<SimpleJob> getJobById(@Query("id") final String id);
+
+    /**
+     * @see #getJobById(String)
+     */
+    @GET(ROOT_PATH + "job")
+    Observable<SimpleJob> getJobByIdRx(@Query("id") final String id);
 
     ////////////////////////////////////////////////////////////////////
     //
@@ -242,6 +335,13 @@ public interface RestClient {
     Call<List<SimpleRoom>> getRoomByDateTime(@Query("type") RoomType type, @Query("day") Day day, @Query("hour") int hour,
                                              @Query("minute") int minute);
 
+    /**
+     * @see #getRoomByDateTime(RoomType, Day, int, int)
+     */
+    @GET(ROOT_PATH + "room")
+    Observable<List<SimpleRoom>> getRoomByDateTimeRx(@Query("type") RoomType type, @Query("day") Day day, @Query("hour") int hour,
+                                             @Query("minute") int minute);
+
     ////////////////////////////////////////////////////////////////////
     //
     // Timetable
@@ -258,6 +358,12 @@ public interface RestClient {
     Call<List<LessonGroup>> getLessonGroups(@Query("group") Group group);
 
     /**
+     * @see #getLessonGroups(Group)
+     */
+    @GET(ROOT_PATH + "timetable/modules")
+    Observable<List<LessonGroup>> getLessonGroupsRx(@Query("group") Group group);
+
+    /**
      * Requests all lessons by the specified parameters.
      *
      * @param group    to get the correct lessons.
@@ -266,6 +372,12 @@ public interface RestClient {
      */
     @GET(ROOT_PATH + "timetable/lessons")
     Call<List<Lesson>> getLessons(@Query("group") Group group, @Query("module") String moduleId);
+
+    /**
+     * @see #getLessons(Group, String)
+     */
+    @GET(ROOT_PATH + "timetable/lessons")
+    Observable<List<Lesson>> getLessonsRx(@Query("group") Group group, @Query("module") String moduleId);
 
     /**
      * Requests all lessons by the specified parameters.
@@ -280,6 +392,13 @@ public interface RestClient {
                                   @Query("teacher") String teacherId);
 
     /**
+     * @see #getLessons(Group, String, String)
+     */
+    @GET(ROOT_PATH + "timetable/lessons")
+    Observable<List<Lesson>> getLessonsRx(@Query("group") Group group, @Query("module") String moduleId,
+                                  @Query("teacher") String teacherId);
+
+    /**
      * Requests all lessons by the specified parameters.
      *
      * @param group     to get the correct lessons.
@@ -290,6 +409,13 @@ public interface RestClient {
      */
     @GET(ROOT_PATH + "timetable/lessons")
     Call<List<Lesson>> getLessons(@Query("group") Group group, @Query("module") String moduleId,
+                                  @Query("teacher") String teacherId, @Query("pk") int pk);
+
+    /**
+     * @see #getLessons(Group, String, String, int)
+     */
+    @GET(ROOT_PATH + "timetable/lessons")
+    Observable<List<Lesson>> getLessonsRx(@Query("group") Group group, @Query("module") String moduleId,
                                   @Query("teacher") String teacherId, @Query("pk") int pk);
 
     ////////////////////////////////////////////////////////////////////
@@ -307,6 +433,12 @@ public interface RestClient {
     Call<List<SimpleModule>> getModules();
 
     /**
+     * @see #getModules()
+     */
+    @GET(ROOT_PATH + "modules")
+    Observable<List<SimpleModule>> getModulesRx();
+
+    /**
      * Requests a module by id with all information.
      *
      * @param moduleId to request.
@@ -314,6 +446,12 @@ public interface RestClient {
      */
     @GET(ROOT_PATH + "module")
     Call<Module> getModuleById(@Query("id") String moduleId);
+
+    /**
+     * @see #getModuleById(String)
+     */
+    @GET(ROOT_PATH + "module")
+    Observable<Module> getModuleByIdRx(@Query("id") String moduleId);
 
     ////////////////////////////////////////////////////////////////////
     //
@@ -330,6 +468,12 @@ public interface RestClient {
     Call<List<Exam>> getExams();
 
     /**
+     * @see #getExams()
+     */
+    @GET(ROOT_PATH + "exam")
+    Observable<List<Exam>> getExamsRx();
+
+    /**
      * Requests all lessons of the specified study group and module.
      *
      * @param studyGroup to search for.
@@ -338,6 +482,12 @@ public interface RestClient {
      */
     @GET(ROOT_PATH + "exam")
     Call<List<Exam>> getExams(@Query("group") String studyGroup, @Query("module") String moduleId);
+
+    /**
+     * @see #getExams(String, String)
+     */
+    @GET(ROOT_PATH + "exam")
+    Observable<List<Exam>> getExamsRx(@Query("group") String studyGroup, @Query("module") String moduleId);
 
     ////////////////////////////////////////////////////////////////////
     //
@@ -354,6 +504,12 @@ public interface RestClient {
     Call<List<SimplePerson>> getPersons();
 
     /**
+     * @see #getPersons()
+     */
+    @GET(ROOT_PATH + "persons")
+    Observable<List<SimplePerson>> getPersonsRx();
+
+    /**
      * Request the person by id.
      *
      * @param personId to get the person from.
@@ -361,6 +517,12 @@ public interface RestClient {
      */
     @GET(ROOT_PATH + "person")
     Call<Person> getPersonById(@Query("id") final String personId);
+
+    /**
+     * @see #getPersonById(String)
+     */
+    @GET(ROOT_PATH + "person")
+    Observable<Person> getPersonByIdRx(@Query("id") final String personId);
 
     ////////////////////////////////////////////////////////////////////
     //
@@ -377,6 +539,12 @@ public interface RestClient {
     Call<List<LostFound>> getLostAndFound();
 
     /**
+     * @see #getLostAndFound()
+     */
+    @GET(ROOT_PATH + "lostandfound")
+    Observable<List<LostFound>> getLostAndFoundRx();
+
+    /**
      * Request the lost and founds.
      *
      * @param content to search for.
@@ -384,6 +552,12 @@ public interface RestClient {
      */
     @GET(ROOT_PATH + "lostandfound")
     Call<List<LostFound>> getLostAndFound(@Query("search") final String content);
+
+    /**
+     * @see #getLostAndFound(String)
+     */
+    @GET(ROOT_PATH + "lostandfound")
+    Observable<List<LostFound>> getLostAndFoundRx(@Query("search") final String content);
 
     ////////////////////////////////////////////////////////////////////
     //
@@ -400,6 +574,12 @@ public interface RestClient {
     @GET(ROOT_PATH + "meal")
     Call<List<Meal>> getMeals(@Query("location") StudentWorkMunich location);
 
+    /**
+     * @see #getMeals(StudentWorkMunich)
+     */
+    @GET(ROOT_PATH + "meal")
+    Observable<List<Meal>> getMealsRx(@Query("location") StudentWorkMunich location);
+
     ////////////////////////////////////////////////////////////////////
     //
     // Public Transport
@@ -414,6 +594,13 @@ public interface RestClient {
      */
     @GET(ROOT_PATH + "publicTransport")
     Call<List<PublicTransport>> getPublicTransports(
+            @Query("location") final PublicTransportLocation location);
+
+    /**
+     * @see #getPublicTransports(PublicTransportLocation)
+     */
+    @GET(ROOT_PATH + "publicTransport")
+    Observable<List<PublicTransport>> getPublicTransportsRx(
             @Query("location") final PublicTransportLocation location);
 
 }
