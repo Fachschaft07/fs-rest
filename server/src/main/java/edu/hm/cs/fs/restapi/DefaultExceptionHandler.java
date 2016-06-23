@@ -28,7 +28,7 @@ public class DefaultExceptionHandler {
     ExceptionResponse resp = new ExceptionResponse();
 
     resp.setErrorCode(ErrorCode.getErrorCodeByException(e.getClass().getName()).getCode());
-    resp.setUrl(request.getRequestURL().toString());
+    resp.setUrl(request.getServletPath());
     resp.setException(e.getClass().getName());
     resp.setMessage(e.getMessage());
 
