@@ -1,12 +1,14 @@
 package edu.hm.cs.fs.restapi.parser;
 
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
+import com.google.common.collect.Ordering;
+import edu.hm.cs.fs.restapi.UrlHandler;
+import edu.hm.cs.fs.restapi.UrlInfo;
 import org.jsoup.helper.StringUtil;
 import org.springframework.util.StringUtils;
 
@@ -19,13 +21,13 @@ import edu.hm.cs.fs.common.model.simple.SimpleModule;
 import edu.hm.cs.fs.common.model.simple.SimplePerson;
 
 public class LessonFk07Parser extends AbstractXmlParser<Lesson> {
-    private static final String URL = "http://fi.cs.hm.edu/fi/rest/public/timetable/group/";
-    private static final String ROOT_NODE = "/timetable/day";
+    private static final UrlInfo INFO = UrlHandler.getUrlInfo(UrlHandler.Url.LESSONFK7);
+
     private final ByIdParser<Person> personParser;
     private final ByIdParser<Module> moduleParser;
 
     public LessonFk07Parser(final ByIdParser<Person> personParser, final ByIdParser<Module> moduleParser, Group group) {
-        super(URL + group.toString().toLowerCase(Locale.getDefault()) + ".xml", ROOT_NODE);
+        super(INFO.getRequestUrl() + group.toString().toLowerCase(Locale.getDefault()) + ".xml", INFO.getRoot());
         this.personParser = personParser;
         this.moduleParser = moduleParser;
     }
@@ -65,21 +67,35 @@ public class LessonFk07Parser extends AbstractXmlParser<Lesson> {
                             lesson.setHour(Integer.parseInt(startTimeStr.split(":")[0]));
                             lesson.setMinute(Integer.parseInt(startTimeStr.split(":")[1]));
                         }
-                        final String room = findByXPath(path + "/room/text()", XPathConstants.STRING, String.class);
+
+                        final Set<String> rooms = new TreeSet<String>();
+                        getXPathStream(path + "/room")
+                                .forEach(roomPath -> {
+                                    try {
+                                        final String room = findByXPath(roomPath + "/text()", XPathConstants.STRING, String.class);
+
+                                        if(room != null && !StringUtils.isEmpty(room)){
+                                            StringBuilder roomNameBuilder = new StringBuilder(room.toUpperCase());
+                                            roomNameBuilder.insert(2, '.');
+                                            rooms.add(roomNameBuilder.toString());
+                                        }
+
+                                    } catch (Exception e) {
+                                        throw new RuntimeException(e);
+                                    }
+                                });
+
+                        //final String room = findByXPath(path + "/room/text()", XPathConstants.STRING, String.class);
                         final String teacherId = findByXPath(path + "/teacher/text()", XPathConstants.STRING, String.class);
                         final String suffix = findByXPath(path + "/suffix/text()", XPathConstants.STRING, String.class);
                         final String moduleId = findByXPath(path + "/title/text()", XPathConstants.STRING, String.class);
 
                         personParser.getById(teacherId).map(SimplePerson::new).ifPresent(lesson::setTeacher);
-                        
-                        if(room != null && !StringUtils.isEmpty(room)){
-                          StringBuilder roomNameBuilder = new StringBuilder(room.toUpperCase());
-                          roomNameBuilder.insert(2, '.');
-                          lesson.setRoom(roomNameBuilder.toString());
-                        }
-                        
-                        lesson.setSuffix(suffix);
                         moduleParser.getById(moduleId).map(SimpleModule::new).ifPresent(lesson::setModule);
+
+                        lesson.setRooms(rooms);
+                        lesson.setSuffix(suffix);
+
                         return lesson;
                     } catch (Exception e) {
                         throw new RuntimeException(e);

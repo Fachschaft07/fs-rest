@@ -30,7 +30,7 @@ public class TimetableController {
      * @throws Exception
      */
     @ApiOperation(value = "getLessonGroupsByGroup")
-    @RequestMapping(method = RequestMethod.GET, value = "/rest/api/1/timetable/modules", produces = "application/json")
+    @RequestMapping(method = RequestMethod.GET, value = "/timetable/modules", produces = "application/json")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "group", value = "Group in format [A-Z]{2}[0-9]{1}[A-Z]{1}", required = true, dataType = "string", paramType = "query")
     })
@@ -87,7 +87,7 @@ public class TimetableController {
      * @throws Exception
      */
     @ApiOperation(value = "getLessons")
-    @RequestMapping(method = RequestMethod.GET, value = "/rest/api/1/timetable/lessons", produces = "application/json")
+    @RequestMapping(method = RequestMethod.GET, value = "/timetable/lessons", produces = "application/json")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "group", value = "Group in format [A-Z]{2}[0-9]{1}[A-Z]{1}", required = true, dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "module", value = "Module ID", required = true, dataType = "string", paramType = "query"),
@@ -133,7 +133,7 @@ public class TimetableController {
      * @throws Exception
      */
     @ApiOperation(value = "getLessonForTeacher")
-    @RequestMapping(method = RequestMethod.GET, value = "/rest/api/1/timetable/teacher", produces = "application/json")
+    @RequestMapping(method = RequestMethod.GET, value = "/timetable/teacher", produces = "application/json")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "teacherId", value = "Teacher in format [A-Z]*", required = true, dataType = "string", paramType = "query")
     })

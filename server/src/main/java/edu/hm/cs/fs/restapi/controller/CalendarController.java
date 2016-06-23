@@ -26,7 +26,7 @@ public class CalendarController {
      * @throws Exception
      */
     @ApiOperation(value = "getTermins")
-    @RequestMapping(method = RequestMethod.GET, value = "/rest/api/1/calendar/termin", produces = "application/json")
+    @RequestMapping(method = RequestMethod.GET, value = "/calendar/termin", produces = "application/json")
     @ApiResponses({
             @ApiResponse(code = 101, message = "java.lang.RuntimeException"),
             @ApiResponse(code = 103, message = "org.springframework.web.bind.MissingServletRequestParameterException"),
@@ -48,7 +48,7 @@ public class CalendarController {
      * @throws Exception
      */
     @ApiOperation(value = "getHolidays")
-    @RequestMapping(method = RequestMethod.GET, value = "/rest/api/1/calendar/holiday", produces = "application/json")
+    @RequestMapping(method = RequestMethod.GET, value = "/calendar/holiday", produces = "application/json")
     @ApiResponses({
             @ApiResponse(code = 101, message = "java.lang.RuntimeException"),
             @ApiResponse(code = 103, message = "org.springframework.web.bind.MissingServletRequestParameterException"),

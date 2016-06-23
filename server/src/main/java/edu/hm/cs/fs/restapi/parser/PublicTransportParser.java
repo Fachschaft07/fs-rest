@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import edu.hm.cs.fs.restapi.UrlHandler;
 import org.jsoup.nodes.Document;
 
 import edu.hm.cs.fs.common.constant.PublicTransportLocation;
@@ -19,8 +20,6 @@ import edu.hm.cs.fs.common.model.PublicTransport;
  * @author Fabio
  */
 public class PublicTransportParser extends AbstractHtmlParser<PublicTransport> {
-    private static final String MVV_LOTHSTR = "http://www.mvg-live.de/ims/dfiStaticAnzeige.svc?haltestelle=Hochschule+M%fcnchen+%28Lothstra%dfe%29&tram=checked";
-    private static final String MVV_PASING = "http://www.mvg-live.de/ims/dfiStaticAnzeige.svc?haltestelle=Avenariusplatz&bus=checked";
 
     /**
      * Creates a parser for the publicTransport public transport content.
@@ -28,7 +27,7 @@ public class PublicTransportParser extends AbstractHtmlParser<PublicTransport> {
      * @param location of the departure.
      */
     public PublicTransportParser(final PublicTransportLocation location) {
-        super(location == PublicTransportLocation.PASING ? MVV_PASING : MVV_LOTHSTR);
+        super(UrlHandler.getUrlInfo(UrlHandler.Url.PUBLICTRANSPORT, location.toString().toLowerCase()).getRequestUrl());
     }
 
     @Override

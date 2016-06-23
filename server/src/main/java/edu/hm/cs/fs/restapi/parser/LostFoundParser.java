@@ -9,6 +9,8 @@ import java.util.List;
 import javax.xml.xpath.XPathConstants;
 
 import edu.hm.cs.fs.common.model.LostFound;
+import edu.hm.cs.fs.restapi.UrlHandler;
+import edu.hm.cs.fs.restapi.UrlInfo;
 
 /**
  * The things which gone lost and found. (Url: <a href="http://fi.cs.hm.edu/fi/rest/public/lostfound"
@@ -17,13 +19,12 @@ import edu.hm.cs.fs.common.model.LostFound;
  * @author Fabio
  */
 public class LostFoundParser extends AbstractXmlParser<LostFound> {
-    private static final String URL = "http://fi.cs.hm.edu/fi/rest/public/lostfound.xml";
-    private static final String ROOT_NODE = "/lostfoundlist/lostfound";
+    private static final UrlInfo INFO = UrlHandler.getUrlInfo(UrlHandler.Url.LOSTFOUND);
 
-    private static final DateFormat DATE_FORMATTER = new SimpleDateFormat("yyyy-MM-dd");
+    private final DateFormat DATE_FORMATTER = new SimpleDateFormat("yyyy-MM-dd");
 
     public LostFoundParser() {
-        super(URL, ROOT_NODE);
+        super(INFO.getRequestUrl(), INFO.getRoot());
     }
 
     @Override
@@ -36,7 +37,9 @@ public class LostFoundParser extends AbstractXmlParser<LostFound> {
         //id = findByXPath(rootPath + "/id/text()", XPathConstants.STRING, String.class);
         subject = findByXPath(rootPath + "/subject/text()", XPathConstants.STRING, String.class);
         try {
-            date = DATE_FORMATTER.parse((String) findByXPath(rootPath + "/date/text()", XPathConstants.STRING, String.class));
+            synchronized (DATE_FORMATTER) {
+                date = DATE_FORMATTER.parse((String) findByXPath(rootPath + "/date/text()", XPathConstants.STRING, String.class));
+            }
         } catch (Exception e) {
             date = new Date(); // Just if the parsing failed...
         }

@@ -7,6 +7,8 @@ import java.util.Optional;
 
 import javax.xml.xpath.XPathConstants;
 
+import edu.hm.cs.fs.restapi.UrlHandler;
+import edu.hm.cs.fs.restapi.UrlInfo;
 import org.jsoup.helper.StringUtil;
 
 import edu.hm.cs.fs.common.constant.Day;
@@ -22,18 +24,16 @@ import edu.hm.cs.fs.common.model.Person;
  * @author Fabio
  */
 public class PersonParser extends AbstractXmlParser<Person> implements ByIdParser<Person> {
-    private static final String BASE_URL = "http://fi.cs.hm.edu/fi/rest/public/";
-    private static final String URL = BASE_URL + "person.xml";
-    private static final String ROOT_NODE = "/persons/person";
+    private static final UrlInfo INFO = UrlHandler.getUrlInfo(UrlHandler.Url.PERSON);
     private final String mPersonId;
 
     public PersonParser() {
-        super(URL, ROOT_NODE);
+        super(INFO.getRequestUrl() + "person.xml", INFO.getRoot());
         mPersonId = null;
     }
 
     private PersonParser(final String personId) {
-        super(BASE_URL + "person/name/" + personId + ".xml", "person");
+        super(INFO.getRequestUrl() + "person/name/" + personId + ".xml", "person");
         mPersonId = personId;
     }
 

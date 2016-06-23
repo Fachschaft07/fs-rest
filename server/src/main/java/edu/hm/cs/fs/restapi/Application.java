@@ -1,6 +1,6 @@
 package edu.hm.cs.fs.restapi;
 
-import edu.hm.cs.fs.restapi.parser.cache.*;
+
 import org.apache.log4j.Logger;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.web.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.PropertySource;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.service.ApiInfo;
@@ -23,6 +24,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableAutoConfiguration
 @SpringBootApplication
 @EnableSwagger2
+@PropertySource("classpath:swagger.properties")
 public class Application extends SpringBootServletInitializer {
 
     private final static Logger logger = Logger.getLogger(Application.class);
@@ -39,8 +41,7 @@ public class Application extends SpringBootServletInitializer {
      */
     public static void main(final String[] args) {
         SpringApplication.run(Application.class, args);
-
-        CacheUpdater.execute(() -> {
+        /*CacheUpdater.execute(() -> {
             try {
                 logger.info("Start updating cache files");
 
@@ -55,16 +56,16 @@ public class Application extends SpringBootServletInitializer {
             } catch (Exception e) {
                 logger.error(e.getMessage(), e);
             }
-        });
+        });*/
     }
 
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
-                .apiInfo(apiInfo())
                 .select()
-                .paths(PathSelectors.regex("/rest/api/1.*"))
-                .build();
+                    .paths(PathSelectors.regex("/(?!error|cache).+"))
+                    .build()
+                .apiInfo(apiInfo());
     }
 
     private ApiInfo apiInfo() {

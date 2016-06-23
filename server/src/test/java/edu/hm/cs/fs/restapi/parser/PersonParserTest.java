@@ -31,8 +31,8 @@ public class PersonParserTest {
         doReturn(PERSON_XML).when(parser).getUrl();
         final Optional<Person> person = parser.getById(personId);
 
-        assertThat(true, is(person.isPresent()));
-        assertThat(personId, is(equalTo(person.get().getId())));
+        assertThat(person.isPresent(), is(true));
+        assertThat(person.get().getId(), is(equalTo(personId)));
     }
 
     @Test
@@ -44,7 +44,7 @@ public class PersonParserTest {
 
         final Optional<Person> person = parser.getById(personId);
 
-        assertThat(false, is(person.isPresent()));
+        assertThat(person.isPresent(), is(false));
     }
 
     @Test
@@ -54,7 +54,21 @@ public class PersonParserTest {
 
         final List<Person> modules = parser.getAll();
 
-        assertThat(false, is(modules.isEmpty()));
+        assertThat(modules.isEmpty(), is(false));
+
+        verify(parser, atLeastOnce()).getAll();
+        verify(parser, atLeastOnce()).getUrl();
+        verify(parser, atLeastOnce()).getRootNode();
+        verify(parser, atLeast(modules.size())).onCreateItems(anyString());
+    }
+
+    @Test
+    public void testParsingLiveData() throws Exception {
+        PersonParser parser = spy(new PersonParser());
+
+        final List<Person> modules = parser.getAll();
+
+        assertThat(modules.isEmpty(), is(false));
 
         verify(parser, atLeastOnce()).getAll();
         verify(parser, atLeastOnce()).getUrl();

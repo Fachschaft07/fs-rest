@@ -6,11 +6,14 @@ import edu.hm.cs.fs.common.constant.Time;
 import edu.hm.cs.fs.common.model.simple.SimpleModule;
 import edu.hm.cs.fs.common.model.simple.SimplePerson;
 
+import java.util.List;
+import java.util.Set;
+
 public class Lesson {
     private Day day;
     private int hour;
     private int minute;
-    private String room;
+    private Set<String> rooms;
     private String suffix;
     private SimpleModule module;
     private SimplePerson teacher;
@@ -39,12 +42,12 @@ public class Lesson {
         this.minute = minute;
     }
 
-    public String getRoom() {
-        return room;
+    public Set<String> getRooms() {
+        return rooms;
     }
 
-    public void setRoom(String room) {
-        this.room = room;
+    public void setRooms(Set<String> rooms) {
+        this.rooms = rooms;
     }
 
     public String getSuffix() {

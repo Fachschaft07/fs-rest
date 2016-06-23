@@ -11,6 +11,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import edu.hm.cs.fs.restapi.UrlHandler;
+import edu.hm.cs.fs.restapi.UrlInfo;
 import org.jsoup.nodes.Document;
 
 import com.google.common.base.Strings;
@@ -32,7 +34,7 @@ public class MealParser extends AbstractHtmlParser<Meal> {
     private static final Pattern FOOD_TYPE_PATTERN = Pattern.compile("\\(([vf])");
 
     public MealParser(StudentWorkMunich studentWorkMunich) {
-        super(studentWorkMunich.getUrl());
+        super(UrlHandler.getUrlInfo(UrlHandler.Url.MEAL, studentWorkMunich.toString().toLowerCase().split("_")).getRequestUrl());
     }
 
     @Override

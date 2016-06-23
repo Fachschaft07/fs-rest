@@ -4,11 +4,10 @@ import com.google.common.base.Strings;
 import edu.hm.cs.fs.common.constant.Day;
 import edu.hm.cs.fs.common.constant.RoomType;
 import edu.hm.cs.fs.common.constant.Time;
-import edu.hm.cs.fs.common.model.Booking;
-import edu.hm.cs.fs.common.model.Person;
-import edu.hm.cs.fs.common.model.RoomOccupation;
-import edu.hm.cs.fs.common.model.TeacherBooking;
+import edu.hm.cs.fs.common.model.*;
 import edu.hm.cs.fs.common.model.simple.SimplePerson;
+import edu.hm.cs.fs.restapi.UrlHandler;
+import edu.hm.cs.fs.restapi.UrlInfo;
 import edu.hm.cs.fs.restapi.parser.cache.CachedModuleParser;
 import edu.hm.cs.fs.restapi.parser.cache.CachedPersonParser;
 
@@ -24,23 +23,23 @@ import java.util.stream.Collectors;
  * @author Fabio
  */
 public class BookingParser extends AbstractXmlParser<TeacherBooking> {
-    private static final String URL = "http://fi.cs.hm.edu/fi/rest/public/timetable/room.xml";
-    private static final String ROOT_NODE = "/list/timetable";
+    private static final UrlInfo INFO = UrlHandler.getUrlInfo(UrlHandler.Url.BOOKING);
+
+    private final ByIdParser<Person> personParser;
+    private final ByIdParser<Module> moduleParser;
 
     /**
      *
      */
-    public BookingParser() {
-        super(URL, ROOT_NODE);  
+    public BookingParser(ByIdParser<Person> personParser, ByIdParser<Module> moduleParser) {
+        super(INFO.getRequestUrl(), INFO.getRoot());
+        this.personParser = personParser;
+        this.moduleParser = moduleParser;
     }
 
     @Override
     public List<TeacherBooking> onCreateItems(final String rootPath) throws Exception {
         // Parse Elements...
-
-        final CachedPersonParser personParser = CachedPersonParser.getInstance();
-        final CachedModuleParser moduleParser = CachedModuleParser.getInstance();
-
 
         List<TeacherBooking> bookings = new ArrayList<>();
 

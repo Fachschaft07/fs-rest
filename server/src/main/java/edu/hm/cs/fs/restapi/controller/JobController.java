@@ -32,7 +32,7 @@ public class JobController {
      * @throws Exception
      */
     @ApiOperation(value = "getJobs")
-    @RequestMapping(method = RequestMethod.GET, value = "/rest/api/1/jobs", produces = "application/json")
+    @RequestMapping(method = RequestMethod.GET, value = "/jobs", produces = "application/json")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "search", value = "Content to search for", required = false, dataType = "string", paramType = "query", defaultValue = "")
     })
@@ -60,7 +60,7 @@ public class JobController {
      * @throws Exception
      */
     @ApiOperation(value = "getJobById")
-    @RequestMapping(method = RequestMethod.GET, value = "/rest/api/1/job", produces = "application/json")
+    @RequestMapping(method = RequestMethod.GET, value = "/job", produces = "application/json")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "ID of a job", required = true, dataType = "string", paramType = "query")
     })
@@ -75,6 +75,6 @@ public class JobController {
     public Job getJobById(@RequestParam(value = "id") String id) throws Exception {
         return new JobParser(new PersonParser())
                 .getById(id)
-                .orElseThrow(() -> new IllegalStateException("No module found with id '" + id + "'."));
+                .orElseThrow(() -> new IllegalStateException("No job found with id '" + id + "'."));
     }
 }

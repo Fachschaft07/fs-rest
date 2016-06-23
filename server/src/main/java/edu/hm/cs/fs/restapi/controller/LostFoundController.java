@@ -32,7 +32,7 @@ public class LostFoundController {
      * @throws Exception
      */
     @ApiOperation(value = "getLostAndFound")
-    @RequestMapping(method = RequestMethod.GET, value = "/rest/api/1/lostandfound", produces = "application/json")
+    @RequestMapping(method = RequestMethod.GET, value = "/lostandfound", produces = "application/json")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "search", value = "Content to search for", required = false, dataType = "string", paramType = "query", defaultValue = "")
     })

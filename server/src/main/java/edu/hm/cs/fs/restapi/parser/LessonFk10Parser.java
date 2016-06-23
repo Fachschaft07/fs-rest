@@ -3,11 +3,15 @@ package edu.hm.cs.fs.restapi.parser;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import edu.hm.cs.fs.restapi.UrlHandler;
+import edu.hm.cs.fs.restapi.UrlInfo;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -24,12 +28,12 @@ import edu.hm.cs.fs.common.model.simple.SimplePerson;
 
 public class LessonFk10Parser extends AbstractHtmlParser<Lesson> {
 
-    private static final String URL = "http://w3bw-o.hm.edu/iframe/studieninfo_vorlesungsplan.php";
+    private static final UrlInfo INFO = UrlHandler.getUrlInfo(UrlHandler.Url.LESSONFK10);
     private final static String USER_AGENT = "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:28.0) Gecko/20100101 Firefox/28.0";
     private final Group mGroup;
 
     public LessonFk10Parser(Group group) {
-        super(URL);
+        super(INFO.getRequestUrl());
         mGroup = group;
     }
 
@@ -37,19 +41,7 @@ public class LessonFk10Parser extends AbstractHtmlParser<Lesson> {
     public List<Lesson> getAll() throws Exception {
         List<Lesson> result = new ArrayList<>();
         try {
-            final Connection connect = Jsoup
-                    .connect(getUrl())
-                    .referrer(getUrl())
-                    .userAgent(USER_AGENT)
-                    .data("semestergr", getGroupId(mGroup))
-                    .data("modul", "")
-                    .data("lv", "")
-                    .data("dozent", "")
-                    .data("kategorie", "Stundenplan")
-                    .data("sem", "")
-                    .data("Stundenplan anzeigen", "suchen");
-            final Document document = connect.post();
-            result.addAll(readDoc(document));
+            result.addAll(readDoc(getDocument()));
         } catch (IOException e) {
             Logger.getGlobal().log(Level.SEVERE, "", e);
         }
@@ -100,7 +92,10 @@ public class LessonFk10Parser extends AbstractHtmlParser<Lesson> {
                 person.setName(name);
                 lesson.setTeacher(person);
 
-                lesson.setRoom(room);
+                Set<String> rooms = new TreeSet<String>();
+                rooms.add(room);
+
+                lesson.setRooms(rooms);
 
                 result.add(lesson);
             }
@@ -109,9 +104,29 @@ public class LessonFk10Parser extends AbstractHtmlParser<Lesson> {
         return result;
     }
 
-    private static String getGroupId(final Group group) throws Exception {
-        Connection conn = Jsoup.connect(URL);
-        conn = conn.referrer(URL);
+    @Override
+    public Document getDocument() throws IOException {
+        final Connection connect = Jsoup
+                .connect(getUrl())
+                .referrer(getUrl())
+                .userAgent(USER_AGENT)
+                .data("modul", "")
+                .data("lv", "")
+                .data("dozent", "")
+                .data("kategorie", "Stundenplan")
+                .data("sem", "")
+                .data("Stundenplan anzeigen", "suchen");
+
+        if(mGroup != null) {
+            connect.data("semestergr", getGroupId(mGroup));
+        }
+
+        return connect.post();
+    }
+
+    private static String getGroupId(final Group group) throws IOException {
+        Connection conn = Jsoup.connect(INFO.getRequestUrl());
+        conn = conn.referrer(INFO.getRequestUrl());
         conn = conn.userAgent(USER_AGENT);
         final Document doc = conn.get();
         final Elements scripts = doc.select("script");

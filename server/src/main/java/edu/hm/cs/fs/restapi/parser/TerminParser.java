@@ -11,6 +11,8 @@ import javax.xml.xpath.XPathConstants;
 import com.google.common.base.Strings;
 
 import edu.hm.cs.fs.common.model.Termin;
+import edu.hm.cs.fs.restapi.UrlHandler;
+import edu.hm.cs.fs.restapi.UrlInfo;
 
 /**
  * The appointments at the faculty 07. (Url: <a href="http://fi.cs.hm.edu/fi/rest/public/termin.xml"
@@ -19,11 +21,10 @@ import edu.hm.cs.fs.common.model.Termin;
  * @author Fabio
  */
 public class TerminParser extends AbstractXmlParser<Termin> {
-    private static final String URL = "http://fi.cs.hm.edu/fi/rest/public/termin.xml";
-    private static final String ROOT_NODE = "/terminlist/termin";
+    private static final UrlInfo INFO = UrlHandler.getUrlInfo(UrlHandler.Url.TERMIN);
 
     public TerminParser() {
-        super(URL, ROOT_NODE);
+        super(INFO.getRequestUrl(), INFO.getRoot());
     }
 
     @Override

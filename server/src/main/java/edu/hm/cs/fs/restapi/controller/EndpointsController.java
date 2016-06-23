@@ -26,7 +26,7 @@ public class EndpointsController {
     }
 
     @ApiOperation(value = "getSiteMap")
-    @RequestMapping(method = RequestMethod.GET, value = "/rest/api/1", produces = "application/json")
+    @RequestMapping(method = RequestMethod.GET, value = "/", produces = "application/json")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Success")
     })
@@ -34,6 +34,9 @@ public class EndpointsController {
         if (urls == null) {
             urls = this.handlerMapping.getHandlerMethods().entrySet().stream()
                     .flatMap(entry -> entry.getKey().getPatternsCondition().getPatterns().stream())
+                    .map(entry -> {
+                        return entry.substring(1);
+                    })
                     .collect(Collectors.toList());
         }
 

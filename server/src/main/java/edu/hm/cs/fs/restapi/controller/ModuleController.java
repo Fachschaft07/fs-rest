@@ -24,7 +24,7 @@ public class ModuleController {
      * @throws Exception
      */
     @ApiOperation(value = "getModules")
-    @RequestMapping(method = RequestMethod.GET, value = "/rest/api/1/modules", produces = "application/json")
+    @RequestMapping(method = RequestMethod.GET, value = "/modules", produces = "application/json")
     @ApiResponses({
             @ApiResponse(code = 101, message = "java.lang.RuntimeException"),
             @ApiResponse(code = 103, message = "org.springframework.web.bind.MissingServletRequestParameterException"),
@@ -47,7 +47,7 @@ public class ModuleController {
      * @throws Exception
      */
     @ApiOperation(value = "getModuleById")
-    @RequestMapping(method = RequestMethod.GET, value = "/rest/api/1/module", produces = "application/json")
+    @RequestMapping(method = RequestMethod.GET, value = "/module", produces = "application/json")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "ID of a module", required = true, dataType = "string", paramType = "query")
     })
