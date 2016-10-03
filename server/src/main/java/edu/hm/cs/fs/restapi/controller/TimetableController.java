@@ -107,7 +107,7 @@ public class TimetableController {
                                    @RequestParam(value = "teacher", defaultValue = "") String teacherId,
                                    @RequestParam(value = "pk", defaultValue = "0") int pk) throws Exception {
         return CachedLessonParser.getInstance(group).getAll().parallelStream()
-                .filter(lesson -> moduleId.equals(lesson.getModule().getId()))
+                .filter(lesson -> lesson.getModule()!=null&&moduleId.equals(lesson.getModule().getId()))
                 .filter(lesson -> !Strings.isNullOrEmpty(teacherId) && lesson.getTeacher() != null)
                 .filter(lesson -> teacherId.equals(lesson.getTeacher().getId()))
                 .filter(lesson -> {
