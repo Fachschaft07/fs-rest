@@ -16,6 +16,8 @@ import edu.hm.cs.fs.common.constant.Day;
 import edu.hm.cs.fs.common.constant.RoomType;
 import edu.hm.cs.fs.common.constant.Time;
 import edu.hm.cs.fs.common.model.RoomOccupation;
+import edu.hm.cs.fs.restapi.UrlHandler;
+import edu.hm.cs.fs.restapi.UrlInfo;
 
 /**
  * All the rooms with their occupancy. (Url: <a href="http://fi.cs.hm.edu/fi/rest/public/timetable/room"
@@ -24,14 +26,13 @@ import edu.hm.cs.fs.common.model.RoomOccupation;
  * @author Fabio
  */
 public class OccupiedParser extends AbstractXmlParser<RoomOccupation> {
-    private static final String URL = "http://fi.cs.hm.edu/fi/rest/public/timetable/room.xml";
-    private static final String ROOT_NODE = "/list/timetable";
-    
+    private static final UrlInfo INFO = UrlHandler.getUrlInfo(UrlHandler.Url.OCCUPIED);
+
     /**
      *
      */
     public OccupiedParser() {
-        super(URL, ROOT_NODE);  
+        super(INFO.getRequestUrl(), INFO.getRoot());
     }
 
     @Override

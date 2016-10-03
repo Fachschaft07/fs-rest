@@ -12,6 +12,8 @@ import java.util.stream.Collectors;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
+import edu.hm.cs.fs.restapi.UrlHandler;
+import edu.hm.cs.fs.restapi.UrlInfo;
 import org.apache.log4j.Logger;
 import org.jsoup.helper.StringUtil;
 import org.springframework.util.StringUtils;
@@ -32,15 +34,14 @@ import edu.hm.cs.fs.common.model.simple.SimplePerson;
  */
 public class BlackboardParser extends AbstractXmlParser<BlackboardEntry>
     implements ByIdParser<BlackboardEntry> {
-  private static final String URL = "http://fi.cs.hm.edu/fi/rest/public/news.xml";
-  private static final String ROOT_NODE = "/newslist/news";
+  private static final UrlInfo INFO = UrlHandler.getUrlInfo(UrlHandler.Url.BLACKBOARD);
 
   private final Logger logger = Logger.getLogger(getClass());
 
   private final ByIdParser<Person> personParser;
 
   public BlackboardParser(ByIdParser<Person> personParser) {
-    super(URL, ROOT_NODE);
+    super(INFO.getRequestUrl(), INFO.getRoot());
     this.personParser = personParser;
   }
 

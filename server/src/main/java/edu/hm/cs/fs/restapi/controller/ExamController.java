@@ -30,7 +30,7 @@ public class ExamController {
      * @throws Exception
      */
     @ApiOperation(value = "getExams")
-    @RequestMapping(method = RequestMethod.GET, value = "/rest/api/1/exam", produces = "application/json")
+    @RequestMapping(method = RequestMethod.GET, value = "/exam", produces = "application/json")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "group", value = "Group in format [A-Z]{2}[0-9]{1}[A-Z]{1}", required = false, dataType = "string", paramType = "query", defaultValue = ""),
             @ApiImplicitParam(name = "code", value = "Code of the exam (eg. 007)", required = false, dataType = "string", paramType = "query", defaultValue = ""),

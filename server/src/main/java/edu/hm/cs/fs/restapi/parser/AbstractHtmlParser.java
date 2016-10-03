@@ -1,5 +1,7 @@
 package edu.hm.cs.fs.restapi.parser;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,11 +28,7 @@ public abstract class AbstractHtmlParser<T> extends AbstractContentParser<T> {
     @Override
     public List<T> getAll() throws Exception {
         final List<T> result = new ArrayList<>();
-        final Document document = Jsoup.parse(
-                new URL(getUrl()), // URL to getAll
-                (int) TimeUnit.MILLISECONDS.convert(10, TimeUnit.SECONDS) // Timeout
-        );
-        result.addAll(readDoc(document));
+        result.addAll(readDoc(getDocument()));
         return result;
     }
 
@@ -41,4 +39,16 @@ public abstract class AbstractHtmlParser<T> extends AbstractContentParser<T> {
      * @return a list with objects.
      */
     public abstract List<T> readDoc(final Document document);
+
+    /**
+     * Read the document.
+     *
+     * @return an document
+     */
+    public Document getDocument() throws MalformedURLException, IOException{
+        return Jsoup.parse(
+                new URL(getUrl()), // URL to getAll
+                (int) TimeUnit.MILLISECONDS.convert(10, TimeUnit.SECONDS) // Timeout
+        );
+    }
 }

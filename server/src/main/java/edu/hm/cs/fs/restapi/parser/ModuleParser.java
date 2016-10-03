@@ -9,6 +9,8 @@ import java.util.stream.Collectors;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
+import edu.hm.cs.fs.restapi.UrlHandler;
+import edu.hm.cs.fs.restapi.UrlInfo;
 import org.jsoup.helper.StringUtil;
 
 import com.google.common.base.Strings;
@@ -31,18 +33,17 @@ import edu.hm.cs.fs.common.model.simple.SimplePerson;
  * @author Fabio
  */
 public class ModuleParser extends AbstractXmlParser<Module> implements ByIdParser<Module> {
-    private static final String BASE_URL = "http://fi.cs.hm.edu/fi/rest/public/";
-    private static final String URL = BASE_URL + "modul.xml";
-    private static final String ROOT_NODE = "/modullist/modul";
+    private static final UrlInfo INFO = UrlHandler.getUrlInfo(UrlHandler.Url.MODULE);
+
     private final ByIdParser<Person> personParser;
 
     public ModuleParser(ByIdParser<Person> personParser) {
-        super(URL, ROOT_NODE);
+        super(INFO.getRequestUrl() + "modul.xml", INFO.getRoot());
         this.personParser = personParser;
     }
 
     private ModuleParser(ByIdParser<Person> personParser, String moduleId) {
-        super(BASE_URL + "modul/title/" + moduleId + ".xml", "modul");
+        super(INFO.getRequestUrl() + "modul/title/" + moduleId + ".xml", "modul");
         this.personParser = personParser;
     }
 

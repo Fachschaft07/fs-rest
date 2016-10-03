@@ -37,7 +37,7 @@ public class BlackboardController {
      * @throws Exception
      */
     @ApiOperation(value = "getBlackboard")
-    @RequestMapping(method = RequestMethod.GET, value = "/rest/api/1/blackboard", produces = "application/json")
+    @RequestMapping(method = RequestMethod.GET, value = "/blackboard", produces = "application/json")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "search", value = "Content to search for", required = false, dataType = "string", paramType = "query", defaultValue = ""),
             @ApiImplicitParam(name = "since", value = "Timestamp", required = false, dataType = "long", paramType = "query", defaultValue = "0"),

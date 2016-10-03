@@ -11,6 +11,8 @@ import java.util.Locale;
 import javax.xml.xpath.XPathConstants;
 
 import edu.hm.cs.fs.common.model.News;
+import edu.hm.cs.fs.restapi.UrlHandler;
+import edu.hm.cs.fs.restapi.UrlInfo;
 
 /**
  * A modul can be choosen by a student. Some moduls are mandatory. (Url: <a
@@ -19,13 +21,12 @@ import edu.hm.cs.fs.common.model.News;
  * @author Fabio
  */
 public class NewsParser extends AbstractXmlParser<News> {
-    private static final String URL = "http://fs.cs.hm.edu/category/news/feed/";
-    private static final String ROOT_NODE = "/rss/channel/item";
-    
+    private static final UrlInfo INFO = UrlHandler.getUrlInfo(UrlHandler.Url.NEWS);
+
     private final DateFormat DATE_PARSER = new SimpleDateFormat("EEE, dd MMM yyyy kk:mm:ss Z", Locale.ENGLISH);
     
     public NewsParser() {
-        super(URL, ROOT_NODE);
+        super(INFO.getRequestUrl(), INFO.getRoot());
     }
 
     @Override
@@ -48,7 +49,9 @@ public class NewsParser extends AbstractXmlParser<News> {
             XPathConstants.STRING, String.class);
         
         try {
-          date = DATE_PARSER.parse(pubDate);
+            synchronized (DATE_PARSER) {
+                date = DATE_PARSER.parse(pubDate);
+            }
         } catch (ParseException e) {
           date = null;
         }

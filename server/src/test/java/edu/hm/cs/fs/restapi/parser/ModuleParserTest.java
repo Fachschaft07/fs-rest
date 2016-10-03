@@ -36,8 +36,8 @@ public class ModuleParserTest {
         doReturn(MODULE_XML).when(parser).getUrl();
         final Optional<Module> module = parser.getById(moduleId);
 
-        assertThat(true, is(module.isPresent()));
-        assertThat(moduleId, is(equalTo(module.get().getId())));
+        assertThat(module.isPresent(), is(true));
+        assertThat(module.get().getId(), is(equalTo(moduleId)));
     }
 
     @Test
@@ -51,7 +51,7 @@ public class ModuleParserTest {
         doReturn(MODULE_XML).when(parser).getUrl();
         final Optional<Module> module = parser.getById(moduleId);
 
-        assertThat(false, is(module.isPresent()));
+        assertThat(module.isPresent(), is(false));
     }
 
     @Test
@@ -64,7 +64,22 @@ public class ModuleParserTest {
 
         final List<Module> modules = parser.getAll();
 
-        assertThat(false, is(modules.isEmpty()));
+        assertThat(modules.isEmpty(), is(false));
+
+        verify(parser, atLeastOnce()).getAll();
+        verify(parser, atLeastOnce()).getUrl();
+        verify(parser, atLeastOnce()).getRootNode();
+        verify(parser, atLeast(modules.size())).onCreateItems(anyString());
+    }
+
+    @Test
+    public void testParsingLiveData() throws Exception {
+        PersonParser personParser = new PersonParser();
+        ModuleParser parser = spy(new ModuleParser(personParser));
+
+        final List<Module> modules = parser.getAll();
+
+        assertThat(modules.isEmpty(), is(false));
 
         verify(parser, atLeastOnce()).getAll();
         verify(parser, atLeastOnce()).getUrl();

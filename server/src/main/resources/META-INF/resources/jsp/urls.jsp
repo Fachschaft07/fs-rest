@@ -6,7 +6,7 @@
 			<h1>Endpoints</h1>
 			<ul>
 			<c:forEach items="${urls}" var="entry">
-				<c:if test="${ entry ne '/error' and entry ne '/rest/api/1/cache' }">
+				<c:if test="${ entry ne '' and entry ne 'error' and entry ne 'cache' and entry ne 'v2/api-docs' and entry ne 'configuration/security' and entry ne 'configuration/ui' and entry ne 'swagger-resources' }">
 					<li>
 						<a href="${entry}">${entry}</a>
 					</li>

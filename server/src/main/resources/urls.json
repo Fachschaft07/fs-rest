@@ -1,0 +1,91 @@
+{
+  "blackboard": {
+    "type": "XML",
+    "url": "http://fi.cs.hm.edu/fi/rest/public/news.xml",
+    "root": "/newslist/news"
+  },
+  "booking": {
+    "type": "XML",
+    "url": "http://fi.cs.hm.edu/fi/rest/public/timetable/room.xml",
+    "root": "/list/timetable"
+  },
+  "exam": {
+    "type": "XML",
+    "url": "http://fi.cs.hm.edu/fi/rest/public/exam/date.xml",
+    "root": "/examdate/day"
+  },
+  "job": {
+    "type": "XML",
+    "url": "http://fi.cs.hm.edu/fi/rest/public/job.xml",
+    "root": "/joblist/job"
+  },
+  "lessonfk7": {
+    "type": "XML",
+    "url": "http://fi.cs.hm.edu/fi/rest/public/timetable/group/",
+    "root": "/timetable/day"
+  },
+  "lessonfk10": {
+    "type": "HTML",
+    "url": "http://w3bw-o.hm.edu/iframe/studieninfo_vorlesungsplan.php"
+  },
+  "lostfound": {
+    "type": "XML",
+    "url": "http://fi.cs.hm.edu/fi/rest/public/lostfound.xml",
+    "root": "/lostfoundlist/lostfound"
+  },
+  "meal": {
+    "type": "HTML",
+    "url": {
+      "mensa": {
+        "leopoldstrasse": "http://www.studentenwerk-muenchen.de/mensa/speiseplan/speiseplan_411_-de.html",
+        "martinsried": "http://www.studentenwerk-muenchen.de/mensa/speiseplan/speiseplan_412_-de.html",
+        "grosshadern": "http://www.studentenwerk-muenchen.de/mensa/speiseplan/speiseplan_414_-de.html",
+        "arcisstrasse": "http://www.studentenwerk-muenchen.de/mensa/speiseplan/speiseplan_421_-de.html",
+        "garching": "http://www.studentenwerk-muenchen.de/mensa/speiseplan/speiseplan_422_-de.html",
+        "weihenstephan": "http://www.studentenwerk-muenchen.de/mensa/speiseplan/speiseplan_423_-de.html",
+        "lothstrasse": "http://www.studentenwerk-muenchen.de/mensa/speiseplan/speiseplan_431_-de.html",
+        "pasing": "http://www.studentenwerk-muenchen.de/mensa/speiseplan/speiseplan_432_-de.html",
+        "rosenheim": "http://www.studentenwerk-muenchen.de/mensa/speiseplan/speiseplan_441_-de.html"
+      },
+      "stucafe": {
+        "adalberstrasse": "http://www.studentenwerk-muenchen.de/mensa/speiseplan/speiseplan_512_-de.html",
+        "garching": "http://www.studentenwerk-muenchen.de/mensa/speiseplan/speiseplan_524_-de.html",
+        "akademie": "http://www.studentenwerk-muenchen.de/mensa/speiseplan/speiseplan_526_-de.html",
+        "boltzmannstrasse": "http://www.studentenwerk-muenchen.de/mensa/speiseplan/speiseplan_527_-de.html",
+        "karlstrasse": "http://www.studentenwerk-muenchen.de/mensa/speiseplan/speiseplan_532_-de.html"
+      }
+    }
+  },
+  "module": {
+    "type": "XML",
+    "url": "http://fi.cs.hm.edu/fi/rest/public/",
+    "root": "/modullist/modul"
+  },
+  "news": {
+    "type": "XML",
+    "url": "https://fs.cs.hm.edu/category/news/feed/",
+    "root": "/rss/channel/item"
+  },
+  "occupied": {
+    "type": "XML",
+    "url": "http://fi.cs.hm.edu/fi/rest/public/timetable/room.xml",
+    "root": "/list/timetable"
+  },
+  "person": {
+    "type": "XML",
+    "url": "http://fi.cs.hm.edu/fi/rest/public/",
+    "root": "/persons/person"
+  },
+  "publictransport": {
+    "type": "HTML",
+    "url": {
+      "lothstr": "http://www.mvg-live.de/ims/dfiStaticAnzeige.svc?haltestelle=Hochschule+M%fcnchen+%28Lothstra%dfe%29&tram=checked",
+      "pasing": "http://www.mvg-live.de/ims/dfiStaticAnzeige.svc?haltestelle=Avenariusplatz&bus=checked"
+    }
+  },
+  "termin": {
+    "type": "XML",
+    "url": "http://fi.cs.hm.edu/fi/rest/public/termin.xml",
+    "root": "/terminlist/termin"
+  }
+}

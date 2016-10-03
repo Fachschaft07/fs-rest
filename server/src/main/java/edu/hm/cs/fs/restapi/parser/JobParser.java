@@ -18,6 +18,8 @@ import edu.hm.cs.fs.common.model.Group;
 import edu.hm.cs.fs.common.model.Job;
 import edu.hm.cs.fs.common.model.Person;
 import edu.hm.cs.fs.common.model.simple.SimplePerson;
+import edu.hm.cs.fs.restapi.UrlHandler;
+import edu.hm.cs.fs.restapi.UrlInfo;
 
 /**
  * Url: <a href="http://fi.cs.hm.edu/fi/rest/public/job">http://fi.cs.hm.edu/fi/rest
@@ -26,8 +28,8 @@ import edu.hm.cs.fs.common.model.simple.SimplePerson;
  * @author Fabio
  */
 public class JobParser extends AbstractXmlParser<Job> implements ByIdParser<Job> {
-    private static final String URL = "http://fi.cs.hm.edu/fi/rest/public/job.xml";
-    private static final String ROOT_NODE = "/joblist/job";
+    private static final UrlInfo INFO = UrlHandler.getUrlInfo(UrlHandler.Url.JOB);
+
     private final DateFormat dateParser = new SimpleDateFormat("yyyy-MM-dd");
     private final ByIdParser<Person> personParser;
 
@@ -35,7 +37,7 @@ public class JobParser extends AbstractXmlParser<Job> implements ByIdParser<Job>
      * Create a parser for job entries.
      */
     public JobParser(final ByIdParser<Person> personParser) {
-        super(URL, ROOT_NODE);
+        super(INFO.getRequestUrl(), INFO.getRoot());
         this.personParser = personParser;
     }
 
@@ -57,7 +59,9 @@ public class JobParser extends AbstractXmlParser<Job> implements ByIdParser<Job>
         }
         Date expire;
         try {
-            expire = dateParser.parse(findByXPath(rootPath + "/expire/text()", XPathConstants.STRING, String.class));
+            synchronized (dateParser){
+                expire = dateParser.parse(findByXPath(rootPath + "/expire/text()", XPathConstants.STRING, String.class));
+            }
         } catch (ParseException e) {
             expire = new Date();
         }

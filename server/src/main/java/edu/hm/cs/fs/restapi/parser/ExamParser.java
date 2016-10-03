@@ -8,6 +8,8 @@ import java.util.stream.Collectors;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
+import edu.hm.cs.fs.restapi.UrlHandler;
+import edu.hm.cs.fs.restapi.UrlInfo;
 import org.jsoup.helper.StringUtil;
 
 import com.google.common.base.Strings;
@@ -29,14 +31,14 @@ import edu.hm.cs.fs.common.model.simple.SimplePerson;
  * @author Fabio
  */
 public class ExamParser extends AbstractXmlParser<Exam> {
-    private static final String URL = "http://fi.cs.hm.edu/fi/rest/public/exam/date.xml";
-    private static final String ROOT_NODE = "/examdate/day";
-    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+    private static final UrlInfo INFO = UrlHandler.getUrlInfo(UrlHandler.Url.EXAM);
+
+    private final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm");
     private final ByIdParser<Person> personParser;
     private final ByIdParser<Module> moduleParser;
 
     public ExamParser(final ByIdParser<Person> personParser, final ByIdParser<Module> moduleParser) {
-        super(URL, ROOT_NODE);
+        super(INFO.getRequestUrl(), INFO.getRoot());
         this.personParser = personParser;
         this.moduleParser = moduleParser;
     }
@@ -47,8 +49,13 @@ public class ExamParser extends AbstractXmlParser<Exam> {
         return getXPathStream(rootPath + "/time")
                 .map(path -> {
                     try {
-                        final Date timestamp = DATE_FORMAT.parse(date + " " + findByXPath(path + "/time/text()",
-                                XPathConstants.STRING, String.class));
+                        Date parsed = new Date();
+                        synchronized (DATE_FORMAT) {
+                            parsed = DATE_FORMAT.parse(date + " " + findByXPath(path + "/time/text()",
+                                    XPathConstants.STRING, String.class));
+                        }
+
+                        final Date timestamp = parsed;
 
                         return getXPathStream(path + "/examination")
                                 .map(basePath -> {
