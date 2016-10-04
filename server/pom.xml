@@ -12,7 +12,7 @@
 
     <artifactId>rest-api-server</artifactId>
     <packaging>jar</packaging>
-    <version>${revision}</version>
+    <version>0.9.6</version>
 
     <properties>
         <java.version>1.8</java.version>
@@ -116,6 +116,7 @@
         </plugins>
     </build>
 
+    <!--
     <repositories>
         <repository>
             <id>spring-releases</id>
@@ -128,4 +129,5 @@
             <url>https://repo.spring.io/libs-release</url>
         </pluginRepository>
     </pluginRepositories>
+    -->
 </project>

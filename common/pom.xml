@@ -11,7 +11,7 @@
 
     <artifactId>rest-api-common</artifactId>
     <packaging>jar</packaging>
-    <version>${revision}</version>
+    <version>0.9.6</version>
 
     <properties>
         <!-- Version 1.7 is important for the Android Developer Team -->
