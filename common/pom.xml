@@ -11,6 +11,7 @@
 
     <artifactId>rest-api-common</artifactId>
     <packaging>jar</packaging>
+    <version>${revision}</version>
 
     <properties>
         <!-- Version 1.7 is important for the Android Developer Team -->
@@ -23,7 +24,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.3</version>
+                    <version>${plugin.maven.version}</version>
                 </plugin>
             </plugins>
         </pluginManagement>

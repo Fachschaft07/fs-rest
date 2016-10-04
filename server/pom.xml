@@ -12,6 +12,7 @@
 
     <artifactId>rest-api-server</artifactId>
     <packaging>jar</packaging>
+    <version>${revision}</version>
 
     <properties>
         <java.version>1.8</java.version>
@@ -19,6 +20,7 @@
         <guava.version>18.0</guava.version>
         <json.version>20141113</json.version>
         <jsoup.version>1.8.1</jsoup.version>
+        <swagger.version>2.2.2</swagger.version>
 		<start-class>edu.hm.cs.fs.restapi.Application</start-class>
 		<main.basedir>${basedir}/../..</main.basedir>
         <m2eclipse.wtp.contextRoot>/</m2eclipse.wtp.contextRoot>
@@ -28,7 +30,7 @@
         <dependency>
             <groupId>edu.hm.cs.fs</groupId>
             <artifactId>rest-api-common</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${revision}</version>
         </dependency>
 
 		<dependency>
@@ -72,13 +74,13 @@
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
-            <version>2.2.2</version>
+            <version>${swagger.version}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
-            <version>2.2.2</version>
+            <version>${swagger.version}</version>
             <scope>compile</scope>
         </dependency>
         <!-- Test Frameworks -->
@@ -95,7 +97,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.3</version>
+                    <version>${plugin.maven.version}</version>
                 </plugin>
             </plugins>
         </pluginManagement>
