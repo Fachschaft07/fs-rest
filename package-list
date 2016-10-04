@@ -1,0 +1,9 @@
+edu.hm.cs.fs.common.constant
+edu.hm.cs.fs.common.model
+edu.hm.cs.fs.common.model.simple
+edu.hm.cs.fs.restapi
+edu.hm.cs.fs.restapi.controller
+edu.hm.cs.fs.restapi.parser
+edu.hm.cs.fs.restapi.parser.cache
+edu.hm.cs.fs.restclient
+edu.hm.cs.fs.restclient.typeadapter
