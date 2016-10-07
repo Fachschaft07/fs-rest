@@ -3,6 +3,8 @@ package edu.hm.cs.fs.restapi.parser;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -100,7 +102,11 @@ public class LessonFk10Parser extends AbstractHtmlParser<Lesson> {
                 person.setName(name);
                 lesson.setTeacher(person);
 
+                Set<String> rooms = new TreeSet<String>();
+                rooms.add(room);
+
                 lesson.setRoom(room);
+                lesson.setRooms(rooms);
 
                 result.add(lesson);
             }

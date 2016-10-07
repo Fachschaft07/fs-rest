@@ -2,6 +2,8 @@ package edu.hm.cs.fs.restapi.parser;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 import javax.xml.xpath.XPathConstants;
@@ -65,21 +67,35 @@ public class LessonFk07Parser extends AbstractXmlParser<Lesson> {
                             lesson.setHour(Integer.parseInt(startTimeStr.split(":")[0]));
                             lesson.setMinute(Integer.parseInt(startTimeStr.split(":")[1]));
                         }
-                        final String room = findByXPath(path + "/room/text()", XPathConstants.STRING, String.class);
+
+                        final Set<String> rooms = new TreeSet<String>();
+                        getXPathStream(path + "/room")
+                                .forEach(roomPath -> {
+                                    try {
+                                        final String room = findByXPath(roomPath + "/text()", XPathConstants.STRING, String.class);
+
+                                        if(room != null && !StringUtils.isEmpty(room)){
+                                            StringBuilder roomNameBuilder = new StringBuilder(room.toUpperCase());
+                                            roomNameBuilder.insert(2, '.');
+                                            rooms.add(roomNameBuilder.toString());
+                                            lesson.setRoom(roomNameBuilder.toString());
+                                        }
+
+                                    } catch (Exception e) {
+                                        throw new RuntimeException(e);
+                                    }
+                                });
+
                         final String teacherId = findByXPath(path + "/teacher/text()", XPathConstants.STRING, String.class);
                         final String suffix = findByXPath(path + "/suffix/text()", XPathConstants.STRING, String.class);
                         final String moduleId = findByXPath(path + "/title/text()", XPathConstants.STRING, String.class);
 
                         personParser.getById(teacherId).map(SimplePerson::new).ifPresent(lesson::setTeacher);
-                        
-                        if(room != null && !StringUtils.isEmpty(room)){
-                          StringBuilder roomNameBuilder = new StringBuilder(room.toUpperCase());
-                          roomNameBuilder.insert(2, '.');
-                          lesson.setRoom(roomNameBuilder.toString());
-                        }
-                        
-                        lesson.setSuffix(suffix);
                         moduleParser.getById(moduleId).map(SimpleModule::new).ifPresent(lesson::setModule);
+
+                        lesson.setRooms(rooms);
+                        lesson.setSuffix(suffix);
+
                         return lesson;
                     } catch (Exception e) {
                         throw new RuntimeException(e);
