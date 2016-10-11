@@ -1,22 +1,21 @@
 package edu.hm.cs.fs.restapi.parser;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-
+import edu.hm.cs.fs.common.model.Presence;
+import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import edu.hm.cs.fs.common.model.Presence;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * @author Fabio
  */
 public class PresenceParser extends AbstractJsonParser<Presence> {
+    private final static Logger LOG = Logger.getLogger(PresenceParser.class);
     private final static String URL = "http://fs.cs.hm.edu/presence/?app=true";
 
     public PresenceParser() {
@@ -39,7 +38,7 @@ public class PresenceParser extends AbstractJsonParser<Presence> {
                     })
                     .collect(Collectors.toList());
         } catch (JSONException e) {
-            Logger.getGlobal().log(Level.SEVERE, "", e);
+            LOG.error(e);
         }
         return result;
     }

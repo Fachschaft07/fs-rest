@@ -25,7 +25,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 public class Application extends SpringBootServletInitializer {
 
-    private final static Logger logger = Logger.getLogger(Application.class);
+    private final static Logger LOG = Logger.getLogger(Application.class);
 
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
@@ -42,7 +42,7 @@ public class Application extends SpringBootServletInitializer {
 
         CacheUpdater.execute(() -> {
             try {
-                logger.info("Start updating cache files");
+                LOG.info("Start updating cache files");
 
                 CachedPersonParser.getInstance().updateCache();
                 CachedModuleParser.getInstance().updateCache();
@@ -51,9 +51,9 @@ public class Application extends SpringBootServletInitializer {
                 CachedExamParser.getInstance().updateCache();
 
 
-                logger.info("Finished updating cache files");
+                LOG.info("Finished updating cache files");
             } catch (Exception e) {
-                logger.error(e.getMessage(), e);
+                LOG.error(e.getMessage(), e);
             }
         });
     }

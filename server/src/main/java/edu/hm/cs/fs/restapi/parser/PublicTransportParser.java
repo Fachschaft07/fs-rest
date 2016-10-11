@@ -1,14 +1,13 @@
 package edu.hm.cs.fs.restapi.parser;
 
+import edu.hm.cs.fs.common.constant.PublicTransportLocation;
+import edu.hm.cs.fs.common.model.PublicTransport;
+import org.jsoup.nodes.Document;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import org.jsoup.nodes.Document;
-
-import edu.hm.cs.fs.common.constant.PublicTransportLocation;
-import edu.hm.cs.fs.common.model.PublicTransport;
 
 /**
  * The publicTransport with every information.<br> (Url (Lothstr.): <a

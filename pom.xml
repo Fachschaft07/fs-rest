@@ -12,7 +12,7 @@
 
     <groupId>edu.hm.cs.fs</groupId>
     <artifactId>rest-api</artifactId>
-    <version>0.9.6</version> <!-- TODO: CHANGE VERSION WITH UPDATE -->
+    <version>0.9.7</version> <!-- TODO: CHANGE VERSION WITH UPDATE -->
     <packaging>pom</packaging>
     <modules>
         <module>common</module>
@@ -21,8 +21,6 @@
     </modules>
 
     <properties>
-        <!-- Project Version -->
-        <revision>0.9.6</revision>
         <!-- Project Source Code Encoding -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- Library versions -->
@@ -86,13 +84,20 @@
                     <artifactId>findbugs-maven-plugin</artifactId>
                     <version>${plugin.findbugs.version}</version>
                 </plugin>
-                <!--
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${plugin.surefire.version}</version>
+                    <configuration>
+                        <parallel>methods</parallel>
+                        <threadCount>10</threadCount>
+                    </configuration>
+                </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-report-plugin</artifactId>
                     <version>${plugin.surefire.version}</version>
                 </plugin>
-                -->
                 <plugin>
                     <artifactId>maven-site-plugin</artifactId>
                     <version>${plugin.site.version}</version>
@@ -183,12 +188,10 @@
                     </execution>
                 </executions>
             </plugin>
-            <!--
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-report-plugin</artifactId>
+                <artifactId>maven-surefire-plugin</artifactId>
             </plugin>
-            -->
             <!-- Local Installation: https://blog.marvin-menzerath.de/artikel/maven-javadocs-mit-github-pages-veroeffentlichen/ -->
             <plugin>
                 <artifactId>maven-site-plugin</artifactId>
@@ -278,13 +281,11 @@
                 <artifactId>findbugs-maven-plugin</artifactId>
                 <version>${plugin.findbugs.version}</version>
             </plugin>
-            <!--
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-report-plugin</artifactId>
                 <version>${plugin.surefire.version}</version>
             </plugin>
-            -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>

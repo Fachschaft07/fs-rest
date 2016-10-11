@@ -1,10 +1,8 @@
 package edu.hm.cs.fs.restapi.parser.cache;
 
 import com.google.gson.reflect.TypeToken;
-import edu.hm.cs.fs.common.model.RoomOccupation;
 import edu.hm.cs.fs.common.model.TeacherBooking;
 import edu.hm.cs.fs.restapi.parser.BookingParser;
-import edu.hm.cs.fs.restapi.parser.OccupiedParser;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -31,11 +29,11 @@ public class CachedBookingParser extends CachedParser<TeacherBooking> {
         return new TypeToken<ArrayList<TeacherBooking>>() {
         }.getType();
     }
-    
-    public static CachedBookingParser getInstance(){
-      if(instance==null){
-        instance = new CachedBookingParser();
-      }
-      return instance;
+
+    public static CachedBookingParser getInstance() {
+        if (instance == null) {
+            instance = new CachedBookingParser();
+        }
+        return instance;
     }
 }
