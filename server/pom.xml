@@ -7,12 +7,12 @@
     <parent>
         <artifactId>rest-api</artifactId>
         <groupId>edu.hm.cs.fs</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>0.9.6</version> <!-- TODO: CHANGE VERSION WITH UPDATE -->
     </parent>
 
     <artifactId>rest-api-server</artifactId>
     <packaging>jar</packaging>
-    <version>0.9.6</version>
+    <version>0.9.6</version> <!-- TODO: CHANGE VERSION WITH UPDATE -->
 
     <properties>
         <java.version>1.8</java.version>
@@ -30,7 +30,7 @@
         <dependency>
             <groupId>edu.hm.cs.fs</groupId>
             <artifactId>rest-api-common</artifactId>
-            <version>${revision}</version>
+            <version>0.9.6</version> <!-- TODO: CHANGE VERSION WITH UPDATE -->
         </dependency>
 
 		<dependency>
@@ -97,7 +97,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>${plugin.maven.version}</version>
+                    <version>3.3</version>
                 </plugin>
             </plugins>
         </pluginManagement>
