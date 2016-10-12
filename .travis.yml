@@ -7,7 +7,7 @@ branches:
     - master
 
 after_success:
-  - mvn clean cobertura:cobertura coveralls:report site site-deploy
+  - mvn cobertura:cobertura coveralls:report site site-deploy
 
 notifications:
   email:
