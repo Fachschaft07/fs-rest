@@ -22,7 +22,7 @@ public class CachedOccupiedParser extends CachedParser<RoomOccupation> {
      * Creates a cached person parser.
      */
     private CachedOccupiedParser() {
-        super(new OccupiedParser(), UPDATETIME, TIME_UNIT, UpdateType.FIXEDTIME);
+        super(new OccupiedParser(), UPDATETIME, TIME_UNIT, UpdateType.NONE);
     }
 
     @Override

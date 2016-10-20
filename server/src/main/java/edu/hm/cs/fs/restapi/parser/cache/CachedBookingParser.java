@@ -23,7 +23,7 @@ public class CachedBookingParser extends CachedParser<TeacherBooking> {
      * Creates a cached person parser.
      */
     private CachedBookingParser() {
-        super(new BookingParser(), UPDATETIME, TIME_UNIT, UpdateType.FIXEDTIME);
+        super(new BookingParser(), UPDATETIME, TIME_UNIT, UpdateType.NONE);
     }
 
     @Override

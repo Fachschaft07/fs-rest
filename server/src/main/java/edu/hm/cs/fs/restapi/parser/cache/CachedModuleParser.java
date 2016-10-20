@@ -22,7 +22,7 @@ public class CachedModuleParser extends ByIdCachedParser<Module> {
      * Creates a cached module parser.
      */
     private CachedModuleParser() {
-        super(new ModuleParser(CachedPersonParser.getInstance()), UPDATETIME, TIME_UNIT, UpdateType.FIXEDTIME);
+        super(new ModuleParser(CachedPersonParser.getInstance()), UPDATETIME, TIME_UNIT, UpdateType.NONE);
     }
 
     @Override
