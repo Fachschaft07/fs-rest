@@ -22,7 +22,7 @@ public class CachedPersonParser extends ByIdCachedParser<Person> {
      * Creates a cached person parser.
      */
     private CachedPersonParser() {
-        super(new PersonParser(), UPDATETIME, TIME_UNIT, UpdateType.FIXEDTIME);
+        super(new PersonParser(), UPDATETIME, TIME_UNIT, UpdateType.NONE);
     }
 
     @Override

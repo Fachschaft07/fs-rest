@@ -1,6 +1,7 @@
 package edu.hm.cs.fs.restapi.parser.cache;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.Collections;
@@ -22,7 +23,7 @@ import edu.hm.cs.fs.restapi.parser.Parser;
 public abstract class CachedParser<T> implements Parser<T>, Runnable {
 
   public enum UpdateType {
-    FIXEDTIME, INTERVAL
+    FIXEDTIME, INTERVAL, NONE
   }
 
   private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -63,6 +64,8 @@ public abstract class CachedParser<T> implements Parser<T>, Runnable {
       case INTERVAL:
         CacheUpdater.scheduleAtFixedInterval(this, interval, timeUnit);
         break;
+        default:
+            break;
     }
   }
 
@@ -100,7 +103,8 @@ public abstract class CachedParser<T> implements Parser<T>, Runnable {
 
   private List<T> readFromCache() throws Exception {
     if(!cacheFile.exists()) {
-      updateCache();
+      //updateCache();
+      throw new FileNotFoundException(String.format("No data found for %s!", this.getClass().getSimpleName()));
     }
     synchronized (cacheFile) {
       try {

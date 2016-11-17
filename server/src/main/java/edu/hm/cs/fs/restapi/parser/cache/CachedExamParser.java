@@ -23,7 +23,7 @@ public class CachedExamParser extends CachedParser<Exam> {
      */
     private CachedExamParser() {
         super(new ExamParser(CachedPersonParser.getInstance(), CachedModuleParser.getInstance()),
-                UPDATETIME, TIME_UNIT, UpdateType.FIXEDTIME);
+                UPDATETIME, TIME_UNIT, UpdateType.NONE);
     }
 
     @Override
