@@ -1,5 +1,12 @@
 package edu.hm.cs.fs.restapi.parser;
 
+import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.stream.Collectors;
+
 import edu.hm.cs.fs.common.constant.Day;
 import edu.hm.cs.fs.common.model.Group;
 import edu.hm.cs.fs.common.model.Lesson;
@@ -7,14 +14,6 @@ import edu.hm.cs.fs.common.model.Module;
 import edu.hm.cs.fs.common.model.Person;
 import edu.hm.cs.fs.common.model.simple.SimpleModule;
 import edu.hm.cs.fs.common.model.simple.SimplePerson;
-import org.jsoup.helper.StringUtil;
-import org.springframework.util.StringUtils;
-
-import javax.xml.xpath.XPathConstants;
-import java.util.List;
-import java.util.Locale;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class LessonFk07Parser extends AbstractXmlParser<Lesson> {
     private static final String URL = "http://fi.cs.hm.edu/fi/rest/public/timetable/group/";
@@ -41,13 +40,22 @@ public class LessonFk07Parser extends AbstractXmlParser<Lesson> {
                             .filter(tmp -> tmp.length() > 0)
                             .map(tmp -> tmp.split(":"))
                             .map(tmp -> new Integer[] { Integer.parseInt(tmp[0]), Integer.parseInt(tmp[1])});
-                    final String room = findString(path + "/room/text()")
-                            .map(String::toUpperCase)
-                            .filter(tmp -> tmp.length() > 0)
-                            .map(StringBuilder::new)
-                            .map(tmp -> tmp.insert(2, "."))
-                            .map(StringBuilder::toString)
-                            .orElse("");
+                    final Set<String> rooms = new TreeSet<String>();
+            		getXPathStream(path + "/room")
+	                    .forEach(roomPath -> {
+	                        try {
+	                        	findString(path + "/room/text()")
+	                            .map(String::toUpperCase)
+	                            .filter(tmp -> tmp.length() > 0)
+	                            .map(StringBuilder::new)
+	                            .map(tmp -> tmp.insert(2, "."))
+	                            .map(StringBuilder::toString)
+	                            .map(rooms::add);
+	                        	
+	                        } catch (Exception e) {
+	                            throw new RuntimeException(e);
+	                        }
+	                    });
                     final Optional<String> teacherId = findString(path + "/teacher/text()");
                     final String suffix = findString(path + "/suffix/text()").orElse("");
                     final Optional<String> moduleId = findString(path + "/title/text()");
@@ -56,7 +64,8 @@ public class LessonFk07Parser extends AbstractXmlParser<Lesson> {
                         final Lesson lesson = new Lesson();
                         lesson.setDay(day);
                         lesson.setSuffix(suffix);
-                        lesson.setRoom(room);
+                        lesson.setRoom(rooms.stream().findFirst().orElse(""));
+                        lesson.setRooms(rooms);
                         lesson.setHour(startTime.get()[0]);
                         lesson.setMinute(startTime.get()[1]);
                         personParser.getById(teacherId.get()).map(SimplePerson::new).ifPresent(lesson::setTeacher);

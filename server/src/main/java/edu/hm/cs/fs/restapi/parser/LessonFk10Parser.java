@@ -1,23 +1,26 @@
 package edu.hm.cs.fs.restapi.parser;
 
-import edu.hm.cs.fs.common.constant.Day;
-import edu.hm.cs.fs.common.constant.Study;
-import edu.hm.cs.fs.common.model.Group;
-import edu.hm.cs.fs.common.model.Lesson;
-import edu.hm.cs.fs.common.model.simple.SimpleModule;
-import edu.hm.cs.fs.common.model.simple.SimplePerson;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import edu.hm.cs.fs.common.constant.Day;
+import edu.hm.cs.fs.common.constant.Study;
+import edu.hm.cs.fs.common.model.Group;
+import edu.hm.cs.fs.common.model.Lesson;
+import edu.hm.cs.fs.common.model.simple.SimpleModule;
+import edu.hm.cs.fs.common.model.simple.SimplePerson;
 
 
 public class LessonFk10Parser extends AbstractHtmlParser<Lesson> {
@@ -98,7 +101,11 @@ public class LessonFk10Parser extends AbstractHtmlParser<Lesson> {
                 person.setName(name);
                 lesson.setTeacher(person);
 
+                Set<String> rooms = new TreeSet<String>();
+                rooms.add(room);
+
                 lesson.setRoom(room);
+                lesson.setRooms(rooms);
 
                 result.add(lesson);
             }
