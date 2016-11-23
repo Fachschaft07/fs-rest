@@ -20,7 +20,7 @@ import java.util.concurrent.TimeUnit;
 public abstract class CachedParser<T> implements Parser<T>, Runnable {
 
     public enum UpdateType {
-        FIXEDTIME, INTERVAL
+        FIXEDTIME, INTERVAL, NONE
     }
 
     private static final Logger LOG = Logger.getLogger(CachedParser.class);

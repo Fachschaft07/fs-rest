@@ -3,7 +3,10 @@ package edu.hm.cs.fs.restapi.controller;
 import edu.hm.cs.fs.common.model.BlackboardEntry;
 import edu.hm.cs.fs.common.model.Group;
 import edu.hm.cs.fs.common.model.simple.SimpleBlackboardEntry;
+import edu.hm.cs.fs.restapi.parser.BlackboardParser;
+import edu.hm.cs.fs.restapi.parser.PersonParser;
 import edu.hm.cs.fs.restapi.parser.cache.CachedBlackboardParser;
+import edu.hm.cs.fs.restapi.parser.cache.CachedPersonParser;
 import io.swagger.annotations.*;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -54,7 +57,7 @@ public class BlackboardController {
             @RequestParam(value = "since", defaultValue = "0") long since,
             @RequestParam(value = "before", defaultValue = "0") long before,
             @RequestParam(value = "group", defaultValue = "") Group group) throws Exception {
-        return CachedBlackboardParser.getInstance().getAll()
+        return new BlackboardParser(CachedPersonParser.getInstance()).getAll()
                 .parallelStream()
                 .filter(entry -> {
                     boolean ret = (group.getStudy() == null);
@@ -102,7 +105,7 @@ public class BlackboardController {
             @ApiResponse(code = 200, message = "Success")
     })
     public BlackboardEntry getBlackboardEntryById(@RequestParam(value = "id") String blackboardEntryId) throws Exception {
-        return CachedBlackboardParser.getInstance()
+        return new BlackboardParser(CachedPersonParser.getInstance())
                 .getById(blackboardEntryId)
                 .orElseThrow(() -> new IllegalStateException("No blackboard entry found with id '" + blackboardEntryId + "'."));
     }

@@ -40,7 +40,7 @@ public class Application extends SpringBootServletInitializer {
     public static void main(final String[] args) {
         SpringApplication.run(Application.class, args);
 
-        CacheUpdater.execute(() -> {
+        /*CacheUpdater.execute(() -> {
             try {
                 LOG.info("Start updating cache files");
 
@@ -55,7 +55,7 @@ public class Application extends SpringBootServletInitializer {
             } catch (Exception e) {
                 LOG.error(e.getMessage(), e);
             }
-        });
+        });*/
     }
 
     @Bean

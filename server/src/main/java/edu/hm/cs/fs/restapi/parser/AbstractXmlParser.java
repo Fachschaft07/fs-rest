@@ -148,7 +148,7 @@ public abstract class AbstractXmlParser<T> extends AbstractContentParser<T> {
         final Object evaluate;
         try {
             evaluate = XPathFactory.newInstance().newXPath().evaluate(xPath, xmlDoc, name);
-        } catch (XPathExpressionException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             LOG.warn(e);
             return Optional.empty();
