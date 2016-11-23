@@ -1,18 +1,21 @@
 package edu.hm.cs.fs.restapi.parser.cache;
 
-import com.google.common.base.Charsets;
-import com.google.common.io.Files;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import edu.hm.cs.fs.restapi.parser.Parser;
-import org.apache.log4j.Logger;
-
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.google.common.base.Charsets;
+import com.google.common.io.Files;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import edu.hm.cs.fs.restapi.parser.Parser;
 
 /**
  * The CachedParser is a Delegator for every Parser to handle the caching.
@@ -23,6 +26,8 @@ public abstract class CachedParser<T> implements Parser<T>, Runnable {
         FIXEDTIME, INTERVAL, NONE
     }
 
+    @Autowired
+    
     private static final Logger LOG = Logger.getLogger(CachedParser.class);
 
     private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -39,7 +44,7 @@ public abstract class CachedParser<T> implements Parser<T>, Runnable {
     protected CachedParser(final Parser<T> parser, final long interval, final TimeUnit timeUnit, final UpdateType updateType) {
         this(parser, parser.getClass().getSimpleName(), interval, timeUnit, updateType);
     }
-
+    
     /**
      * Creates a cached parser with a specified interval.
      *
@@ -51,7 +56,7 @@ public abstract class CachedParser<T> implements Parser<T>, Runnable {
     protected CachedParser(final Parser<T> parser, String cacheFileName, final long interval,
                            final TimeUnit timeUnit, final UpdateType updateType) {
         this.parser = parser;
-        this.cacheFile = new File(new File(System.getProperty("java.io.tmpdir")), "fs_rest_" + cacheFileName + "_cache.json"); // Create a cache file in temp directory
+        this.cacheFile = new File("cache", "fs_rest_" + cacheFileName + "_cache.json"); // Create a cache file in specified directory
 
         // register with updater
         switch (updateType) {
@@ -102,7 +107,9 @@ public abstract class CachedParser<T> implements Parser<T>, Runnable {
 
     private List<T> readFromCache() {
         if (!cacheFile.exists()) {
-            updateCache();
+            //updateCache();
+        	LOG.error(String.format("No data found for %s! Cache file %s", this.getClass().getSimpleName(), cacheFile.getAbsolutePath()));
+        	return Collections.emptyList();
         }
         synchronized (cacheFile) {
             try {

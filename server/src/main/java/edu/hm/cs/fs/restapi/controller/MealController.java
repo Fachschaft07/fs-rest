@@ -25,7 +25,7 @@ public class MealController {
      * @throws Exception
      */
     @ApiOperation(value = "getMeals")
-    @RequestMapping(method = RequestMethod.GET, value = "/rest/api/1/meal", produces = "application/json")
+    @RequestMapping(method = RequestMethod.GET, value = "/meal", produces = "application/json")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "location", value = "Location of mensa or stu cafe", required = true, dataType = "string", paramType = "query")
     })
