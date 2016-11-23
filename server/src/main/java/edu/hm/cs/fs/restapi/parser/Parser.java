@@ -12,7 +12,6 @@ public interface Parser<T> {
      * Parse the content and convert it to objects.
      *
      * @return a list with objects.
-     * @throws Exception
      */
-    List<T> getAll() throws Exception;
+    List<T> getAll();
 }

@@ -3,7 +3,6 @@ package edu.hm.cs.fs.restapi.parser.cache;
 import com.google.gson.reflect.TypeToken;
 import edu.hm.cs.fs.common.model.Exam;
 import edu.hm.cs.fs.restapi.parser.ExamParser;
-import org.apache.log4j.Logger;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -23,7 +22,7 @@ public class CachedExamParser extends CachedParser<Exam> {
      */
     private CachedExamParser() {
         super(new ExamParser(CachedPersonParser.getInstance(), CachedModuleParser.getInstance()),
-                UPDATETIME, TIME_UNIT, UpdateType.FIXEDTIME);
+                UPDATETIME, TIME_UNIT, UpdateType.NONE);
     }
 
     @Override
@@ -32,8 +31,8 @@ public class CachedExamParser extends CachedParser<Exam> {
         }.getType();
     }
 
-    public static CachedExamParser getInstance(){
-        if(instance==null){
+    public static CachedExamParser getInstance() {
+        if (instance == null) {
             instance = new CachedExamParser();
         }
         return instance;

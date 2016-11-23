@@ -2,15 +2,10 @@ package edu.hm.cs.fs.restapi.parser;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
-
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpressionException;
-
-import org.jsoup.helper.StringUtil;
-import org.springframework.util.StringUtils;
 
 import edu.hm.cs.fs.common.constant.Day;
 import edu.hm.cs.fs.common.model.Group;
@@ -33,73 +28,51 @@ public class LessonFk07Parser extends AbstractXmlParser<Lesson> {
     }
 
     @Override
-    public List<Lesson> onCreateItems(String rootPath) throws Exception {
-        final Day day;
-        final String weekday = findByXPath(rootPath + "/weekday/text()", XPathConstants.STRING, String.class);
-        if (!StringUtil.isBlank(weekday)) {
-            day = Day.of(weekday);
-        } else {
-            day = null;
-        }
-
+    public List<Lesson> onCreateItems(String rootPath) {
+        final Day day = findString(rootPath + "/weekday/text()").map(Day::of).orElse(null);
         return getXPathStream(rootPath + "/time")
-                .flatMap(path -> {
-                    try {
-                        return getXPathStream(path + "/entry");
-                    } catch (XPathExpressionException e) {
-                        throw new RuntimeException(e);
-                    }
-                })
+                .flatMap(path -> getXPathStream(path + "/entry"))
+                .parallel()
                 .map(path -> {
-                    try {
-                        Lesson lesson = new Lesson();
+                    final Optional<String> type = findString(path + "/type/text()")
+                            .filter("filler"::equalsIgnoreCase);
+                    final Optional<Integer[]> startTime = findString(path + "/starttime/text()")
+                            .filter(tmp -> tmp.length() > 0)
+                            .map(tmp -> tmp.split(":"))
+                            .map(tmp -> new Integer[] { Integer.parseInt(tmp[0]), Integer.parseInt(tmp[1])});
+                    final Set<String> rooms = new TreeSet<String>();
+            		getXPathStream(path + "/room")
+	                    .forEach(roomPath -> {
+	                        try {
+	                        	findString(path + "/room/text()")
+	                            .map(String::toUpperCase)
+	                            .filter(tmp -> tmp.length() > 0)
+	                            .map(StringBuilder::new)
+	                            .map(tmp -> tmp.insert(2, "."))
+	                            .map(StringBuilder::toString)
+	                            .map(rooms::add);
+	                        	
+	                        } catch (Exception e) {
+	                            throw new RuntimeException(e);
+	                        }
+	                    });
+                    final Optional<String> teacherId = findString(path + "/teacher/text()");
+                    final String suffix = findString(path + "/suffix/text()").orElse("");
+                    final Optional<String> moduleId = findString(path + "/title/text()");
+
+                    if(type.isPresent() && startTime.isPresent() && teacherId.isPresent() && moduleId.isPresent()) {
+                        final Lesson lesson = new Lesson();
                         lesson.setDay(day);
-                        
-                        // If field 'type' contains >filler< continue with the next entry
-                        final String type = findByXPath(path + "/type/text()", XPathConstants.STRING, String.class);
-                        if ("filler".equalsIgnoreCase(type)) {
-                            return null;
-                        }
-
-                        // Else go on...
-                        final String startTimeStr = findByXPath(path + "/starttime/text()", XPathConstants.STRING, String.class);
-                        if (!StringUtil.isBlank(startTimeStr)) {
-                            lesson.setHour(Integer.parseInt(startTimeStr.split(":")[0]));
-                            lesson.setMinute(Integer.parseInt(startTimeStr.split(":")[1]));
-                        }
-
-                        final Set<String> rooms = new TreeSet<String>();
-                        getXPathStream(path + "/room")
-                                .forEach(roomPath -> {
-                                    try {
-                                        final String room = findByXPath(roomPath + "/text()", XPathConstants.STRING, String.class);
-
-                                        if(room != null && !StringUtils.isEmpty(room)){
-                                            StringBuilder roomNameBuilder = new StringBuilder(room.toUpperCase());
-                                            roomNameBuilder.insert(2, '.');
-                                            rooms.add(roomNameBuilder.toString());
-                                            lesson.setRoom(roomNameBuilder.toString());
-                                        }
-
-                                    } catch (Exception e) {
-                                        throw new RuntimeException(e);
-                                    }
-                                });
-
-                        final String teacherId = findByXPath(path + "/teacher/text()", XPathConstants.STRING, String.class);
-                        final String suffix = findByXPath(path + "/suffix/text()", XPathConstants.STRING, String.class);
-                        final String moduleId = findByXPath(path + "/title/text()", XPathConstants.STRING, String.class);
-
-                        personParser.getById(teacherId).map(SimplePerson::new).ifPresent(lesson::setTeacher);
-                        moduleParser.getById(moduleId).map(SimpleModule::new).ifPresent(lesson::setModule);
-
-                        lesson.setRooms(rooms);
                         lesson.setSuffix(suffix);
-
+                        lesson.setRoom(rooms.stream().findFirst().orElse(""));
+                        lesson.setRooms(rooms);
+                        lesson.setHour(startTime.get()[0]);
+                        lesson.setMinute(startTime.get()[1]);
+                        personParser.getById(teacherId.get()).map(SimplePerson::new).ifPresent(lesson::setTeacher);
+                        moduleParser.getById(moduleId.get()).map(SimpleModule::new).ifPresent(lesson::setModule);
                         return lesson;
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
                     }
+                    return null;
                 })
                 .filter(lesson -> lesson != null)
                 .collect(Collectors.toList());

@@ -1,20 +1,14 @@
 package edu.hm.cs.fs.restapi.parser;
 
-import com.google.common.base.Strings;
 import edu.hm.cs.fs.common.constant.Day;
-import edu.hm.cs.fs.common.constant.RoomType;
 import edu.hm.cs.fs.common.constant.Time;
-import edu.hm.cs.fs.common.model.Booking;
-import edu.hm.cs.fs.common.model.Person;
-import edu.hm.cs.fs.common.model.RoomOccupation;
 import edu.hm.cs.fs.common.model.TeacherBooking;
-import edu.hm.cs.fs.common.model.simple.SimplePerson;
 import edu.hm.cs.fs.restapi.parser.cache.CachedModuleParser;
 import edu.hm.cs.fs.restapi.parser.cache.CachedPersonParser;
 
 import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpressionException;
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -27,70 +21,49 @@ public class BookingParser extends AbstractXmlParser<TeacherBooking> {
     private static final String URL = "http://fi.cs.hm.edu/fi/rest/public/timetable/room.xml";
     private static final String ROOT_NODE = "/list/timetable";
 
-    /**
-     *
-     */
     public BookingParser() {
-        super(URL, ROOT_NODE);  
+        super(URL, ROOT_NODE);
     }
 
     @Override
-    public List<TeacherBooking> onCreateItems(final String rootPath) throws Exception {
+    public List<TeacherBooking> onCreateItems(final String rootPath) {
         // Parse Elements...
-
         final CachedPersonParser personParser = CachedPersonParser.getInstance();
         final CachedModuleParser moduleParser = CachedModuleParser.getInstance();
 
+        return getXPathStream(rootPath + "/day")
+                .flatMap(dayPath -> getXPathStream(dayPath + "/time"))
+                .map(timePath -> {
+                    final Optional<String> day = findString(timePath + "/booking/weekday/text()");
 
-        List<TeacherBooking> bookings = new ArrayList<>();
+                    final Optional<String> room = findString(timePath + "/booking/room/text()");
+                    final Optional<String> starttime = findString(timePath + "/booking/starttime/text()");
 
-        getXPathStream(rootPath + "/day")
-                .forEach(dayPath -> {
-                    try {
-                        getXPathStream(dayPath + "/time")
-                                .forEach(timePath -> {
-                                    String room = "";
-                                    String teacherId = "";
-                                    String moduleId = "";
-                                    String day = "";
-                                    String starttime = "";
+                    final Optional<String> moduleId = findString(timePath + "/booking/courses/course[1]/modul/text()");
+                    final Optional<String> teacherId = findString(timePath + "/booking/teacher/text()");
 
-                                    try {
+                    if (day.isPresent() && room.isPresent() && starttime.isPresent() && moduleId.isPresent() && teacherId.isPresent()) {
+                        TeacherBooking booking = new TeacherBooking();
 
-                                        day = findByXPath(timePath + "/booking/weekday/text()", XPathConstants.STRING, String.class);
+                        // Convert name from r0009 to R0.009
+                        booking.setRoom(room.map(name -> new StringBuilder(name.toUpperCase()))
+                                .filter(name -> name.length() > 0)
+                                .map(name -> name.insert(2, "."))
+                                .map(StringBuilder::toString)
+                                .orElse(""));
 
-                                        room = findByXPath(timePath + "/booking/room/text()", XPathConstants.STRING, String.class);
-                                        starttime = findByXPath(timePath + "/booking/starttime/text()", XPathConstants.STRING, String.class);
+                        booking.setDay(day.map(Day::of).orElse(null));
+                        booking.setTime(starttime.map(Time::of).orElse(null));
 
-                                        moduleId = findByXPath(timePath + "/booking/courses/course[1]/modul/text()", XPathConstants.STRING, String.class);
-                                        teacherId = findByXPath(timePath + "/booking/teacher/text()", XPathConstants.STRING, String.class);
+                        moduleParser.getById(moduleId.get()).ifPresent(booking::setModule);
+                        personParser.getById(teacherId.get()).ifPresent(booking::setTeacher);
 
-                                        TeacherBooking booking = new TeacherBooking();
-
-                                        // Convert name from r0009 to R0.009
-                                        StringBuilder roomNameBuilder = new StringBuilder(room.toUpperCase());
-                                        if(!room.isEmpty()) {
-                                            roomNameBuilder.insert(2, '.');
-                                        }
-                                        booking.setRoom(roomNameBuilder.toString());
-
-                                        booking.setDay(day.isEmpty()?null:Day.of(day));
-                                        booking.setTime(starttime.isEmpty()?null:Time.of(starttime));
-
-                                        moduleParser.getById(moduleId).ifPresent(booking::setModule);
-                                        personParser.getById(teacherId).ifPresent(booking::setTeacher);
-
-                                        bookings.add(booking);
-                                    } catch(Exception e){
-                                        throw new RuntimeException(e);
-                                    }
-                                });
-                    } catch(Exception e){
-                        throw new RuntimeException(e);
+                        return booking;
                     }
-                });
 
-        return bookings;
+                    return null;
+                })
+                .filter(booking -> booking != null)
+                .collect(Collectors.toList());
     }
-
 }

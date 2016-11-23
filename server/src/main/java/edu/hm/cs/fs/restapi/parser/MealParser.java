@@ -1,24 +1,19 @@
 package edu.hm.cs.fs.restapi.parser;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-
-import org.jsoup.nodes.Document;
-
 import com.google.common.base.Strings;
-
 import edu.hm.cs.fs.common.constant.Additive;
 import edu.hm.cs.fs.common.constant.MealType;
 import edu.hm.cs.fs.common.constant.StudentWorkMunich;
 import edu.hm.cs.fs.common.model.Meal;
+import org.apache.log4j.Logger;
+import org.jsoup.nodes.Document;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * The meal stores the data for a meal with the name of the meal and the date.
@@ -27,6 +22,7 @@ import edu.hm.cs.fs.common.model.Meal;
  * @version 2
  */
 public class MealParser extends AbstractHtmlParser<Meal> {
+    private final static Logger LOG = Logger.getLogger(MealParser.class);
     private static final Pattern ADDITIVES_PATTERN = Pattern.compile("\\(([0-9,]+)");
     private static final Pattern FOOD_PART_PATTERN = Pattern.compile("\\(([RS,]+)");
     private static final Pattern FOOD_TYPE_PATTERN = Pattern.compile("\\(([vf])");
@@ -74,6 +70,7 @@ public class MealParser extends AbstractHtmlParser<Meal> {
                     try {
                         date = new SimpleDateFormat("dd.MM.yyyy").parse(dateStr.substring(dateStr.indexOf(",") + 1));
                     } catch (ParseException e) {
+                        LOG.warn(e);
                         date = new Date();
                     }
                     final Date finalDate = date;

@@ -11,7 +11,6 @@ public interface ByIdParser<T> extends Parser<T> {
      *
      * @param itemId to get the item of.
      * @return the item.
-     * @throws Exception
      */
-    Optional<T> getById(final String itemId) throws Exception;
+    Optional<T> getById(final String itemId);
 }
