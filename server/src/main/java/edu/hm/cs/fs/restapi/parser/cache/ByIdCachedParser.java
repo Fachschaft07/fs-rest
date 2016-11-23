@@ -1,9 +1,9 @@
 package edu.hm.cs.fs.restapi.parser.cache;
 
+import edu.hm.cs.fs.restapi.parser.ByIdParser;
+
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
-
-import edu.hm.cs.fs.restapi.parser.ByIdParser;
 
 /**
  * @author Fabio
@@ -21,14 +21,13 @@ public abstract class ByIdCachedParser<T> extends CachedParser<T> implements ByI
     }
 
     @Override
-    public Optional<T> getById(String itemId) throws Exception {
+    public Optional<T> getById(String itemId) {
         return getAll().parallelStream()
                 .filter(item -> itemId.equalsIgnoreCase(getId(item)))
                 .findAny();
     }
 
     /**
-     *
      * @param item
      * @return
      */

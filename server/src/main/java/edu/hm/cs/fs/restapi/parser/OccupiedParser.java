@@ -1,21 +1,14 @@
 package edu.hm.cs.fs.restapi.parser;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpressionException;
-
 import com.google.common.base.Strings;
-
 import edu.hm.cs.fs.common.constant.Day;
 import edu.hm.cs.fs.common.constant.RoomType;
 import edu.hm.cs.fs.common.constant.Time;
 import edu.hm.cs.fs.common.model.RoomOccupation;
+
+import javax.xml.xpath.XPathConstants;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * All the rooms with their occupancy. (Url: <a href="http://fi.cs.hm.edu/fi/rest/public/timetable/room"
@@ -26,66 +19,58 @@ import edu.hm.cs.fs.common.model.RoomOccupation;
 public class OccupiedParser extends AbstractXmlParser<RoomOccupation> {
     private static final String URL = "http://fi.cs.hm.edu/fi/rest/public/timetable/room.xml";
     private static final String ROOT_NODE = "/list/timetable";
-    
+
     /**
      *
      */
     public OccupiedParser() {
-        super(URL, ROOT_NODE);  
+        super(URL, ROOT_NODE);
     }
 
     @Override
-    public List<RoomOccupation> onCreateItems(final String rootPath) throws Exception {
-        // Parse Elements...
-        final String name = findByXPath(rootPath + "/value/text()",
-                XPathConstants.STRING, String.class);
-        final int capacity = findByXPath(rootPath + "/capacity/text()",
-                XPathConstants.NUMBER, Double.class).intValue();
+    public List<RoomOccupation> onCreateItems(final String rootPath) {
+        final List<RoomOccupation> result = new ArrayList<>();
 
-        Map<Day, List<Time>> map = new HashMap<>();
+        // Parse Elements...
+        final Optional<String> name = findString(rootPath + "/value/text()")
+                .filter(tmp -> tmp.length() > 0)
+                // Convert name from r0009 to R0.009
+                .map(String::toUpperCase)
+                .map(StringBuilder::new)
+                .map(tmp -> tmp.insert(2, "."))
+                .map(StringBuilder::toString);
+        final Optional<Integer> capacity = findNumber(rootPath + "/capacity/text()").map(Double::intValue);
+
+        final Map<Day, List<Time>> map = new HashMap<>();
 
         getXPathStream(rootPath + "/day")
                 .forEach(path -> {
-                    try {
-                        final String dayKey = findByXPath(path + "/weekday/text()",
-                                XPathConstants.STRING, String.class);
-                        if (Strings.isNullOrEmpty(dayKey)) {
-                            return;
-                        }
-                        final Day day = Day.of(dayKey);
-                        if (!map.containsKey(day)) {
-                            map.put(day, new ArrayList<>());
+                    final Optional<Day> day = findString(path + "/weekday/text()").map(Day::of);
+                    if (day.isPresent()) {
+                        if (!map.containsKey(day.get())) {
+                            map.put(day.get(), new ArrayList<>());
                         }
 
-                        map.get(day).addAll(getXPathStream(path + "/time")
-                                .map(timePath -> {
-                                    try {
-                                        return findByXPath(timePath + "/starttime/text()",
-                                                XPathConstants.STRING, String.class);
-                                    } catch (XPathExpressionException e) {
-                                        throw new RuntimeException(e);
-                                    }
-                                })
-                                .filter(time -> !Strings.isNullOrEmpty(time))
-                                .map(Time::of)
-                                .collect(Collectors.toList()));
-                    } catch (XPathExpressionException e) {
-                        throw new RuntimeException(e);
+                        map.get(day.get()).addAll(
+                                getXPathStream(path + "/time")
+                                        .map(timePath -> findString(timePath + "/starttime/text()").map(Time::of).orElse(null))
+                                        .filter(time -> time != null)
+                                        .collect(Collectors.toList())
+                        );
                     }
                 });
 
-        RoomOccupation room = new RoomOccupation();
-        
-        // Convert name from r0009 to R0.009
-        StringBuilder roomNameBuilder = new StringBuilder(name.toUpperCase());
-        roomNameBuilder.insert(2, '.');
-        
-        room.setName(roomNameBuilder.toString());
-        room.setCapacity(capacity);
-        room.setOccupied(map);
-        room.setRoomType(RoomType.getByName(name));
+        if(name.isPresent() && capacity.isPresent()) {
+            RoomOccupation room = new RoomOccupation();
+            room.setName(name.get());
+            room.setCapacity(capacity.get());
+            room.setOccupied(map);
+            room.setRoomType(RoomType.getByName(name.get()));
 
-        return Collections.singletonList(room);
+            result.add(room);
+        }
+
+        return result;
     }
-    
+
 }

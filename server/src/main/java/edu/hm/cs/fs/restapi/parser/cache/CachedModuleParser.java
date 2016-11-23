@@ -1,13 +1,12 @@
 package edu.hm.cs.fs.restapi.parser.cache;
 
+import com.google.gson.reflect.TypeToken;
+import edu.hm.cs.fs.common.model.Module;
+import edu.hm.cs.fs.restapi.parser.ModuleParser;
+
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
-
-import com.google.gson.reflect.TypeToken;
-
-import edu.hm.cs.fs.common.model.Module;
-import edu.hm.cs.fs.restapi.parser.ModuleParser;
 
 /**
  * @author Fabio
@@ -17,12 +16,12 @@ public class CachedModuleParser extends ByIdCachedParser<Module> {
     private static final TimeUnit TIME_UNIT = TimeUnit.HOURS;
 
     private static CachedModuleParser instance;
-    
+
     /**
      * Creates a cached module parser.
      */
     private CachedModuleParser() {
-        super(new ModuleParser(CachedPersonParser.getInstance()), UPDATETIME, TIME_UNIT, UpdateType.FIXEDTIME);
+        super(new ModuleParser(CachedPersonParser.getInstance()), UPDATETIME, TIME_UNIT, UpdateType.NONE);
     }
 
     @Override
@@ -35,11 +34,11 @@ public class CachedModuleParser extends ByIdCachedParser<Module> {
         return new TypeToken<ArrayList<Module>>() {
         }.getType();
     }
-    
-    public static CachedModuleParser getInstance(){
-      if(instance==null){
-        instance = new CachedModuleParser();
-      }
-      return instance;
+
+    public static CachedModuleParser getInstance() {
+        if (instance == null) {
+            instance = new CachedModuleParser();
+        }
+        return instance;
     }
 }

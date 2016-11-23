@@ -27,9 +27,8 @@ public abstract class AbstractContentParser<T> implements Parser<T> {
      * offline file will be read.
      *
      * @return a list with the content.
-     * @throws Exception
      */
-    public abstract List<T> getAll() throws Exception;
+    public abstract List<T> getAll();
 
     /**
      * Get the url the parser should getAll the content from.

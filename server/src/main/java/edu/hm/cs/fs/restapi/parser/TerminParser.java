@@ -1,16 +1,12 @@
 package edu.hm.cs.fs.restapi.parser;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import edu.hm.cs.fs.common.model.Termin;
+import org.apache.log4j.Logger;
 
 import javax.xml.xpath.XPathConstants;
-
-import com.google.common.base.Strings;
-
-import edu.hm.cs.fs.common.model.Termin;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * The appointments at the faculty 07. (Url: <a href="http://fi.cs.hm.edu/fi/rest/public/termin.xml"
@@ -19,6 +15,7 @@ import edu.hm.cs.fs.common.model.Termin;
  * @author Fabio
  */
 public class TerminParser extends AbstractXmlParser<Termin> {
+    private final static Logger LOG = Logger.getLogger(TerminParser.class);
     private static final String URL = "http://fi.cs.hm.edu/fi/rest/public/termin.xml";
     private static final String ROOT_NODE = "/terminlist/termin";
 
@@ -27,34 +24,33 @@ public class TerminParser extends AbstractXmlParser<Termin> {
     }
 
     @Override
-    public List<Termin> onCreateItems(final String rootPath) throws Exception {
-        String id;
-        String subject;
-        String scope;
-        Date date = null;
+    public List<Termin> onCreateItems(final String rootPath) {
+        final List<Termin> result = new ArrayList<>();
 
         // Parse Elements...
-        id = findByXPath(rootPath + "/id/text()",
-                XPathConstants.STRING, String.class);
-        subject = findByXPath(rootPath + "/subject/text()",
-                XPathConstants.STRING, String.class);
-        scope = findByXPath(rootPath + "/scope/text()", XPathConstants.STRING, String.class);
-        final String dateStr = findByXPath(rootPath + "/date/text()",
-                XPathConstants.STRING, String.class);
-        if (!Strings.isNullOrEmpty(dateStr)) {
-            try {
-                date = new SimpleDateFormat("yyyy-MM-dd").parse(dateStr);
-            } catch (ParseException e) {
-                throw new Exception(e);
-            }
+        final Optional<String> id = findString(rootPath + "/id/text()");
+        final Optional<String> subject = findString(rootPath + "/subject/text()");
+        final String scope = findString(rootPath + "/scope/text()").orElse("");
+        final Optional<Date> date = findString(rootPath + "/date/text()")
+                .map(tmp -> {
+                    try {
+                        return new SimpleDateFormat("yyyy-MM-dd").parse(tmp);
+                    } catch (ParseException e) {
+                        LOG.error(e);
+                        return null;
+                    }
+                });
+
+        if (id.isPresent() && subject.isPresent() && date.isPresent()) {
+            Termin event = new Termin();
+            event.setId(id.get());
+            event.setTitle(subject.get());
+            event.setScope(scope);
+            event.setDate(date.get());
+
+            result.add(event);
         }
 
-        Termin event = new Termin();
-        event.setId(id);
-        event.setTitle(subject);
-        event.setScope(scope);
-        event.setDate(date);
-
-        return Collections.singletonList(event);
+        return result;
     }
 }

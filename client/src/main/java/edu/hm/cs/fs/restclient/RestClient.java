@@ -199,6 +199,20 @@ public interface RestClient {
     @GET(ROOT_PATH + "blackboard")
     Observable<List<BlackboardEntry>> getEntriesBeforeRx(@Query("search") String search, @Query("group") Group group, @Query("before") long before);
 
+    /**
+     * Requests one blackboard entry by id.
+     *
+     * @return a list with one or none blackboard entry.
+     */
+    @GET(ROOT_PATH + "blackboard")
+    Call<BlackboardEntry> getEntryById(@Query("id") String id);
+
+    /**
+     * @see #getEntryById(String)
+     */
+    @GET(ROOT_PATH + "blackboard")
+    Observable<BlackboardEntry> getEntryByIdRx(@Query("id") String id);
+
     ////////////////////////////////////////////////////////////////////
     //
     // Calendar
@@ -309,13 +323,13 @@ public interface RestClient {
      * @return a job.
      */
     @GET(ROOT_PATH + "job")
-    Call<SimpleJob> getJobById(@Query("id") final String id);
+    Call<Job> getJobById(@Query("id") final String id);
 
     /**
      * @see #getJobById(String)
      */
     @GET(ROOT_PATH + "job")
-    Observable<SimpleJob> getJobByIdRx(@Query("id") final String id);
+    Observable<Job> getJobByIdRx(@Query("id") final String id);
 
     ////////////////////////////////////////////////////////////////////
     //

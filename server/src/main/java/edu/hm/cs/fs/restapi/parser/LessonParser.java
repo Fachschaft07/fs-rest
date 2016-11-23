@@ -1,12 +1,12 @@
 package edu.hm.cs.fs.restapi.parser;
 
-import java.util.List;
-
 import edu.hm.cs.fs.common.constant.Study;
 import edu.hm.cs.fs.common.model.Group;
 import edu.hm.cs.fs.common.model.Lesson;
 import edu.hm.cs.fs.common.model.Module;
 import edu.hm.cs.fs.common.model.Person;
+
+import java.util.List;
 
 /**
  * @author Fabio
@@ -27,9 +27,9 @@ public class LessonParser implements Parser<Lesson> {
     }
 
     @Override
-    public List<Lesson> getAll() throws Exception {
+    public List<Lesson> getAll() {
         final List<Lesson> lessons = new LessonFk07Parser(personParser, moduleParser, group).getAll();
-        if(Study.IB == group.getStudy()) {
+        if (Study.IB == group.getStudy()) {
             lessons.addAll(new LessonFk10Parser(group).getAll());
         }
         return lessons;

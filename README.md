@@ -10,7 +10,7 @@ REST interface for several services
 Read the [Google Coding Style Guide](https://github.com/google/styleguide) for more information.
 
 ## Documentation
-Read the [Wiki](https://github.com/Fachschaft07/fs-rest/wiki) for more information.
+Read the [Wiki](https://github.com/Fachschaft07/fs-rest/wiki) for more information or take a look at the [JavaDoc](http://fachschaft07.github.io/fs-rest/).
 
 The project has 3 modules:
 
