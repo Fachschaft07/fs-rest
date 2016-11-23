@@ -3,6 +3,7 @@ package edu.hm.cs.fs.restapi.controller;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import edu.hm.cs.fs.restapi.parser.cache.CachedPersonParser;
 import io.swagger.annotations.*;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -45,7 +46,7 @@ public class JobController {
             @ApiResponse(code = 200, message = "Success")
     })
     public List<SimpleJob> getJobs(@RequestParam(value = "search", defaultValue = "") String search) throws Exception {
-        return new JobParser(new PersonParser()).getAll().stream()
+        return new JobParser(CachedPersonParser.getInstance()).getAll().stream()
                 .filter(job -> search == null || search.length() == 0 || (job.getTitle() + job.getDescription()).toLowerCase().contains(search.toLowerCase()))
                 .map(SimpleJob::new)
                 .collect(Collectors.toList());
@@ -73,7 +74,7 @@ public class JobController {
             @ApiResponse(code = 200, message = "Success")
     })
     public Job getJobById(@RequestParam(value = "id") String id) throws Exception {
-        return new JobParser(new PersonParser())
+        return new JobParser(CachedPersonParser.getInstance())
                 .getById(id)
                 .orElseThrow(() -> new IllegalStateException("No module found with id '" + id + "'."));
     }

@@ -1,12 +1,15 @@
 package edu.hm.cs.fs.restapi.parser;
 
+import com.google.common.base.Stopwatch;
+import org.apache.log4j.Logger;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 
 /**
  * An abstract parser for html content.
@@ -14,6 +17,8 @@ import org.jsoup.nodes.Document;
  * @author Fabio
  */
 public abstract class AbstractHtmlParser<T> extends AbstractContentParser<T> {
+    private final static Logger LOG = Logger.getLogger(AbstractHtmlParser.class);
+
     /**
      * Creates an abstract parser for html content.
      *
@@ -24,13 +29,22 @@ public abstract class AbstractHtmlParser<T> extends AbstractContentParser<T> {
     }
 
     @Override
-    public List<T> getAll() throws Exception {
+    public List<T> getAll() {
         final List<T> result = new ArrayList<>();
-        final Document document = Jsoup.parse(
-                new URL(getUrl()), // URL to getAll
-                (int) TimeUnit.MILLISECONDS.convert(10, TimeUnit.SECONDS) // Timeout
-        );
-        result.addAll(readDoc(document));
+        try {
+            final Stopwatch stopwatch = Stopwatch.createStarted();
+
+            final Document document = Jsoup.parse(
+                    new URL(getUrl()), // URL to getAll
+                    (int) TimeUnit.MILLISECONDS.convert(10, TimeUnit.SECONDS) // Timeout
+            );
+            result.addAll(readDoc(document));
+
+            stopwatch.stop();
+            LOG.info("Requesting and parsing finished in " + stopwatch.elapsed(TimeUnit.MILLISECONDS) + "ms on " + getUrl());
+        } catch (IOException e) {
+            LOG.error(e);
+        }
         return result;
     }
 

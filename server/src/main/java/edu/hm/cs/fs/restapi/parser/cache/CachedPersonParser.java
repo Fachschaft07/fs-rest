@@ -1,13 +1,12 @@
 package edu.hm.cs.fs.restapi.parser.cache;
 
+import com.google.gson.reflect.TypeToken;
+import edu.hm.cs.fs.common.model.Person;
+import edu.hm.cs.fs.restapi.parser.PersonParser;
+
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
-
-import com.google.gson.reflect.TypeToken;
-
-import edu.hm.cs.fs.common.model.Person;
-import edu.hm.cs.fs.restapi.parser.PersonParser;
 
 /**
  * @author Fabio
@@ -17,7 +16,7 @@ public class CachedPersonParser extends ByIdCachedParser<Person> {
     private static final TimeUnit TIME_UNIT = TimeUnit.HOURS;
 
     private static CachedPersonParser instance;
-    
+
     /**
      * Creates a cached person parser.
      */
@@ -35,11 +34,11 @@ public class CachedPersonParser extends ByIdCachedParser<Person> {
         return new TypeToken<ArrayList<Person>>() {
         }.getType();
     }
-    
-    public static CachedPersonParser getInstance(){
-      if(instance==null){
-        instance = new CachedPersonParser();
-      }
-      return instance;
+
+    public static CachedPersonParser getInstance() {
+        if (instance == null) {
+            instance = new CachedPersonParser();
+        }
+        return instance;
     }
 }

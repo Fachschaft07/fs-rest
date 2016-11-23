@@ -59,7 +59,7 @@ public class PersonController {
             @ApiResponse(code = 200, message = "Success")
     })
     public Person getPersonById(@RequestParam(value = "id") String personId) throws Exception {
-        return new PersonParser()
+        return CachedPersonParser.getInstance()
                 .getById(personId)
                 .orElseThrow(() -> new IllegalStateException("No person found with id '" + personId + "'."));
     }
