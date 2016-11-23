@@ -24,7 +24,7 @@ public class PersonController {
      * @throws Exception
      */
     @ApiOperation(value = "getPersons")
-    @RequestMapping(method = RequestMethod.GET, value = "/rest/api/1/persons", produces = "application/json")
+    @RequestMapping(method = RequestMethod.GET, value = "/persons", produces = "application/json")
     @ApiResponses({
             @ApiResponse(code = 101, message = "java.lang.RuntimeException"),
             @ApiResponse(code = 103, message = "org.springframework.web.bind.MissingServletRequestParameterException"),
@@ -46,7 +46,7 @@ public class PersonController {
      * @throws Exception
      */
     @ApiOperation(value = "getPersonById")
-    @RequestMapping(method = RequestMethod.GET, value = "/rest/api/1/person", produces = "application/json")
+    @RequestMapping(method = RequestMethod.GET, value = "/person", produces = "application/json")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "ID of a person", required = true, dataType = "string", paramType = "query")
     })

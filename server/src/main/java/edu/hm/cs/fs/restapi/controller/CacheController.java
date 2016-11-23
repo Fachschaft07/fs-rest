@@ -16,7 +16,7 @@ public class CacheController {
     private final FilenameFilter filter = (arg0, arg1) -> arg1.startsWith("fs_rest") && arg1.endsWith(".json");
 
     @ApiOperation(value = "getCache")
-    @RequestMapping(method = RequestMethod.GET, value = "/rest/api/1/cache", produces = "application/json")
+    @RequestMapping(method = RequestMethod.GET, value = "/cache", produces = "application/json")
     @ApiResponses({
             @ApiResponse(code = 109, message = "java.io.IOException"),
             @ApiResponse(code = 200, message = "Success")

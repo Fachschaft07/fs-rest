@@ -8,6 +8,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.web.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.PropertySource;
+
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.service.ApiInfo;
@@ -20,9 +22,9 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  *
  * @author Fabio
  */
-@EnableAutoConfiguration
 @SpringBootApplication
 @EnableSwagger2
+@PropertySource("classpath:swagger.properties")
 public class Application extends SpringBootServletInitializer {
 
     private final static Logger LOG = Logger.getLogger(Application.class);
@@ -61,10 +63,10 @@ public class Application extends SpringBootServletInitializer {
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
-                .apiInfo(apiInfo())
                 .select()
-                .paths(PathSelectors.regex("/rest/api/1.*"))
-                .build();
+                    .paths(PathSelectors.regex("/(?!error|cache).+"))
+                    .build()
+                .apiInfo(apiInfo());
     }
 
     private ApiInfo apiInfo() {

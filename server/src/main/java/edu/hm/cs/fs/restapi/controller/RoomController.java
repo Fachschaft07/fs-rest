@@ -45,7 +45,7 @@ public class RoomController {
      * @throws Exception
      */
     @ApiOperation(value = "getFreeRoomsByDateTime")
-    @RequestMapping(method = RequestMethod.GET, value = "/rest/api/1/room", produces = "application/json")
+    @RequestMapping(method = RequestMethod.GET, value = "/room", produces = "application/json")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "type", value = "Type of room", required = false, dataType = "string", paramType = "query", defaultValue = "ALL"),
             @ApiImplicitParam(name = "day", value = "Weekday", required = false, dataType = "string", paramType = "query", defaultValue = "MONDAY"),

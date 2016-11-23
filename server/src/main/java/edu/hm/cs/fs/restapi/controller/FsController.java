@@ -24,7 +24,7 @@ public class FsController {
      * @throws Exception
      */
     @ApiOperation(value = "getPresence")
-    @RequestMapping(method = RequestMethod.GET, value = "/rest/api/1/fs/presence", produces = "application/json")
+    @RequestMapping(method = RequestMethod.GET, value = "/fs/presence", produces = "application/json")
     @ApiResponses({
             @ApiResponse(code = 101, message = "java.lang.RuntimeException"),
             @ApiResponse(code = 103, message = "org.springframework.web.bind.MissingServletRequestParameterException"),
@@ -43,7 +43,7 @@ public class FsController {
      * @throws Exception
      */
     @ApiOperation(value = "getNews")
-    @RequestMapping(method = RequestMethod.GET, value = "/rest/api/1/fs/news", produces = "application/json")
+    @RequestMapping(method = RequestMethod.GET, value = "/fs/news", produces = "application/json")
     @ApiResponses({
             @ApiResponse(code = 101, message = "java.lang.RuntimeException"),
             @ApiResponse(code = 103, message = "org.springframework.web.bind.MissingServletRequestParameterException"),

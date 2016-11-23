@@ -31,7 +31,7 @@ public class PublicTransportController {
      * @throws Exception
      */
     @ApiOperation(value = "getPublicTransport")
-    @RequestMapping(method = RequestMethod.GET, value = "/rest/api/1/publicTransport", produces = "application/json")
+    @RequestMapping(method = RequestMethod.GET, value = "/publicTransport", produces = "application/json")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "location", value = "Location of departure", required = true, dataType = "string", paramType = "query")
     })

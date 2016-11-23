@@ -7,13 +7,13 @@
     </encoder>
   </appender>
   <!-- Ned appender to write to file -->
-  <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-    <!-- Name of the file where the log messages are written -->
+  <!-- <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+    Name of the file where the log messages are written
     <file>restapi.log</file>
     <encoder>
       <pattern>%d{dd.MM.yyyy HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
     </encoder>
-  </appender>
+  </appender> -->
   <logger name="net.javabeat.service" level="ERROR">
     <appender-ref ref="FILE" />
   </logger>
